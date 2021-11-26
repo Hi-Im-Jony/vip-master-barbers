@@ -59,6 +59,9 @@ export default {
   height: 100%;
   min-height: 350px;
 }
+#foreground h1 {
+  padding: 0 8px 0 8px;
+}
 #foreground p {
   width: 50%;
   min-width: 200px;
