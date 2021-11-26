@@ -38,6 +38,8 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 60px 0 0 0;
+  background-color: rgb(30, 30, 32);
+  color: #fff;
 }
 #services-btn {
   color: red;
