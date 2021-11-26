@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar app>
+    <v-app-bar id="nav" app>
       <a href="/" id="title-sub-container">
         <img id="logo" src="@/assets/logo.png" />
       </a>
@@ -30,10 +30,6 @@ export default {
         title: "Recitals",
         to: "/recitals",
       },
-      // {
-      //   title: "Past and Present Pupils",
-      //   to: "/pupils",
-      // },
       {
         title: "Testimonials",
         to: "/testimonials",
@@ -44,18 +40,12 @@ export default {
 </script>
 
 <style scoped>
+#nav {
+  padding: 0 !important;
+  margin: 0 !important;
+}
 #logo {
   height: 60px;
-}
-#title {
-  padding: 0px;
-  margin: 10px 0px -10px 0px;
-  color: black;
-}
-#sub {
-  padding: 0px 0px 10px 0px;
-  margin: 0px;
-  color: black;
 }
 #title-sub-container {
   color: black;
