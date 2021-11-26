@@ -1,6 +1,6 @@
 <template>
-  <div id="navbar">
-    <v-app-bar color="white" fixed app>
+  <div>
+    <v-app-bar id="nav" fixed app>
       <a href="/" id="title-sub-container">
         <img id="logo" src="@/assets/logo.png" />
       </a>
@@ -21,11 +21,14 @@ export default {
 </script>
 
 <style scoped>
+#nav {
+  background-color: rgb(30, 30, 32) !important;
+}
 #logo {
   height: 60px;
 }
 .nav-link {
-  color: black;
+  color: white;
   text-decoration: none;
   margin: 0 10px 0 10px;
 }

@@ -5,7 +5,7 @@
         <img id="logo" src="@/assets/logo.png" />
       </a>
       <v-spacer />
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon dark @click="drawer = true"></v-app-bar-nav-icon>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app temporary>
@@ -43,6 +43,7 @@ export default {
 #nav {
   padding: 0 !important;
   margin: 0 !important;
+  background-color: rgb(30, 30, 32);
 }
 #logo {
   height: 60px;

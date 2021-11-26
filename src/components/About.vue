@@ -35,7 +35,7 @@ export default {};
 }
 #title {
   display: flex;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid white;
   justify-content: center;
   width: 75%;
 }
