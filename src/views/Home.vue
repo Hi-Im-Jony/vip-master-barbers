@@ -42,8 +42,8 @@ export default {
   color: #fff;
 }
 #services-btn {
-  color: red;
-  border: solid rgb(32, 32, 173);
+  color: rgb(175, 67, 67);
+  border: solid rgb(65, 65, 168);
   padding: 10px;
   margin: 10px 10px 30px 10px;
 }

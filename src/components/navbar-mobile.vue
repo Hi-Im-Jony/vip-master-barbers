@@ -8,7 +8,7 @@
       <v-app-bar-nav-icon dark @click="drawer = true"></v-app-bar-nav-icon>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" app temporary>
+    <v-navigation-drawer id="drawer" v-model="drawer" app temporary>
       <div id="nav-links-container">
         <a href="/" class="nav-link">Home</a>
         <a href="/services" class="nav-link">Services</a>
@@ -45,6 +45,9 @@ export default {
   margin: 0 !important;
   background-color: rgb(30, 30, 32);
 }
+#drawer {
+  background-color: rgb(34, 33, 33);
+}
 #logo {
   height: 60px;
 }
@@ -65,7 +68,7 @@ export default {
   justify-content: center;
 }
 .nav-link {
-  color: black;
+  color: whitesmoke;
   text-decoration: none;
   padding: 30px;
 }

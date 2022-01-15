@@ -3,7 +3,7 @@
     <div id="title">
       <h1 class="red-text">About</h1>
 
-      <h1 class="blue-text">Us</h1>
+      <h1 class="red-text">Us</h1>
     </div>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga assumenda
@@ -43,10 +43,10 @@ h1 {
   margin: 0 5px 0 5px;
 }
 .red-text {
-  color: rgb(182, 31, 31);
+  color: rgb(175, 67, 67);
 }
 .blue-text {
-  color: rgb(32, 32, 173);
+  color: rgb(65, 65, 168);
 }
 p {
   margin: 20px 0 20px 0;
