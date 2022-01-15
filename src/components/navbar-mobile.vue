@@ -12,7 +12,7 @@
       <div id="nav-links-container">
         <a href="/" class="nav-link">Home</a>
         <a href="/services" class="nav-link">Services</a>
-        <a href="/book" class="nav-link">Booking</a>
+        <a href="/bookings" class="nav-link">Booking</a>
       </div>
     </v-navigation-drawer>
   </div>
@@ -23,18 +23,6 @@ export default {
   name: "navTwo",
   data: () => ({
     drawer: false,
-    media: false,
-    group: null,
-    items: [
-      {
-        title: "Recitals",
-        to: "/recitals",
-      },
-      {
-        title: "Testimonials",
-        to: "/testimonials",
-      },
-    ],
   }),
 };
 </script>
@@ -77,11 +65,5 @@ export default {
 }
 .nav-link:active {
   color: rgb(46, 102, 206);
-}
-#media-container {
-  background: lightgray;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 </style>

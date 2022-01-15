@@ -9,7 +9,7 @@
 
       <a class="nav-link" href="/">Home</a>
       <a class="nav-link" href="/services">Services & Products</a>
-      <a class="nav-link" href="/booking">Booking</a>
+      <a class="nav-link" href="/bookings">Booking</a>
     </v-app-bar>
   </div>
 </template>
