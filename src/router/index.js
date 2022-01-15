@@ -1,8 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import SubmissionSuccess from "../components/submissionSuccess.vue";
-import SubmissionFail from "../components/submissionFail.vue";
 
 Vue.use(VueRouter);
 
@@ -12,16 +10,7 @@ const routes = [
     name: "Home",
     component: Home,
   },
-  {
-    path: "/thanks",
-    name: "success",
-    component: SubmissionSuccess,
-  },
-  {
-    path: "/404",
-    name: "fail",
-    component: SubmissionFail,
-  },
+
   // {
   //   path: '/about',
   //   name: 'About',
