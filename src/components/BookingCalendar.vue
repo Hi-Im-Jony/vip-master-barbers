@@ -1,5 +1,18 @@
 <template>
   <div id="booking-calendar-container">
+    <div id="barber-selector">
+      <h2>Select a Barber</h2>
+      <div v-for="barber in barbers" :key="barber">
+        <v-checkbox
+          dark
+          :created="addBarberSel(barber)"
+          :label="`${barber}`"
+          v-model="checkboxes[barber]"
+          @click="updateBox(barber)"
+        />
+      </div>
+    </div>
+
     <div id="calendar">
       <div id="month-row">
         <a>
@@ -43,10 +56,12 @@
 </template>
 
 <script>
-import { createBooking } from "@/fb";
+import * as fb from "@/fb";
 export default {
   data() {
     return {
+      checkboxes: {},
+      barbers: "",
       year: this.currentYear(),
       months: [
         ["January", 31],
@@ -77,7 +92,15 @@ export default {
       return date.getDay();
     },
   },
+  created: function() {
+    this.getAllBarbers();
+  },
   methods: {
+    getAllBarbers: function() {
+      fb.getAllBarbers().then((response) => {
+        this.barbers = response;
+      });
+    },
     currentYear: function() {
       const today = new Date();
       return today.getFullYear();
@@ -105,14 +128,14 @@ export default {
         this.month = 11;
       }
     },
-    selectDate: function(d) {
-      const date = new Date(this.year, this.month, d);
-      let booking = {
-        date: date,
-      };
-
-      createBooking(booking);
+    addBarberSel: function(barber) {
+      console.log("Hi from ", barber);
+      this.checkboxes[barber] = true;
     },
+    updateBox: function(barber) {
+      console.log(this.checkboxes[barber]);
+    },
+    selectDate: function(d) {},
   },
 };
 </script>
