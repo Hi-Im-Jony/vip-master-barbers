@@ -18,23 +18,27 @@
 
       <div id="day-row">
         <div id="days">
-          <div class="day" v-for="d in 7" :key="d">
+          <div class="day" v-for="num in 7" :key="num">
             <div>
-              {{ days[(d - 1) % 7] }}
+              {{ days[num - 1] }}
             </div>
           </div>
-          <div class="day" v-for="d in 2" :key="d">
+          <div class="day" v-for="e in firstDayOfMonth" :key="'A' + e">
             <div class="empty-day"></div>
           </div>
-          <div class="day" v-for="d in months[month][1]" :key="d">
-            <div class="day-num">
-              {{ d }}
-            </div>
+          <div class="day" v-for="d in months[month][1]" :key="'B' + d">
+            <a @click="selectDate(d)">
+              <div class="day-num">
+                {{ d }}
+              </div>
+            </a>
+          </div>
+          <div class="day" v-for="em in 6 - lastDayOfMonth" :key="'C' + em">
+            <div class="empty-day"></div>
           </div>
         </div>
       </div>
     </div>
-    <p>{{ firstDayOfMonth }}</p>
   </div>
 </template>
 
@@ -64,9 +68,11 @@ export default {
   },
   computed: {
     firstDayOfMonth: function() {
-      const dateStr =
-        this.months[this.month][0] + " 01, " + this.year + " 00:00:01";
-      const date = new Date(dateStr);
+      const date = new Date(this.year, this.month, 1);
+      return date.getDay();
+    },
+    lastDayOfMonth: function() {
+      const date = new Date(this.year, this.month + 1, 0);
       return date.getDay();
     },
   },
@@ -98,6 +104,10 @@ export default {
         this.month = 11;
       }
     },
+    selectDate: function(d) {
+      const date = new Date(this.year, this.month, d);
+      console.log(date);
+    },
   },
 };
 </script>
@@ -122,12 +132,15 @@ export default {
 }
 #days {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   width: 100%;
 }
 .day {
   width: 14%;
-  margin-bottom: 2px;
+  margin-bottom: 7px;
+  display: flex;
+  justify-content: center;
 }
 .day-num {
   border: solid whitesmoke;
