@@ -8,7 +8,7 @@
           :created="addBarberSel(barber)"
           :label="`${barber}`"
           v-model="checkboxes[barber]"
-          @click="updateBox(barber)"
+          @click="update()"
         />
       </div>
     </div>
@@ -129,11 +129,15 @@ export default {
       }
     },
     addBarberSel: function(barber) {
-      console.log("Hi from ", barber);
-      this.checkboxes[barber] = true;
+      this.checkboxes[barber] = false;
     },
-    updateBox: function(barber) {
-      console.log(this.checkboxes[barber]);
+    update: function() {
+      const checkboxes = this.checkboxes;
+      let selectedBarbers = [];
+      for (let barber in checkboxes) {
+        if (checkboxes[barber]) selectedBarbers.push(barber);
+      }
+      console.log(selectedBarbers);
     },
     selectDate: function(d) {},
   },
