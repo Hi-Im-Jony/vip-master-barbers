@@ -1,6 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { doc, getFirestore, collection, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  collection,
+  setDoc,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,24 +27,34 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
-const bookingsCollection = collection(db, "bookings");
+const barbersCollection = collection(db, "barbers");
 
-// CRUD methods
-export const createBooking = async (booking) => {
-  await setDoc(doc(db, "bookings", "Test2"), {
-    date: booking.date,
+// Barber CRUD methods
+export const createBarber = async (barber) => {
+  await setDoc(doc(db, "barbers", "Test2"), {
+    date: barber.date,
   });
 };
 
-export const getBooking = async (id) => {
-  const booking = await bookingsCollection.doc(id).get();
-  return booking.exists ? booking.data() : null;
+export const getBarber = async (id) => {
+  const barber = await barbersCollection.doc(id).get();
+  return barber.exists ? barber.data() : null;
 };
 
-export const updateBooking = (id, booking) => {
-  return bookingsCollection.doc(id).update(booking);
+export const getAllBarbers = async function() {
+  const query = await getDocs(barbersCollection);
+  let barbers = [];
+  query.forEach((doc) => {
+    barbers.push(doc.id);
+  });
+  console.log(barbers);
+  return barbers;
 };
 
-export const deleteBooking = (id) => {
-  return bookingsCollection.doc(id).delete();
+export const updateBarber = (id, barber) => {
+  return barbersCollection.doc(id).update(barber);
+};
+
+export const deleteBarber = (id) => {
+  return barbersCollection.doc(id).delete();
 };
