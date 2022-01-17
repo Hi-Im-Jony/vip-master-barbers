@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "firebase": "^9.6.3",
     "vue": "^2.6.11",
     "vue-faq-accordion": "^1.6.2",
     "vue-router": "^3.2.0",

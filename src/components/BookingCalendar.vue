@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { createBooking } from "@/fb";
 export default {
   data() {
     return {
@@ -106,7 +107,11 @@ export default {
     },
     selectDate: function(d) {
       const date = new Date(this.year, this.month, d);
-      console.log(date);
+      let booking = {
+        date: date,
+      };
+
+      createBooking(booking);
     },
   },
 };
