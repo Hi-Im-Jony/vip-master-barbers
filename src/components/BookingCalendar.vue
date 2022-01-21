@@ -1,17 +1,7 @@
 <template>
   <div id="booking-calendar-container">
-    <div id="barber-selector">
-      <h2>Select a Barber</h2>
-      <div v-for="barber in barbers" :key="barber">
-        <v-checkbox
-          dark
-          :created="addBarberSel(barber)"
-          :label="`${barber}`"
-          v-model="checkboxes[barber]"
-          @click="update()"
-        />
-      </div>
-    </div>
+    <barber-selector v-model="selectedBarber" />
+    <p @click="print()">View Barber</p>
 
     <div id="calendar">
       <div id="month-row">
@@ -57,11 +47,12 @@
 
 <script>
 import * as fb from "@/fb";
+import BarberSelector from "./BarberSelector.vue";
 export default {
+  components: { BarberSelector },
   data() {
     return {
-      checkboxes: {},
-      barbers: "",
+      selectedBarber: null,
       year: this.currentYear(),
       months: [
         ["January", 31],
@@ -92,14 +83,10 @@ export default {
       return date.getDay();
     },
   },
-  created: function() {
-    this.getAllBarbers();
-  },
+
   methods: {
-    getAllBarbers: function() {
-      fb.getAllBarbers().then((response) => {
-        this.barbers = response;
-      });
+    print: function() {
+      console.log(this.selectedBarber);
     },
     currentYear: function() {
       const today = new Date();
@@ -127,17 +114,6 @@ export default {
         this.year--;
         this.month = 11;
       }
-    },
-    addBarberSel: function(barber) {
-      this.checkboxes[barber] = false;
-    },
-    update: function() {
-      const checkboxes = this.checkboxes;
-      let selectedBarbers = [];
-      for (let barber in checkboxes) {
-        if (checkboxes[barber]) selectedBarbers.push(barber);
-      }
-      console.log(selectedBarbers);
     },
     selectDate: function(d) {},
   },
