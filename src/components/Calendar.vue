@@ -103,8 +103,7 @@ export default {
       }
     },
     selectDate: function(day) {
-      let date = day + ":" + this.month + 1 + ":" + this.year;
-      console.log(date);
+      let date = day + ":" + (this.month + 1) + ":" + this.year;
       this.selectedDate = date;
       this.$emit("input", this.selectedDate);
     },
