@@ -1,193 +1,30 @@
 <template>
   <div id="booking-calendar-container">
-    <div id="barber-selector">
-      <h2>Select a Barber</h2>
-      <div v-for="barber in barbers" :key="barber">
-        <v-checkbox
-          dark
-          :created="addBarberSel(barber)"
-          :label="`${barber}`"
-          v-model="checkboxes[barber]"
-          @click="update()"
-        />
-      </div>
-    </div>
+    <barber-selector v-model="selectedBarber" />
+    <p @click="print(selectedBarber)">View Barber</p>
 
-    <div id="calendar">
-      <div id="month-row">
-        <a>
-          <v-icon @click="prevMonth()" class="icon">mdi-chevron-left</v-icon>
-        </a>
-        <h3>{{ months[month][0] }}</h3>
-        <a>
-          <v-icon @click="nextMonth()" class="icon">mdi-chevron-right</v-icon>
-        </a>
-
-        <v-spacer />
-
-        <h3>{{ year }}</h3>
-        <v-spacer />
-      </div>
-
-      <div id="day-row">
-        <div id="days">
-          <div class="day" v-for="num in 7" :key="num">
-            <div>
-              {{ days[num - 1] }}
-            </div>
-          </div>
-          <div class="day" v-for="e in firstDayOfMonth" :key="'A' + e">
-            <div class="empty-day"></div>
-          </div>
-          <div class="day" v-for="d in months[month][1]" :key="'B' + d">
-            <a @click="selectDate(d)">
-              <div class="day-num">
-                {{ d }}
-              </div>
-            </a>
-          </div>
-          <div class="day" v-for="em in 6 - lastDayOfMonth" :key="'C' + em">
-            <div class="empty-day"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <calendar v-model="selectedDate" />
+    <p @click="print(selectedDate)">View Date</p>
   </div>
 </template>
 
 <script>
-import * as fb from "@/fb";
+import BarberSelector from "./BarberSelector.vue";
+import Calendar from "./Calendar.vue";
 export default {
+  components: { BarberSelector, Calendar },
   data() {
     return {
-      checkboxes: {},
-      barbers: "",
-      year: this.currentYear(),
-      months: [
-        ["January", 31],
-        ["February", 28],
-        ["March", 31],
-        ["April", 30],
-        ["May", 31],
-        ["June", 30],
-        ["July", 31],
-        ["August", 31],
-        ["September", 30],
-        ["October", 31],
-        ["November", 30],
-        ["December", 31],
-      ],
-      month: this.currentMonth(),
-      days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      day: this.currentDay(),
+      selectedBarber: null,
+      selectedDate: null,
     };
   },
-  computed: {
-    firstDayOfMonth: function() {
-      const date = new Date(this.year, this.month, 1);
-      return date.getDay();
-    },
-    lastDayOfMonth: function() {
-      const date = new Date(this.year, this.month + 1, 0);
-      return date.getDay();
-    },
-  },
-  created: function() {
-    this.getAllBarbers();
-  },
   methods: {
-    getAllBarbers: function() {
-      fb.getAllBarbers().then((response) => {
-        this.barbers = response;
-      });
+    print: function(p) {
+      console.log(p);
     },
-    currentYear: function() {
-      const today = new Date();
-      return today.getFullYear();
-    },
-    currentMonth: function() {
-      const today = new Date();
-      return today.getMonth();
-    },
-    currentDay: function() {
-      const today = new Date();
-      return today.getDay;
-    },
-
-    nextMonth: function() {
-      this.month++;
-      if (this.month === 12) {
-        this.year++;
-        this.month = 0;
-      }
-    },
-    prevMonth: function() {
-      this.month--;
-      if (this.month === -1) {
-        this.year--;
-        this.month = 11;
-      }
-    },
-    addBarberSel: function(barber) {
-      this.checkboxes[barber] = false;
-    },
-    update: function() {
-      const checkboxes = this.checkboxes;
-      let selectedBarbers = [];
-      for (let barber in checkboxes) {
-        if (checkboxes[barber]) selectedBarbers.push(barber);
-      }
-      console.log(selectedBarbers);
-    },
-    selectDate: function(d) {},
   },
 };
 </script>
 
-<style scoped>
-#calendar {
-  display: flex;
-  flex-direction: column;
-  border: solid whitesmoke;
-  height: 400px;
-  width: 80vw;
-}
-#month-row {
-  display: flex;
-  padding: 5px;
-}
-.icon {
-  color: aliceblue;
-  border: solid aliceblue;
-  border-radius: 10px;
-  margin: 0 5px 0 5px;
-}
-#days {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100%;
-}
-.day {
-  width: 14%;
-  margin-bottom: 7px;
-  display: flex;
-  justify-content: center;
-}
-.day-num {
-  border: solid whitesmoke;
-  border-radius: 20px;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 5px;
-}
-.empty-day {
-  border: solid grey;
-  border-radius: 20px;
-  width: 35px;
-  height: 35px;
-}
-</style>
+<style scoped></style>
