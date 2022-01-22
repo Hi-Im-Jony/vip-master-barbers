@@ -47,7 +47,6 @@ export const getAllBarbers = async function() {
   query.forEach((doc) => {
     barbers.push(doc.id);
   });
-  console.log(barbers);
   return barbers;
 };
 
