@@ -1,15 +1,13 @@
 <template>
   <div id="barber-selector">
     <h2>Select a Barber</h2>
-    <div class="barber" v-for="barber in barbers" :key="barber">
+    <div
+      class="barber"
+      v-for="barber in barbers"
+      :key="barber"
+      @click="update(barber)"
+    >
       <div :class="getIndicatorClass(barber)"></div>
-      <input
-        style="display:none"
-        type="radio"
-        name="barber"
-        :id="barber"
-        @click="update(barber)"
-      />
       <label :for="barber" class="barber-name">{{ barber }}</label>
     </div>
   </div>
@@ -50,6 +48,9 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin: 15px 0 15px 0;
+  width: 100%;
+  border: solid aliceblue;
 }
 .barber-name {
   margin: 6px !important;
