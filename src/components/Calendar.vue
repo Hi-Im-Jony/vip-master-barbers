@@ -1,5 +1,5 @@
 <template>
-  <div id="calendar">
+  <div id="calendar" v-if="roster != ''">
     <div id="month-row">
       <a>
         <v-icon @click="prevMonth()" class="icon">mdi-chevron-left</v-icon>
@@ -120,11 +120,14 @@ export default {
     },
     getDayClass: function(day) {
       let date = day + ":" + (this.month + 1) + ":" + this.year;
+      let classes = "day-num";
       if (this.selectedDates.includes(date)) {
-        return "day-num selected";
-      } else {
-        return "day-num";
+        classes = classes + " selected";
       }
+      if (this.rosteredDates.includes(date)) {
+        classes = classes + " rostered";
+      }
+      return classes;
     },
   },
 };
@@ -177,5 +180,8 @@ export default {
 }
 .selected {
   background: greenyellow;
+}
+.rostered {
+  border: solid rgb(0, 70, 128);
 }
 </style>
