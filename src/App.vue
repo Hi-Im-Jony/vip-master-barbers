@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Navbar from "./components/navbar.vue";
-import NavbarMobile from "./components/navbar-mobile.vue";
+import Navbar from "./components/NavBar.vue";
+import NavbarMobile from "./components/NavbarMobile.vue";
 
 export default {
   name: "App",

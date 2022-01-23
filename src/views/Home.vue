@@ -7,16 +7,16 @@
     />
     <about />
     <a id="services-btn"><h3>SERVICES & PRODUCTS</h3> </a>
-    <maps />
+    <map />
 
     <myfooter />
   </div>
 </template>
 
 <script>
-import Myfooter from "../components/myfooter.vue";
-import Maps from "../components/maps.vue";
-import BannerItem from "../components/banner-item.vue";
+import Myfooter from "../components/MyFooter.vue";
+import Map from "../components/Map.vue";
+import BannerItem from "../components/BannerItem.vue";
 import About from "../components/About.vue";
 
 export default {
@@ -24,7 +24,7 @@ export default {
 
   components: {
     Myfooter,
-    Maps,
+    Map,
     BannerItem,
     About,
   },
