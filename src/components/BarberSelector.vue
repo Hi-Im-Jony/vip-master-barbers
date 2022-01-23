@@ -20,6 +20,7 @@ export default {
     return {
       barbers: [],
       selectedBarber: "",
+      roster: [],
     };
   },
   created: function() {
@@ -35,9 +36,13 @@ export default {
       if (this.selectedBarber === barber) return "indicator selected";
       else return "indicator ";
     },
-    update: function(barber) {
+    update: async function(barber) {
       this.selectedBarber = barber;
-      this.$emit("input", this.selectedBarber);
+      this.roster = await fb.getRoster(barber);
+      this.$emit("input", {
+        selectedBarber: this.selectedBarber,
+        roster: this.roster,
+      });
     },
   },
 };

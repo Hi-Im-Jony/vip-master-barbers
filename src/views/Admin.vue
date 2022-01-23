@@ -2,17 +2,24 @@
   <div id="admin-page">
     <div>
       <h1>Add a Barber</h1>
-      <v-text-field dark v-model="bName" label="Barber Name"></v-text-field>
-      <a @click="createBarber(bName)">Add</a>
+      <v-text-field
+        dark
+        v-model="newBarberName"
+        label="Barber Name"
+      ></v-text-field>
+      <a @click="createBarber(newBarberName)">Add</a>
     </div>
-    <p>{{ selectedBarber }}</p>
     <div>
       <h1>Roster Barber</h1>
-      <barber-selector v-model="selectedBarber" :key="bsKey" />
+      <barber-selector v-model="selectedBarberInfo" :key="bsKey" />
     </div>
-    <calendar v-model="selectedDays" :roster="true" :key="cKey" />
+    <calendar
+      v-model="selectedDays"
+      :roster="selectedBarberInfo.roster"
+      :key="cKey"
+    />
     <a
-      v-if="selectedBarber.length > 0 && selectedDays.length > 0"
+      v-if="selectedBarberInfo.name != '' && selectedDays.length > 0"
       @click="roster()"
     >
       Roster
@@ -30,8 +37,11 @@ export default {
     return {
       bsKey: 0,
       cKey: 1,
-      bName: "",
-      selectedBarber: "",
+      newBarberName: "",
+      selectedBarberInfo: {
+        name: "",
+        roster: [],
+      },
       selectedDays: [],
     };
   },
@@ -41,18 +51,18 @@ export default {
     },
     createBarber: async function(barberName) {
       await fb.createBarber(barberName);
-      this.bName = "";
+      this.newBarberName = "";
       // re-render components
       this.cKey += 1;
       this.bsKey += 1;
     },
     roster: async function() {
-      await fb.roster(this.selectedBarber, this.selectedDays);
+      await fb.roster(this.selectedBarberInfo.name, this.selectedDays);
       // re-render components
       this.cKey += 1;
       this.bsKey += 1;
 
-      this.selectedBarber = "";
+      this.selectedBarberInfo.name = "";
       this.selectedDays = [];
     },
   },
