@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import phoneBtn from "./phone-btn.vue";
+import PhoneBtn from "./PhoneBtn.vue";
 export default {
-  components: { phoneBtn },
+  components: { PhoneBtn },
   name: "BannerItem",
   props: ["title", "description", "image"],
 };

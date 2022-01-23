@@ -1,41 +1,39 @@
 <template>
-  <div id="booking-calendar-container">
-    <div id="calendar">
-      <div id="month-row">
-        <a>
-          <v-icon @click="prevMonth()" class="icon">mdi-chevron-left</v-icon>
-        </a>
-        <h3>{{ months[month][0] }}</h3>
-        <a>
-          <v-icon @click="nextMonth()" class="icon">mdi-chevron-right</v-icon>
-        </a>
+  <div id="calendar">
+    <div id="month-row">
+      <a>
+        <v-icon @click="prevMonth()" class="icon">mdi-chevron-left</v-icon>
+      </a>
+      <h3>{{ months[month][0] }}</h3>
+      <a>
+        <v-icon @click="nextMonth()" class="icon">mdi-chevron-right</v-icon>
+      </a>
 
-        <v-spacer />
+      <v-spacer />
 
-        <h3>{{ year }}</h3>
-        <v-spacer />
-      </div>
+      <h3>{{ year }}</h3>
+      <v-spacer />
+    </div>
 
-      <div id="day-row">
-        <div id="days">
-          <div class="day" v-for="num in 7" :key="num">
-            <div>
-              {{ days[num - 1] }}
+    <div id="day-row">
+      <div id="days">
+        <div class="day" v-for="num in 7" :key="num">
+          <div>
+            {{ days[num - 1] }}
+          </div>
+        </div>
+        <div class="day" v-for="e in firstDayOfMonth" :key="'A' + e">
+          <div class="empty-day"></div>
+        </div>
+        <div class="day " v-for="d in months[month][1]" :key="'B' + d">
+          <a @click="selectDate(d)">
+            <div :class="getDayClass(d)">
+              {{ d }}
             </div>
-          </div>
-          <div class="day" v-for="e in firstDayOfMonth" :key="'A' + e">
-            <div class="empty-day"></div>
-          </div>
-          <div class="day" v-for="d in months[month][1]" :key="'B' + d">
-            <a @click="selectDate(d)">
-              <div class="day-num">
-                {{ d }}
-              </div>
-            </a>
-          </div>
-          <div class="day" v-for="em in 6 - lastDayOfMonth" :key="'C' + em">
-            <div class="empty-day"></div>
-          </div>
+          </a>
+        </div>
+        <div class="day" v-for="em in 6 - lastDayOfMonth" :key="'C' + em">
+          <div class="empty-day"></div>
         </div>
       </div>
     </div>
@@ -44,6 +42,7 @@
 
 <script>
 export default {
+  props: ["roster"],
   data() {
     return {
       year: this.currentYear(),
@@ -64,6 +63,7 @@ export default {
       month: this.currentMonth(),
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
       day: this.currentDay(),
+      selectedDates: [],
     };
   },
   computed: {
@@ -89,7 +89,6 @@ export default {
       const today = new Date();
       return today.getDay;
     },
-
     nextMonth: function() {
       this.month++;
       if (this.month === 12) {
@@ -104,14 +103,35 @@ export default {
         this.month = 11;
       }
     },
-    selectDate: function(d) {
-      const date = new Date(this.year, this.month, d);
-      console.log(date);
+    selectDate: function(day) {
+      let date = day + ":" + (this.month + 1) + ":" + this.year;
+      if (!this.selectedDates.includes(date)) {
+        if (this.roster) {
+          // unlimited dates can be selected
+          this.selectedDates.push(date);
+        } else {
+          // only one date can be selected
+          this.selectedDates = [date];
+        }
+      } else {
+        this.selectedDates.splice(this.selectedDates.indexOf(date), 1);
+      }
+      this.$emit("input", this.selectedDates);
+    },
+    getDayClass: function(day) {
+      let date = day + ":" + (this.month + 1) + ":" + this.year;
+      let classes = "day-num";
+      if (this.selectedDates.includes(date)) {
+        classes = classes + " selected";
+      }
+      if (this.roster.includes(date)) {
+        classes = classes + " rostered";
+      }
+      return classes;
     },
   },
 };
 </script>
-
 <style scoped>
 #calendar {
   display: flex;
@@ -144,6 +164,7 @@ export default {
 }
 .day-num {
   border: solid whitesmoke;
+  color: whitesmoke;
   border-radius: 20px;
   width: 35px;
   height: 35px;
@@ -157,5 +178,11 @@ export default {
   border-radius: 20px;
   width: 35px;
   height: 35px;
+}
+.selected {
+  background: rgb(70, 88, 41);
+}
+.rostered {
+  border: solid rgb(70, 88, 41);
 }
 </style>
