@@ -42,6 +42,7 @@
 
 <script>
 export default {
+  props: ["roster"],
   data() {
     return {
       year: this.currentYear(),
@@ -105,7 +106,13 @@ export default {
     selectDate: function(day) {
       let date = day + ":" + (this.month + 1) + ":" + this.year;
       if (!this.selectedDates.includes(date)) {
-        this.selectedDates.push(date);
+        if (this.roster) {
+          // unlimited dates can be selected
+          this.selectedDates.push(date);
+        } else {
+          // only one date can be selected
+          this.selectedDates = [date];
+        }
       } else {
         this.selectedDates.splice(this.selectedDates.indexOf(date), 1);
       }

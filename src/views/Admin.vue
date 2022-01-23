@@ -9,7 +9,7 @@
     <div>
       <h1>Roster Barber</h1>
       <barber-selector :key="componentKey" />
-      <calendar />
+      <calendar :roster="true" />
     </div>
   </div>
 </template>
