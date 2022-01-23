@@ -1,5 +1,5 @@
 <template>
-  <div id="calendar" v-if="roster != ''">
+  <div id="calendar">
     <div id="month-row">
       <a>
         <v-icon @click="prevMonth()" class="icon">mdi-chevron-left</v-icon>
@@ -124,7 +124,7 @@ export default {
       if (this.selectedDates.includes(date)) {
         classes = classes + " selected";
       }
-      if (this.rosteredDates.includes(date)) {
+      if (this.roster.includes(date)) {
         classes = classes + " rostered";
       }
       return classes;
