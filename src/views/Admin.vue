@@ -58,9 +58,11 @@ export default {
     },
     roster: async function() {
       await fb.roster(this.selectedBarberInfo.name, this.selectedDays);
+      for (let day in this.selectedDays) {
+        this.selectedBarberInfo.roster.push(this.selectedDays[day]);
+      }
       // re-render components
       this.cKey += 1;
-      this.bsKey += 1;
 
       this.selectedBarberInfo.name = "";
       this.selectedDays = [];
