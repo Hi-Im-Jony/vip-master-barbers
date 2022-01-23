@@ -8,9 +8,10 @@
 
     <div>
       <h1>Roster Barber</h1>
-      <barber-selector :key="componentKey" />
-      <calendar :roster="true" />
+      <barber-selector v-model="selectedBarbers" :key="componentKey" />
+      <calendar v-model="selectedDays" :roster="true" />
     </div>
+    <a @click="roster()">Roster</a>
   </div>
 </template>
 
@@ -24,6 +25,8 @@ export default {
     return {
       componentKey: 0,
       bName: "",
+      selectedBarbers: [],
+      selectedDays: [],
     };
   },
   methods: {
@@ -34,6 +37,10 @@ export default {
       await fb.createBarber(barberName);
       this.bName = "";
       this.componentKey += 1;
+    },
+    roster: async function() {
+      console.log(this.selectedBarbers);
+      console.log(this.selectedDays);
     },
   },
 };
