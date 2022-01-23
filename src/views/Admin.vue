@@ -5,14 +5,24 @@
       <v-text-field dark v-model="bName" label="Barber Name"></v-text-field>
       <a @click="createBarber(bName)">Add</a>
     </div>
+
+    <div>
+      <h1>Roster Barber</h1>
+      <barber-selector :key="componentKey" />
+      <calendar />
+    </div>
   </div>
 </template>
 
 <script>
 import * as fb from "@/fb";
+import Calendar from "../components/Calendar.vue";
+import BarberSelector from "../components/BarberSelector.vue";
 export default {
+  components: { Calendar, BarberSelector },
   data() {
     return {
+      componentKey: 0,
       bName: "",
     };
   },
@@ -22,6 +32,8 @@ export default {
     },
     createBarber: async function(barberName) {
       await fb.createBarber(barberName);
+      this.bName = "";
+      this.componentKey += 1;
     },
   },
 };
