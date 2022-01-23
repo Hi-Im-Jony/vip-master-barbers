@@ -46,4 +46,22 @@ export const getAllBarbers = async function() {
   return barbers;
 };
 
-export const rosterBarber = async function(barberName, daysRostered) {};
+export const roster = async function(barber, daysToRoster) {
+  for (let dayToRoster in daysToRoster) {
+    await setDoc(
+      doc(db, "barbers", barber, "days_rostered", daysToRoster[dayToRoster]),
+      {}
+    );
+  }
+};
+
+export const getRoster = async function(barber) {
+  const rosterCollection = collection(db, "barbers", barber, "days_rostered");
+  const query = await getDocs(rosterCollection);
+  let daysRostered = [];
+  query.forEach((doc) => {
+    daysRostered.push(doc.id);
+  });
+
+  return daysRostered;
+};
