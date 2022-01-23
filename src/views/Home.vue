@@ -9,12 +9,12 @@
     <a id="services-btn"><h3>SERVICES & PRODUCTS</h3> </a>
     <map />
 
-    <myfooter />
+    <CstmFooter />
   </div>
 </template>
 
 <script>
-import Myfooter from "../components/MyFooter.vue";
+import CstmFooter from "../components/CstmFooter.vue";
 import Map from "../components/Map.vue";
 import BannerItem from "../components/BannerItem.vue";
 import About from "../components/About.vue";
@@ -23,7 +23,7 @@ export default {
   name: "Home",
 
   components: {
-    Myfooter,
+    CstmFooter,
     Map,
     BannerItem,
     About,

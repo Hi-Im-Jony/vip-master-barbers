@@ -1,18 +1,18 @@
 <template>
   <v-app>
-    <navbar v-if="windowWidth > 770" />
+    <NavbarDesktop v-if="windowWidth > 770" />
     <navbar-mobile v-if="windowWidth <= 770" />
     <router-view />
   </v-app>
 </template>
 
 <script>
-import Navbar from "./components/NavBar.vue";
+import NavbarDesktop from "./components/NavBarDesktop.vue";
 import NavbarMobile from "./components/NavbarMobile.vue";
 
 export default {
   name: "App",
-  components: { Navbar, NavbarMobile },
+  components: { NavbarDesktop, NavbarMobile },
   data: () => ({
     windowWidth: window.innerWidth,
   }),
