@@ -5,14 +5,14 @@
       <v-text-field dark v-model="bName" label="Barber Name"></v-text-field>
       <a @click="createBarber(bName)">Add</a>
     </div>
-
+    <p>{{ selectedBarber }}</p>
     <div>
       <h1>Roster Barber</h1>
-      <barber-selector v-model="selectedBarbers" :key="bsKey" />
+      <barber-selector v-model="selectedBarber" :key="bsKey" />
     </div>
     <calendar v-model="selectedDays" :roster="true" :key="cKey" />
     <a
-      v-if="selectedBarbers.length > 0 && selectedDays.length > 0"
+      v-if="selectedBarber.length > 0 && selectedDays.length > 0"
       @click="roster()"
     >
       Roster
@@ -31,7 +31,7 @@ export default {
       bsKey: 0,
       cKey: 1,
       bName: "",
-      selectedBarbers: [],
+      selectedBarber: "",
       selectedDays: [],
     };
   },
@@ -47,12 +47,12 @@ export default {
       this.bsKey += 1;
     },
     roster: async function() {
-      await fb.roster(this.selectedBarbers, this.selectedDays);
+      await fb.roster(this.selectedBarber, this.selectedDays);
       // re-render components
       this.cKey += 1;
       this.bsKey += 1;
 
-      this.selectedBarbers = [];
+      this.selectedBarber = "";
       this.selectedDays = [];
     },
   },

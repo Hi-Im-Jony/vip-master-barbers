@@ -39,8 +39,7 @@ export default {
     },
     update: function(barber) {
       this.selectedBarber = barber;
-      let selectedBarber = [barber];
-      this.$emit("input", selectedBarber);
+      this.$emit("input", this.selectedBarber);
     },
   },
 };
