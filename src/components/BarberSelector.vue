@@ -18,8 +18,8 @@ import * as fb from "@/fb";
 export default {
   data() {
     return {
-      checkboxes: {},
-      barbers: {},
+      checkboxes: [],
+      barbers: [],
     };
   },
   created: function() {
@@ -40,7 +40,7 @@ export default {
       for (let barber in checkboxes) {
         if (checkboxes[barber]) selectedBarbers.push(barber);
       }
-      this.$emit("input", this.checkboxes);
+      this.$emit("input", selectedBarbers);
     },
   },
 };
