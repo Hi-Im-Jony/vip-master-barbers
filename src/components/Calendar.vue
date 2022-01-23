@@ -164,6 +164,7 @@ export default {
 }
 .day-num {
   border: solid whitesmoke;
+  color: whitesmoke;
   border-radius: 20px;
   width: 35px;
   height: 35px;
@@ -179,9 +180,9 @@ export default {
   height: 35px;
 }
 .selected {
-  background: greenyellow;
+  background: rgb(70, 88, 41);
 }
 .rostered {
-  border: solid rgb(0, 70, 128);
+  border: solid rgb(70, 88, 41);
 }
 </style>
