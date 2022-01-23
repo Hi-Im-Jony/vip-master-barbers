@@ -40,7 +40,7 @@ export default {
       this.selectedBarber = barber;
       this.roster = await fb.getRoster(barber);
       this.$emit("input", {
-        selectedBarber: this.selectedBarber,
+        name: this.selectedBarber,
         roster: this.roster,
       });
     },
