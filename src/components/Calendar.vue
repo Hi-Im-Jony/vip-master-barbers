@@ -25,9 +25,9 @@
         <div class="day" v-for="e in firstDayOfMonth" :key="'A' + e">
           <div class="empty-day"></div>
         </div>
-        <div class="day" v-for="d in months[month][1]" :key="'B' + d">
+        <div class="day " v-for="d in months[month][1]" :key="'B' + d">
           <a @click="selectDate(d)">
-            <div class="day-num">
+            <div :class="getDayClass(d)">
               {{ d }}
             </div>
           </a>
@@ -62,7 +62,7 @@ export default {
       month: this.currentMonth(),
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
       day: this.currentDay(),
-      selectedDate: "",
+      selectedDates: [],
     };
   },
   computed: {
@@ -104,8 +104,20 @@ export default {
     },
     selectDate: function(day) {
       let date = day + ":" + (this.month + 1) + ":" + this.year;
-      this.selectedDate = date;
-      this.$emit("input", this.selectedDate);
+      if (!this.selectedDates.includes(date)) {
+        this.selectedDates.push(date);
+      } else {
+        this.selectedDates.splice(this.selectedDates.indexOf(date), 1);
+      }
+      this.$emit("input", this.selectedDates);
+    },
+    getDayClass: function(day) {
+      let date = day + ":" + (this.month + 1) + ":" + this.year;
+      if (this.selectedDates.includes(date)) {
+        return "day-num selected";
+      } else {
+        return "day-num";
+      }
     },
   },
 };
@@ -155,5 +167,8 @@ export default {
   border-radius: 20px;
   width: 35px;
   height: 35px;
+}
+.selected {
+  background: greenyellow;
 }
 </style>
