@@ -27,21 +27,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
-const barbersCollection = collection(db, "barbers");
 
-// Barber CRUD methods
-export const createBarber = async (barber) => {
-  await setDoc(doc(db, "barbers", "Test2"), {
-    date: barber.date,
-  });
+// creates empty doc in db for new barber
+export const createBarber = async (barberName) => {
+  await setDoc(doc(db, "barbers", barberName), {});
+  await setDoc(doc(db, "barbers", barberName, "bookings", "init"), {});
+  await setDoc(doc(db, "barbers", barberName, "days_rostered", "init"), {});
 };
 
-export const getBarber = async (id) => {
-  const barber = await barbersCollection.doc(id).get();
-  return barber.exists ? barber.data() : null;
-};
-
+// returns an array with the names of all barbers
 export const getAllBarbers = async function() {
+  const barbersCollection = collection(db, "barbers");
   const query = await getDocs(barbersCollection);
   let barbers = [];
   query.forEach((doc) => {
@@ -50,10 +46,4 @@ export const getAllBarbers = async function() {
   return barbers;
 };
 
-export const updateBarber = (id, barber) => {
-  return barbersCollection.doc(id).update(barber);
-};
-
-export const deleteBarber = (id) => {
-  return barbersCollection.doc(id).delete();
-};
+export const rosterBarber = async function(barberName, daysRostered) {};
