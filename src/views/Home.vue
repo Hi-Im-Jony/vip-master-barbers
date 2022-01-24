@@ -8,13 +8,10 @@
     <about />
     <a id="services-btn"><h3>SERVICES & PRODUCTS</h3> </a>
     <map />
-
-    <CstmFooter />
   </div>
 </template>
 
 <script>
-import CstmFooter from "../components/CstmFooter.vue";
 import Map from "../components/Map.vue";
 import BannerItem from "../components/BannerItem.vue";
 import About from "../components/About.vue";
@@ -23,7 +20,6 @@ export default {
   name: "Home",
 
   components: {
-    CstmFooter,
     Map,
     BannerItem,
     About,
