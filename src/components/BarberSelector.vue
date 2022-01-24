@@ -85,12 +85,20 @@ export default {
 </script>
 
 <style scoped>
+#barber-selector {
+  max-width: 80vw;
+  margin: 15px 0 25px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .barber {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 15px 0 15px 0;
-  width: 100%;
+  width: 90%;
   border: solid rgba(240, 248, 255, 0.137);
   border-width: 1px;
 }

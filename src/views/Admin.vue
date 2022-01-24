@@ -10,14 +10,14 @@
       ></v-text-field>
       <a @click="createBarber(newBarberName)">Add</a>
     </div>
-    <div>
-      <h1>Manage Barbers</h1>
-      <barber-selector
-        v-model="selectedBarberInfo"
-        :key="bsKey"
-        :forAdmin="true"
-      />
-    </div>
+
+    <h1>Manage Barbers</h1>
+    <barber-selector
+      v-model="selectedBarberInfo"
+      :key="bsKey"
+      :forAdmin="true"
+    />
+
     <calendar
       v-model="calendarInfo"
       :roster="selectedBarberInfo.roster"
