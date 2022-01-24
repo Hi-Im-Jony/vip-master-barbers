@@ -46,6 +46,7 @@ export const getAllBarbers = async function() {
   return barbers;
 };
 
+// roster a barber on given days
 export const roster = async function(barber, daysToRoster) {
   for (let dayToRoster in daysToRoster) {
     await setDoc(
@@ -55,6 +56,7 @@ export const roster = async function(barber, daysToRoster) {
   }
 };
 
+// returns an array of days a barber is rostered
 export const getRoster = async function(barber) {
   const rosterCollection = collection(db, "barbers", barber, "days_rostered");
   const query = await getDocs(rosterCollection);
@@ -64,4 +66,10 @@ export const getRoster = async function(barber) {
   });
 
   return daysRostered;
+};
+
+// create a booking for a barber
+export const createBooking = async function(barber, day) {
+  console.log(barber);
+  console.log(day);
 };
