@@ -64,8 +64,14 @@ export default {
       else return "delete-icon";
     },
     update: async function(barber) {
-      this.selectedBarber = barber;
-      this.roster = await fb.getRoster(barber);
+      if (this.selectedBarber !== barber) {
+        this.selectedBarber = barber;
+        this.roster = await fb.getRoster(barber);
+      } else {
+        this.selectedBarber = "";
+        this.roster = [];
+      }
+
       this.$emit("input", {
         name: this.selectedBarber,
         roster: this.roster,
