@@ -1,14 +1,21 @@
 <template>
   <div id="barber-selector">
     <h2>Select a Barber</h2>
+
     <div
-      class="barber"
+      :class="getBarberClass(barber)"
       v-for="barber in barbers"
       :key="barber"
       @click="update(barber)"
     >
-      <div :class="getIndicatorClass(barber)"></div>
       <label :for="barber" class="barber-name">{{ barber }}</label>
+      <div
+        class="delete-btn-container"
+        v-if="forAdmin"
+        @click="deleteBarber(barber)"
+      >
+        <v-icon :class="getDeleteClass(barber)">mdi-trash-can-outline</v-icon>
+      </div>
     </div>
   </div>
 </template>
@@ -16,6 +23,7 @@
 <script>
 import * as fb from "@/fb";
 export default {
+  props: ["forAdmin"],
   data() {
     return {
       barbers: [],
@@ -32,9 +40,13 @@ export default {
         this.barbers = response;
       });
     },
-    getIndicatorClass: function(barber) {
-      if (this.selectedBarber === barber) return "indicator selected";
-      else return "indicator ";
+    getBarberClass: function(barber) {
+      if (this.selectedBarber === barber) return "barber selected";
+      else return "barber ";
+    },
+    getDeleteClass: function(barber) {
+      if (this.selectedBarber === barber) return " delete-selected";
+      else return "delete-btn";
     },
     update: async function(barber) {
       this.selectedBarber = barber;
@@ -43,6 +55,10 @@ export default {
         name: this.selectedBarber,
         roster: this.roster,
       });
+    },
+    deleteBarber: async function(barber) {
+      await fb.deleteBarber(barber);
+      document.location.reload();
     },
   },
 };
@@ -55,18 +71,24 @@ export default {
   align-items: center;
   margin: 15px 0 15px 0;
   width: 100%;
-  border: solid aliceblue;
+  border: solid rgba(240, 248, 255, 0.137);
+  border-width: 1px;
 }
 .barber-name {
   margin: 6px !important;
   font-size: 25px;
 }
-.indicator {
-  width: 25px;
-  height: 25px;
-  border: solid aliceblue;
-}
+
 .selected {
-  background: gainsboro;
+  background: rgba(53, 81, 156, 0.548);
+}
+.delete-btn-container {
+  width: 30px;
+}
+.delete-btn {
+  display: none;
+}
+.delete-selected {
+  color: red !important;
 }
 </style>

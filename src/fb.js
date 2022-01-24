@@ -5,7 +5,7 @@ import {
   getFirestore,
   collection,
   setDoc,
-  getDoc,
+  deleteDoc,
   getDocs,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -28,11 +28,41 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
 
-// creates empty doc in db for new barber
-export const createBarber = async (barberName) => {
+// creates barber
+export const createBarber = async function(barberName) {
   await setDoc(doc(db, "barbers", barberName), {});
   await setDoc(doc(db, "barbers", barberName, "bookings", "init"), {});
   await setDoc(doc(db, "barbers", barberName, "days_rostered", "init"), {});
+};
+
+// delete a barber and their data
+export const deleteBarber = async function(barber) {
+  /* To delete an entire collection or subcollection in Cloud Firestore, retrieve all the documents within the collection or subcollection and delete them*/
+  console.log("Delete", barber, "!");
+
+  // Delete roster
+  const rosterCollection = collection(db, "barbers", barber, "days_rostered");
+  let query = await getDocs(rosterCollection);
+  let docIds = [];
+  query.forEach((doc) => {
+    docIds.push(doc.id);
+  });
+  for (let id in docIds) {
+    await deleteDoc(doc(db, "barbers", barber, "days_rostered", docIds[id]));
+  }
+
+  // Delete bookings
+  const bookingsCollection = collection(db, "barbers", barber, "bookings");
+  query = await getDocs(bookingsCollection);
+  query.forEach((doc) => {
+    docIds.push(doc.id);
+  });
+  for (let id in docIds) {
+    await deleteDoc(doc(db, "barbers", barber, "bookings", docIds[id]));
+  }
+
+  // Delete barber
+  await deleteDoc(doc(db, "barbers", barber));
 };
 
 // returns an array with the names of all barbers
