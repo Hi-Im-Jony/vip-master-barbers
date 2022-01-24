@@ -92,7 +92,7 @@ export default {
 
 <style scoped>
 #barber-selector {
-  max-width: 80vw;
+  max-width: 85vw;
   margin: 15px 0 25px 0;
   display: flex;
   flex-direction: column;
@@ -104,7 +104,7 @@ export default {
   justify-content: space-around;
   align-items: center;
   margin: 15px 0 15px 0;
-  width: 90%;
+  width: 100%;
   border: solid rgba(240, 248, 255, 0.137);
   border-width: 1px;
 }
