@@ -25,12 +25,12 @@
       :givenYear="calendarInfo.selectedYear"
       :key="cKey"
     />
-    <a
+    <div
       v-if="
         selectedBarberInfo.name != '' && calendarInfo.selectedDays.length > 0
       "
-      @click="roster()"
-    >
+    ></div>
+    <a @click="roster()">
       Roster
     </a>
   </div>
@@ -65,9 +65,14 @@ export default {
     createBarber: async function(barberName) {
       if (barberName !== "") await fb.createBarber(barberName);
       this.newBarberName = "";
-      // re-render components
+      (this.selectedBarberInfo = {
+        name: "",
+        roster: [],
+      }),
+        // re-render components
 
-      this.bsKey += 1;
+        (this.bsKey += 1);
+      this.cKey += 1;
     },
     roster: async function() {
       this.loading = true;
