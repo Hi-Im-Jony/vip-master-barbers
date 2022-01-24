@@ -78,6 +78,7 @@ export default {
       this.confirmDialogue = true;
     },
     deleteBarber: async function(barber) {
+      this.confirmDialogue = false;
       this.loading = true;
       await fb.deleteBarber(barber);
       document.location.reload();
