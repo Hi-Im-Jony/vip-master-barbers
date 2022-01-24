@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     createBarber: async function(barberName) {
-      await fb.createBarber(barberName);
+      if (barberName !== "") await fb.createBarber(barberName);
       this.newBarberName = "";
       // re-render components
 
