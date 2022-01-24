@@ -96,7 +96,7 @@ export default {
 }
 #dialog {
   color: aliceblue;
-  background: black;
+  background: rgb(14, 13, 13);
   width: 100%;
   height: 100%;
   display: flex;
