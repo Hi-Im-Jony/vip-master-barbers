@@ -1,6 +1,16 @@
 <template>
   <div id="barber-selector">
     <loader :loading="loading" />
+    <v-dialog v-model="confirmDialogue">
+      <div id="dialog">
+        <p>Are you sure you want to remove {{ selectedBarber }}?</p>
+        <p>This will delete all their data, and cancel all their bookings.</p>
+        <div id="btn-container">
+          <a id="cancel-btn" @click="confirmDialogue = false">Cancel</a>
+          <a id="delete-btn" @click="deleteBarber(selectedBarber)">Delete</a>
+        </div>
+      </div>
+    </v-dialog>
     <h2>Select a Barber</h2>
 
     <div
@@ -11,9 +21,9 @@
     >
       <label :for="barber" class="barber-name">{{ barber }}</label>
       <div
-        class="delete-btn-container"
+        class="delete-icon-container"
         v-if="forAdmin"
-        @click="deleteBarber(barber)"
+        @click="confirmDelete(barber)"
       >
         <v-icon :class="getDeleteClass(barber)">mdi-trash-can-outline</v-icon>
       </div>
@@ -30,6 +40,7 @@ export default {
   data() {
     return {
       loading: false,
+      confirmDialogue: false,
       barbers: [],
       selectedBarber: "",
       roster: [],
@@ -50,7 +61,7 @@ export default {
     },
     getDeleteClass: function(barber) {
       if (this.selectedBarber === barber) return " delete-selected";
-      else return "delete-btn";
+      else return "delete-icon";
     },
     update: async function(barber) {
       this.selectedBarber = barber;
@@ -59,6 +70,9 @@ export default {
         name: this.selectedBarber,
         roster: this.roster,
       });
+    },
+    confirmDelete: async function() {
+      this.confirmDialogue = true;
     },
     deleteBarber: async function(barber) {
       this.loading = true;
@@ -80,6 +94,37 @@ export default {
   border: solid rgba(240, 248, 255, 0.137);
   border-width: 1px;
 }
+#dialog {
+  color: aliceblue;
+  background: black;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+}
+#btn-container {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#cancel-btn {
+  color: aliceblue;
+  padding: 1px 10px 1px 10px;
+  background: gray;
+}
+
+#delete-btn {
+  color: aliceblue;
+  padding: 1px 10px 1px 10px;
+  background: rgb(124, 22, 22);
+}
+
 .barber-name {
   margin: 6px !important;
   font-size: 25px;
@@ -88,10 +133,10 @@ export default {
 .selected {
   background: rgba(53, 81, 156, 0.548);
 }
-.delete-btn-container {
+.delete-icon-container {
   width: 30px;
 }
-.delete-btn {
+.delete-icon {
   display: none;
 }
 .delete-selected {
