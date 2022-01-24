@@ -13,13 +13,10 @@
     </v-dialog>
     <h2>Select a Barber</h2>
 
-    <div
-      :class="getBarberClass(barber)"
-      v-for="barber in barbers"
-      :key="barber"
-      @click="update(barber)"
-    >
-      <label :for="barber" class="barber-name">{{ barber }}</label>
+    <div class="barber-container" v-for="barber in barbers" :key="barber">
+      <div :class="getBarberClass(barber)" @click="update(barber)">
+        <label class="barber-name">{{ barber }}</label>
+      </div>
       <div
         class="delete-icon-container"
         v-if="forAdmin"
@@ -99,9 +96,14 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.barber-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
 .barber {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   margin: 15px 0 15px 0;
   width: 100%;
@@ -155,5 +157,6 @@ export default {
 }
 .delete-selected {
   color: red !important;
+  margin-left: 5px;
 }
 </style>
