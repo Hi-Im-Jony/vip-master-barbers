@@ -14,12 +14,16 @@
       <barber-selector v-model="selectedBarberInfo" :key="bsKey" />
     </div>
     <calendar
-      v-model="selectedDays"
+      v-model="calendarInfo"
       :roster="selectedBarberInfo.roster"
+      :givenMonth="calendarInfo.selectedMonth"
+      :givenYear="calendarInfo.selectedYear"
       :key="cKey"
     />
     <a
-      v-if="selectedBarberInfo.name != '' && selectedDays.length > 0"
+      v-if="
+        selectedBarberInfo.name != '' && calendarInfo.selectedDays.length > 0
+      "
       @click="roster()"
     >
       Roster
@@ -42,7 +46,11 @@ export default {
         name: "",
         roster: [],
       },
-      selectedDays: [],
+      calendarInfo: {
+        selectedDays: [],
+        selectedYear: null,
+        selectedMonth: null,
+      },
     };
   },
   methods: {
@@ -53,17 +61,22 @@ export default {
       await fb.createBarber(barberName);
       this.newBarberName = "";
       // re-render components
-      this.cKey += 1;
+
       this.bsKey += 1;
     },
     roster: async function() {
-      await fb.roster(this.selectedBarberInfo.name, this.selectedDays);
-      for (let day in this.selectedDays) {
-        this.selectedBarberInfo.roster.push(this.selectedDays[day]);
+      await fb.roster(
+        this.selectedBarberInfo.name,
+        this.calendarInfo.selectedDays
+      );
+      for (let day in this.calendarInfo.selectedDays) {
+        this.selectedBarberInfo.roster.push(
+          this.calendarInfo.selectedDays[day]
+        );
       }
       // re-render calendar components
       this.cKey += 1;
-      this.selectedDays = [];
+      this.calendarInfo.selectedDays = [];
     },
   },
 };

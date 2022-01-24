@@ -42,10 +42,10 @@
 
 <script>
 export default {
-  props: ["roster"],
+  props: ["roster", "givenYear", "givenMonth"],
   data() {
     return {
-      year: this.currentYear(),
+      year: this.givenYear === null ? this.currentYear() : this.givenYear,
       months: [
         ["January", 31],
         ["February", 28],
@@ -60,7 +60,7 @@ export default {
         ["November", 30],
         ["December", 31],
       ],
-      month: this.currentMonth(),
+      month: this.givenMonth === null ? this.currentMonth() : this.givenMonth,
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
       day: this.currentDay(),
       selectedDates: [],
@@ -95,6 +95,11 @@ export default {
         this.year++;
         this.month = 0;
       }
+      this.$emit("input", {
+        selectedDays: this.selectedDates,
+        selectedYear: this.year,
+        selectedMonth: this.month,
+      });
     },
     prevMonth: function() {
       this.month--;
@@ -102,6 +107,11 @@ export default {
         this.year--;
         this.month = 11;
       }
+      this.$emit("input", {
+        selectedDays: this.selectedDates,
+        selectedYear: this.year,
+        selectedMonth: this.month,
+      });
     },
     selectDate: function(day) {
       let date = day + ":" + (this.month + 1) + ":" + this.year;
@@ -116,7 +126,11 @@ export default {
       } else {
         this.selectedDates.splice(this.selectedDates.indexOf(date), 1);
       }
-      this.$emit("input", this.selectedDates);
+      this.$emit("input", {
+        selectedDays: this.selectedDates,
+        selectedYear: this.year,
+        selectedMonth: this.month,
+      });
     },
     getDayClass: function(day) {
       let date = day + ":" + (this.month + 1) + ":" + this.year;
@@ -132,6 +146,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 #calendar {
   display: flex;

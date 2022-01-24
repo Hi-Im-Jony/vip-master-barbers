@@ -4,8 +4,10 @@
     <barber-selector v-model="selectedBarberInfo" :key="bsKey" />
 
     <calendar
-      v-model="selectedDay"
+      v-model="calendarInfo"
       :roster="selectedBarberInfo.roster"
+      :givenMonth="calendarInfo.selectedMonth"
+      :givenYear="calendarInfo.selectedYear"
       :key="cKey"
     />
     <a @click="book()">Book</a>
@@ -24,14 +26,22 @@ export default {
         name: "",
         roster: [],
       },
-      selectedDay: [],
+      calendarInfo: {
+        selectedDays: [],
+        selectedYear: null,
+        selectedMonth: null,
+      },
       bsKey: 0,
       cKey: 1,
     };
   },
   methods: {
-    book: function() {
-      fb.createBooking(this.selectedBarberInfo.name, this.selectedDay);
+    book: async function() {
+      await fb.createBooking(
+        this.selectedBarberInfo.name,
+        this.calendarInfo.selectedDays
+      );
+      this.cKey += 1;
     },
   },
 };
