@@ -61,10 +61,8 @@ export default {
       for (let day in this.selectedDays) {
         this.selectedBarberInfo.roster.push(this.selectedDays[day]);
       }
-      // re-render components
+      // re-render calendar components
       this.cKey += 1;
-
-      this.selectedBarberInfo.name = "";
       this.selectedDays = [];
     },
   },
