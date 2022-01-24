@@ -86,6 +86,16 @@ export const roster = async function(barber, daysToRoster) {
   }
 };
 
+// de-roster a barber on given days
+export const deroster = async function(barber, daysToRemove) {
+  const rosterCollection = collection(db, "barbers", barber, "days_rostered");
+  for (let dayToRemove in daysToRemove) {
+    await deleteDoc(
+      doc(db, "barbers", barber, "days_rostered", daysToRemove[dayToRemove])
+    );
+  }
+};
+
 // returns an array of days a barber is rostered
 export const getRoster = async function(barber) {
   const rosterCollection = collection(db, "barbers", barber, "days_rostered");
