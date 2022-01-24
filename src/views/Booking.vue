@@ -1,28 +1,37 @@
 <template>
   <div id="booking-page">
     <h1 id="page-title">Make a Booking</h1>
-    <barber-selector v-model="selectedBarber" />
-    <p @click="print(selectedBarber)">View Barber</p>
+    <barber-selector v-model="selectedBarberInfo" :key="bsKey" />
 
-    <calendar v-model="selectedDate" />
-    <p @click="print(selectedDate)">View Date</p>
+    <calendar
+      v-model="selectedDay"
+      :roster="selectedBarberInfo.roster"
+      :key="cKey"
+    />
+    <a @click="book()">Book</a>
   </div>
 </template>
 
 <script>
+import * as fb from "@/fb";
 import BarberSelector from "@/components/BarberSelector.vue";
 import Calendar from "@/components/Calendar.vue";
 export default {
   components: { BarberSelector, Calendar },
   data() {
     return {
-      selectedBarber: null,
-      selectedDate: null,
+      selectedBarberInfo: {
+        name: "",
+        roster: [],
+      },
+      selectedDay: [],
+      bsKey: 0,
+      cKey: 1,
     };
   },
   methods: {
-    print: function(p) {
-      console.log(p);
+    book: function() {
+      fb.createBooking(this.selectedBarberInfo.name, this.selectedDay);
     },
   },
 };
