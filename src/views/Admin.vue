@@ -3,12 +3,14 @@
     <loader :loading="loading" :key="loaderKey" />
     <div>
       <h1>Add a Barber</h1>
-      <v-text-field
-        dark
-        v-model="newBarberName"
-        label="Barber Name"
-      ></v-text-field>
-      <a @click="createBarber(newBarberName)">Add</a>
+      <div id="input-container">
+        <v-text-field
+          dark
+          v-model="newBarberName"
+          label="Barber Name"
+        ></v-text-field>
+        <a @click="createBarber(newBarberName)">Add</a>
+      </div>
     </div>
 
     <h1>Manage Barbers</h1>
@@ -26,13 +28,15 @@
       :key="cKey"
     />
     <div
+      id="btn-container"
       v-if="
         selectedBarberInfo.name != '' && calendarInfo.selectedDays.length > 0
       "
-    ></div>
-    <a @click="roster()">
-      Roster
-    </a>
+    >
+      <a @click="roster()">
+        Roster
+      </a>
+    </div>
   </div>
 </template>
 
@@ -99,10 +103,23 @@ export default {
 #admin-page {
   min-height: 100vh;
   background-color: rgb(30, 30, 32);
-  padding: 70px 0 0 0;
+  padding: 70px 0 20px 0;
   color: whitesmoke;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+#input-container {
+  display: flex;
+  align-items: center;
+}
+#input-container a {
+  margin: 0 0 0 20px;
+  border: solid grey;
+  border-width: 1px;
+
+  color: aliceblue;
+  padding: 1px 10px 1px 10px;
+  background: gray;
 }
 </style>
