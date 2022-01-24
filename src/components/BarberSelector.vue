@@ -1,5 +1,6 @@
 <template>
   <div id="barber-selector">
+    <loader :loading="loading" />
     <h2>Select a Barber</h2>
 
     <div
@@ -22,10 +23,13 @@
 
 <script>
 import * as fb from "@/fb";
+import Loader from "./Loader.vue";
 export default {
+  components: { Loader },
   props: ["forAdmin"],
   data() {
     return {
+      loading: false,
       barbers: [],
       selectedBarber: "",
       roster: [],
@@ -57,8 +61,10 @@ export default {
       });
     },
     deleteBarber: async function(barber) {
+      this.loading = true;
       await fb.deleteBarber(barber);
       document.location.reload();
+      this.loading = false;
     },
   },
 };

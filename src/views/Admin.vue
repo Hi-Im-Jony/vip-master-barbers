@@ -1,5 +1,6 @@
 <template>
   <div id="admin-page">
+    <loader :loading="loading" :key="loaderKey" />
     <div>
       <h1>Add a Barber</h1>
       <v-text-field
@@ -39,12 +40,15 @@
 import * as fb from "@/fb";
 import Calendar from "../components/Calendar.vue";
 import BarberSelector from "../components/BarberSelector.vue";
+import Loader from "../components/Loader.vue";
 export default {
-  components: { Calendar, BarberSelector },
+  components: { Calendar, BarberSelector, Loader },
   data() {
     return {
+      loading: false,
       bsKey: 0,
       cKey: 1,
+      loaderKey: "l",
       newBarberName: "",
       selectedBarberInfo: {
         name: "",
@@ -58,9 +62,6 @@ export default {
     };
   },
   methods: {
-    print: function(p) {
-      console.log(p);
-    },
     createBarber: async function(barberName) {
       await fb.createBarber(barberName);
       this.newBarberName = "";
@@ -69,6 +70,7 @@ export default {
       this.bsKey += 1;
     },
     roster: async function() {
+      this.loading = true;
       await fb.roster(
         this.selectedBarberInfo.name,
         this.calendarInfo.selectedDays
@@ -80,7 +82,9 @@ export default {
       }
       // re-render calendar components
       this.cKey += 1;
+      this.loaderKey += 1;
       this.calendarInfo.selectedDays = [];
+      this.loading = false;
     },
   },
 };
