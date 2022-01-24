@@ -28,14 +28,15 @@
       :key="cKey"
     />
     <div
-      id="btn-container"
+      class="btn-container"
       v-if="
         selectedBarberInfo.name != '' && calendarInfo.selectedDays.length > 0
       "
     >
-      <a @click="deroster()"> De-Roster</a>
-      <a @click="roster()"> Roster</a>
+      <a id="deroster-btn" @click="deroster()"> De-Roster</a>
+      <a id="roster-btn" @click="roster()"> Roster</a>
     </div>
+    <div class="btn-container" v-else></div>
   </div>
 </template>
 
@@ -140,5 +141,27 @@ export default {
   color: aliceblue;
   padding: 1px 10px 1px 10px;
   background: gray;
+}
+.btn-container {
+  padding-top: 10px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 75vw;
+  height: 60px;
+}
+#deroster-btn {
+  color: aliceblue;
+  padding: 1px 10px 1px 10px;
+  background: rgb(161, 25, 25);
+  margin: 10px;
+}
+
+#roster-btn {
+  color: aliceblue;
+  padding: 1px 10px 1px 10px;
+  background: rgb(27, 117, 19);
+  margin: 10px;
 }
 </style>
