@@ -17,7 +17,7 @@
       There Are Currently No Barbers In The System
     </p>
     <div v-if="!getAttempted">
-      <preloader color="whitesmoke" />
+      <preloader color="whitesmoke" :scale="0.2" />
     </div>
 
     <div class="barber-container" v-for="barber in barbers" :key="barber">
