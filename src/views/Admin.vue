@@ -85,9 +85,14 @@ export default {
         this.calendarInfo.selectedDays
       );
       for (let day in this.calendarInfo.selectedDays) {
-        this.selectedBarberInfo.roster.push(
-          this.calendarInfo.selectedDays[day]
-        );
+        if (
+          !this.selectedBarberInfo.roster.includes(
+            this.calendarInfo.selectedDays[day]
+          )
+        )
+          this.selectedBarberInfo.roster.push(
+            this.calendarInfo.selectedDays[day]
+          );
       }
       // re-render calendar components
       this.cKey += 1;
@@ -97,17 +102,23 @@ export default {
     },
     deroster: async function() {
       this.loading = true;
-      await fb.deroster(
-        this.selectedBarberInfo.name,
-        this.calendarInfo.selectedDays
-      );
+
       for (let day in this.calendarInfo.selectedDays) {
-        this.selectedBarberInfo.roster.splice(
-          this.selectedBarberInfo.roster.indexOf(
+        if (
+          this.selectedBarberInfo.roster.includes(
             this.calendarInfo.selectedDays[day]
-          ),
-          1
-        );
+          )
+        ) {
+          await fb.deroster(this.selectedBarberInfo.name, [
+            this.calendarInfo.selectedDays[day],
+          ]);
+          this.selectedBarberInfo.roster.splice(
+            this.selectedBarberInfo.roster.indexOf(
+              this.calendarInfo.selectedDays[day]
+            ),
+            1
+          );
+        }
       }
       // re-render calendar components
       this.cKey += 1;
