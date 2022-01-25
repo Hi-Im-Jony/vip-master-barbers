@@ -1,42 +1,74 @@
 <template>
   <div id="admin-page">
     <loader :loading="loading" :key="loaderKey" />
-    <div>
-      <h1>Add a Barber</h1>
-      <div id="input-container">
-        <v-text-field
-          dark
-          v-model="newBarberName"
-          label="Barber Name"
-        ></v-text-field>
-        <a @click="createBarber(newBarberName)">Add</a>
-      </div>
-    </div>
 
-    <h1>Manage Barbers</h1>
-    <barber-selector
-      v-model="selectedBarberInfo"
-      :key="bsKey"
-      :forAdmin="true"
-    />
+    <v-expansion-panels dark v-model="panel" multiple>
+      <v-expansion-panel>
+        <v-expansion-panel-header
+          ><h1>Add a Barber</h1></v-expansion-panel-header
+        >
+        <v-expansion-panel-content>
+          <div id="input-container">
+            <v-text-field
+              dark
+              v-model="newBarberName"
+              label="Barber Name"
+            ></v-text-field>
+            <a @click="createBarber(newBarberName)">Add</a>
+          </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
-    <calendar
-      v-model="calendarInfo"
-      :roster="selectedBarberInfo.roster"
-      :givenMonth="calendarInfo.selectedMonth"
-      :givenYear="calendarInfo.selectedYear"
-      :key="cKey"
-    />
-    <div
-      class="btn-container"
-      v-if="
-        selectedBarberInfo.name != '' && calendarInfo.selectedDays.length > 0
-      "
-    >
-      <a id="deroster-btn" @click="deroster()"> De-Roster</a>
-      <a id="roster-btn" @click="roster()"> Roster</a>
-    </div>
-    <div class="btn-container" v-else></div>
+      <v-expansion-panel>
+        <v-expansion-panel-header
+          ><h1>Manage Barbers</h1></v-expansion-panel-header
+        >
+        <v-expansion-panel-content>
+          <div id="calendar-container">
+            <barber-selector
+              v-model="selectedBarberInfo"
+              :key="bsKey"
+              :forAdmin="true"
+            />
+
+            <calendar
+              v-model="calendarInfo"
+              :roster="selectedBarberInfo.roster"
+              :givenMonth="calendarInfo.selectedMonth"
+              :givenYear="calendarInfo.selectedYear"
+              :key="cKey"
+            />
+
+            <div
+              class="btn-container"
+              v-if="
+                selectedBarberInfo.name != '' &&
+                  calendarInfo.selectedDays.length > 0
+              "
+            >
+              <a id="deroster-btn" @click="deroster()"> De-Roster</a>
+              <a id="roster-btn" @click="roster()"> Roster</a>
+            </div>
+            <div class="btn-container" v-else></div>
+          </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header>
+          <h1>Services and Products</h1>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div id="input-container">
+            <v-text-field
+              dark
+              v-model="newBarberName"
+              label="Barber Name"
+            ></v-text-field>
+            <a @click="createBarber(newBarberName)">Add</a>
+          </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
@@ -63,19 +95,20 @@ export default {
         selectedYear: null,
         selectedMonth: null,
       },
+      panel: [],
     };
   },
   methods: {
     createBarber: async function(barberName) {
       if (barberName !== "") await fb.createBarber(barberName);
       this.newBarberName = "";
-      (this.selectedBarberInfo = {
+      this.selectedBarberInfo = {
         name: "",
         roster: [],
-      }),
-        // re-render components
+      };
 
-        (this.bsKey += 1);
+      // re-render components
+      this.bsKey += 1;
       this.cKey += 1;
     },
     roster: async function() {
@@ -152,6 +185,12 @@ export default {
   color: aliceblue;
   padding: 1px 10px 1px 10px;
   background: gray;
+}
+#calendar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .btn-container {
   padding-top: 10px;
