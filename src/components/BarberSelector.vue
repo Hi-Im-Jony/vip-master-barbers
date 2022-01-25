@@ -51,8 +51,8 @@ export default {
     this.getAllBarbers();
   },
   methods: {
-    getAllBarbers: function() {
-      fb.getAllBarbers().then((response) => {
+    getAllBarbers: async function() {
+      await fb.getAllBarbers().then((response) => {
         this.barbers = response;
       });
     },
@@ -84,8 +84,12 @@ export default {
     deleteBarber: async function(barber) {
       this.confirmDialogue = false;
       this.loading = true;
+
+      // remove barber from backend
       await fb.deleteBarber(barber);
-      document.location.reload();
+
+      // remove barber from frontend
+      this.barbers.splice(this.barbers.indexOf(barber), 1);
       this.loading = false;
     },
   },
