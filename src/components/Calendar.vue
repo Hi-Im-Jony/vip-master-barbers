@@ -87,7 +87,7 @@ export default {
     },
     currentDay: function() {
       const today = new Date();
-      return today.getDay;
+      return today.getDay();
     },
     nextMonth: function() {
       this.month++;
@@ -115,17 +115,18 @@ export default {
     },
     selectDate: function(day) {
       let date = day + ":" + (this.month + 1) + ":" + this.year;
-      if (!this.selectedDates.includes(date)) {
-        if (this.roster) {
-          // unlimited dates can be selected
-          this.selectedDates.push(date);
+      if (!this.checkIfInPast(date))
+        if (!this.selectedDates.includes(date)) {
+          if (this.roster) {
+            // unlimited dates can be selected
+            this.selectedDates.push(date);
+          } else {
+            // only one date can be selected
+            this.selectedDates = [date];
+          }
         } else {
-          // only one date can be selected
-          this.selectedDates = [date];
+          this.selectedDates.splice(this.selectedDates.indexOf(date), 1);
         }
-      } else {
-        this.selectedDates.splice(this.selectedDates.indexOf(date), 1);
-      }
       this.$emit("input", {
         selectedDays: this.selectedDates,
         selectedYear: this.year,
@@ -133,15 +134,49 @@ export default {
       });
     },
     getDayClass: function(day) {
-      let date = day + ":" + (this.month + 1) + ":" + this.year;
       let classes = "day-num";
+
+      let date = day + ":" + (this.month + 1) + ":" + this.year;
+      let inPast = this.checkIfInPast(date);
+      if (inPast) {
+        classes = classes + " in-past";
+      }
       if (this.selectedDates.includes(date)) {
         classes = classes + " selected";
       }
       if (this.roster.includes(date)) {
         classes = classes + " rostered";
       }
+
       return classes;
+    },
+    checkIfInPast: function(date) {
+      let currentDate = new Date();
+      if (currentDate.getFullYear() > this.year) return true;
+      if (
+        currentDate.getFullYear() == this.year &&
+        currentDate.getMonth() < this.month
+      )
+        return false;
+
+      // get current day date (ie, 25th)
+      let str = currentDate.toString();
+      let arr = str.split(" ");
+      let currentDay = parseInt(arr[2]);
+
+      // get given day date
+      arr = date.split(":");
+      let givenDay = parseInt(arr[0]);
+
+      if (
+        currentDate.getFullYear() == this.year &&
+        currentDate.getMonth() == this.month &&
+        currentDay > givenDay
+      )
+        return true;
+
+      // date not in the past
+      return false;
     },
   },
 };
@@ -178,8 +213,8 @@ export default {
   justify-content: center;
 }
 .day-num {
-  border: solid whitesmoke;
-  color: whitesmoke;
+  border: solid rgba(228, 228, 228);
+  color: rgb(228, 228, 228);
   border-radius: 20px;
   width: 35px;
   height: 35px;
@@ -188,16 +223,22 @@ export default {
   justify-content: center;
   margin-bottom: 5px;
 }
+.in-past {
+  opacity: 0.5;
+}
 .empty-day {
-  border: solid grey;
+  opacity: 0.5;
+  border: solid rgba(228, 228, 228);
   border-radius: 20px;
   width: 35px;
   height: 35px;
 }
 .selected {
   background: rgb(70, 88, 41);
+  color: whitesmoke;
 }
 .rostered {
-  border: solid rgb(70, 88, 41);
+  border: solid rgb(53, 125, 167);
+  color: whitesmoke;
 }
 </style>
