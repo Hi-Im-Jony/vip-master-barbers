@@ -1,7 +1,5 @@
 <template>
   <div id="admin-page">
-    <loader :loading="loading" />
-
     <v-expansion-panels dark v-model="panel" multiple>
       <!-- Panel 1 -->
       <v-expansion-panel>
@@ -41,16 +39,14 @@
 <script>
 import Calendar from "../components/Calendar.vue";
 import BarberSelector from "../components/BarberSelector.vue";
-import Loader from "../components/Loader.vue";
+
 import BarberAdder from "../components/BarberAdder.vue";
 import BarberManager from "../components/BarberManager.vue";
 export default {
-  components: { Calendar, BarberSelector, Loader, BarberAdder, BarberManager },
+  components: { Calendar, BarberSelector, BarberAdder, BarberManager },
   data() {
     return {
-      loading: false,
       managerKey: 1,
-
       panel: [],
     };
   },
