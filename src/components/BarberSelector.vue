@@ -1,6 +1,7 @@
 <template>
   <div id="barber-selector">
     <loader :loading="loading" />
+
     <v-dialog v-model="confirmDialogue">
       <div id="dialog">
         <p>Are you sure you want to remove {{ selectedBarber }}?</p>
@@ -12,6 +13,9 @@
       </div>
     </v-dialog>
     <h2>Select a Barber</h2>
+    <p style="margin: 10px; color: red" v-if="barbers == ''">
+      There Are Currently No Barbers In The System
+    </p>
 
     <div class="barber-container" v-for="barber in barbers" :key="barber">
       <div :class="getBarberClass(barber)" @click="update(barber)">
@@ -38,7 +42,7 @@ export default {
     return {
       loading: false,
       confirmDialogue: false,
-      barbers: [],
+      barbers: "",
       selectedBarber: "",
       roster: [],
     };
