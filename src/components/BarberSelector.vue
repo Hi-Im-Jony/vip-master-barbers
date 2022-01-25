@@ -13,9 +13,12 @@
       </div>
     </v-dialog>
     <h2>Select a Barber</h2>
-    <p style="margin: 10px; color: red" v-if="barbers == ''">
+    <p style="margin: 10px; color: red" v-if="getAttempted && noBarbersFound">
       There Are Currently No Barbers In The System
     </p>
+    <div v-if="!getAttempted">
+      <preloader color="whitesmoke" />
+    </div>
 
     <div class="barber-container" v-for="barber in barbers" :key="barber">
       <div :class="getBarberClass(barber)" @click="update(barber)">
@@ -35,8 +38,9 @@
 <script>
 import * as fb from "@/fb";
 import Loader from "./Loader.vue";
+import Preloader from "./Preloader.vue";
 export default {
-  components: { Loader },
+  components: { Loader, Preloader },
   props: ["forAdmin"],
   data() {
     return {
@@ -45,7 +49,13 @@ export default {
       barbers: "",
       selectedBarber: "",
       roster: [],
+      getAttempted: false,
     };
+  },
+  computed: {
+    noBarbersFound: function() {
+      return this.barbers == 0;
+    },
   },
   created: function() {
     this.getAllBarbers();
@@ -55,6 +65,7 @@ export default {
       await fb.getAllBarbers().then((response) => {
         this.barbers = response;
       });
+      this.getAttempted = true;
     },
     getBarberClass: function(barber) {
       if (this.selectedBarber === barber) return "barber selected";
