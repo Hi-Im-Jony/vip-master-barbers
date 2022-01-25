@@ -3,10 +3,11 @@
     <loader :loading="loading" :key="loaderKey" />
 
     <v-expansion-panels dark v-model="panel" multiple>
+      <!-- Panel 1 -->
       <v-expansion-panel>
-        <v-expansion-panel-header
-          ><h1>Add a Barber</h1></v-expansion-panel-header
-        >
+        <v-expansion-panel-header>
+          <h1>Add a Barber</h1>
+        </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div id="input-container">
             <v-text-field
@@ -19,10 +20,11 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
 
+      <!-- Panel 2 -->
       <v-expansion-panel>
-        <v-expansion-panel-header
-          ><h1>Manage Barbers</h1></v-expansion-panel-header
-        >
+        <v-expansion-panel-header>
+          <h1>Manage Barbers</h1>
+        </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div id="content-container">
             <barber-selector
@@ -58,6 +60,8 @@
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
+
+      <!-- Panel 3 -->
       <v-expansion-panel>
         <v-expansion-panel-header>
           <h1>Services and Products</h1>
