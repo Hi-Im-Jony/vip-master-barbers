@@ -1,43 +1,45 @@
 <template>
-  <div id="calendar">
-    <div id="month-row">
-      <a>
-        <v-icon @click="prevMonth()" class="icon">mdi-chevron-left</v-icon>
-      </a>
-      <h3>{{ months[month][0] }}</h3>
-      <a>
-        <v-icon @click="nextMonth()" class="icon">mdi-chevron-right</v-icon>
-      </a>
+  <transition name="fade">
+    <div id="calendar">
+      <div id="month-row">
+        <a>
+          <v-icon @click="prevMonth()" class="icon">mdi-chevron-left</v-icon>
+        </a>
+        <h3>{{ months[month][0] }}</h3>
+        <a>
+          <v-icon @click="nextMonth()" class="icon">mdi-chevron-right</v-icon>
+        </a>
 
-      <v-spacer />
+        <v-spacer />
 
-      <h3>{{ year }}</h3>
-      <v-spacer />
-    </div>
+        <h3>{{ year }}</h3>
+        <v-spacer />
+      </div>
 
-    <div id="day-row">
-      <div id="days">
-        <div class="day" v-for="num in 7" :key="num">
-          <div>
-            {{ days[num - 1] }}
-          </div>
-        </div>
-        <div class="day" v-for="e in firstDayOfMonth" :key="'A' + e">
-          <div class="empty-day"></div>
-        </div>
-        <div class="day " v-for="d in months[month][1]" :key="'B' + d">
-          <a @click="selectDate(d)">
-            <div :class="getDayClass(d)">
-              {{ d }}
+      <div id="day-row">
+        <div id="days">
+          <div class="day" v-for="num in 7" :key="num">
+            <div>
+              {{ days[num - 1] }}
             </div>
-          </a>
-        </div>
-        <div class="day" v-for="em in 6 - lastDayOfMonth" :key="'C' + em">
-          <div class="empty-day"></div>
+          </div>
+          <div class="day" v-for="e in firstDayOfMonth" :key="'A' + e">
+            <div class="empty-day"></div>
+          </div>
+          <div class="day " v-for="d in months[month][1]" :key="'B' + d">
+            <a @click="selectDate(d)">
+              <div :class="getDayClass(d)">
+                {{ d }}
+              </div>
+            </a>
+          </div>
+          <div class="day" v-for="em in 6 - lastDayOfMonth" :key="'C' + em">
+            <div class="empty-day"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -193,6 +195,14 @@ export default {
 #month-row {
   display: flex;
   padding: 5px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 .icon {
   color: aliceblue;

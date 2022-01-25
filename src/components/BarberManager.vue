@@ -3,15 +3,13 @@
     <barber-selector v-model="selectedBarberInfo" :forAdmin="true" />
 
     <div id="calendar-container" :key="calendarKey">
-      <transition name="fade">
-        <calendar
-          v-if="showCalendar"
-          v-model="calendarInfo"
-          :roster="selectedBarberInfo.roster"
-          :givenMonth="calendarInfo.selectedMonth"
-          :givenYear="calendarInfo.selectedYear"
-        />
-      </transition>
+      <calendar
+        v-if="showCalendar"
+        v-model="calendarInfo"
+        :roster="selectedBarberInfo.roster"
+        :givenMonth="calendarInfo.selectedMonth"
+        :givenYear="calendarInfo.selectedYear"
+      />
     </div>
 
     <div
@@ -130,14 +128,7 @@ export default {
 #calendar-container {
   height: 400px;
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
+
 .btn-container {
   padding-top: 10px;
   font-size: 18px;
