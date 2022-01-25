@@ -25,13 +25,15 @@ export default {
         name: "",
         roster: [],
       };
+      // let parent know a barber was added
+      this.$emit("barberAdded");
     },
   },
 };
 </script>
 
 <style scoped>
-#input-container {
+#barber-adder {
   display: flex;
   align-items: center;
 }
