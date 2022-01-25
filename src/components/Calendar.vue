@@ -234,11 +234,11 @@ export default {
   height: 35px;
 }
 .selected {
-  background: rgb(70, 88, 41);
-  color: whitesmoke;
+  border: solid rgb(35, 70, 185) !important;
+  color: rgb(35, 70, 185) !important;
 }
 .rostered {
-  border: solid rgb(53, 125, 167);
-  color: whitesmoke;
+  border: solid rgb(35, 185, 68);
+  color: rgb(35, 185, 68);
 }
 </style>
