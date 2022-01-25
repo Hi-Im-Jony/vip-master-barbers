@@ -89,15 +89,15 @@ export default {
         roster: this.roster,
       });
     },
-    confirmDelete: async function() {
+    confirmDelete: function() {
       this.confirmDialogue = true;
     },
-    deleteBarber: async function(barber) {
+    deleteBarber: function(barber) {
       this.confirmDialogue = false;
       this.loading = true;
 
       // remove barber from backend
-      await fb.deleteBarber(barber);
+      fb.deleteBarber(barber);
 
       // remove barber from frontend
       this.barbers.splice(this.barbers.indexOf(barber), 1);
