@@ -7,7 +7,7 @@
     v-model="loading"
   >
     <div id="loader-container">
-      <preloader color="blue" />
+      <preloader color="#295D8F " />
     </div>
   </v-dialog>
 </template>
