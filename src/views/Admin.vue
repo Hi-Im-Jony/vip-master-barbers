@@ -24,20 +24,25 @@
           ><h1>Manage Barbers</h1></v-expansion-panel-header
         >
         <v-expansion-panel-content>
-          <div id="calendar-container">
+          <div id="content-container">
             <barber-selector
               v-model="selectedBarberInfo"
               :key="bsKey"
               :forAdmin="true"
             />
 
-            <calendar
-              v-model="calendarInfo"
-              :roster="selectedBarberInfo.roster"
-              :givenMonth="calendarInfo.selectedMonth"
-              :givenYear="calendarInfo.selectedYear"
-              :key="cKey"
-            />
+            <div id="calendar-container">
+              <transition name="fade">
+                <calendar
+                  v-if="showCalendar"
+                  v-model="calendarInfo"
+                  :roster="selectedBarberInfo.roster"
+                  :givenMonth="calendarInfo.selectedMonth"
+                  :givenYear="calendarInfo.selectedYear"
+                  :key="cKey"
+                />
+              </transition>
+            </div>
 
             <div
               class="btn-container"
@@ -95,8 +100,14 @@ export default {
         selectedYear: null,
         selectedMonth: null,
       },
+
       panel: [],
     };
+  },
+  computed: {
+    showCalendar: function() {
+      return !this.loading && this.selectedBarberInfo.name != "";
+    },
   },
   methods: {
     createBarber: async function(barberName) {
@@ -113,50 +124,59 @@ export default {
     },
     roster: async function() {
       this.loading = true;
+
+      // wait for backend to roster selected days
       await fb.roster(
         this.selectedBarberInfo.name,
         this.calendarInfo.selectedDays
       );
+
+      // for every day that was selected
       for (let day in this.calendarInfo.selectedDays) {
+        // if frontend version of roster doesn't already include the day rostered
         if (
           !this.selectedBarberInfo.roster.includes(
             this.calendarInfo.selectedDays[day]
           )
         )
+          // push this day to the front end roster
           this.selectedBarberInfo.roster.push(
             this.calendarInfo.selectedDays[day]
           );
       }
-      // re-render calendar components
-      this.cKey += 1;
-      this.loaderKey += 1;
+
       this.calendarInfo.selectedDays = [];
       this.loading = false;
     },
     deroster: async function() {
       this.loading = true;
 
+      // wait for backend to deroster selected days
+      await fb.deroster(
+        this.selectedBarberInfo.name,
+        this.calendarInfo.selectedDays
+      );
+
+      // for every day that was selected
       for (let day in this.calendarInfo.selectedDays) {
+        // if frontend version of roster does contain this day
         if (
           this.selectedBarberInfo.roster.includes(
             this.calendarInfo.selectedDays[day]
           )
-        ) {
-          await fb.deroster(this.selectedBarberInfo.name, [
-            this.calendarInfo.selectedDays[day],
-          ]);
+        )
+          // remove this day from front end roster
           this.selectedBarberInfo.roster.splice(
             this.selectedBarberInfo.roster.indexOf(
               this.calendarInfo.selectedDays[day]
             ),
             1
           );
-        }
       }
-      // re-render calendar components
-      this.cKey += 1;
-      this.loaderKey += 1;
+
       this.calendarInfo.selectedDays = [];
+      // ugly way to fix rendering bug
+      this.rerender++;
       this.loading = false;
     },
   },
@@ -186,11 +206,22 @@ export default {
   padding: 1px 10px 1px 10px;
   background: gray;
 }
-#calendar-container {
+#content-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+#calendar-container {
+  height: 400px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 .btn-container {
   padding-top: 10px;
