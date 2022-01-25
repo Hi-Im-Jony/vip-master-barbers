@@ -102,6 +102,10 @@ export default {
       // remove barber from frontend
       this.barbers.splice(this.barbers.indexOf(barber), 1);
       this.loading = false;
+      this.$emit("input", {
+        name: "",
+        roster: [],
+      });
     },
   },
 };
