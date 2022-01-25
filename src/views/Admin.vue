@@ -9,14 +9,8 @@
           <h1>Add a Barber</h1>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <div id="input-container">
-            <v-text-field
-              dark
-              v-model="newBarberName"
-              label="Barber Name"
-            ></v-text-field>
-            <a @click="createBarber(newBarberName)">Add</a>
-          </div>
+          <!-- barber adder -->
+          <barber-adder />
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -26,7 +20,7 @@
           <h1>Manage Barbers</h1>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <div id="content-container">
+          <div id="panel-2-container">
             <barber-selector
               v-model="selectedBarberInfo"
               :key="bsKey"
@@ -66,16 +60,7 @@
         <v-expansion-panel-header>
           <h1>Services and Products</h1>
         </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <div id="input-container">
-            <v-text-field
-              dark
-              v-model="newBarberName"
-              label="Barber Name"
-            ></v-text-field>
-            <a @click="createBarber(newBarberName)">Add</a>
-          </div>
-        </v-expansion-panel-content>
+        <v-expansion-panel-content> </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
   </div>
@@ -86,15 +71,15 @@ import * as fb from "@/fb";
 import Calendar from "../components/Calendar.vue";
 import BarberSelector from "../components/BarberSelector.vue";
 import Loader from "../components/Loader.vue";
+import BarberAdder from "../components/BarberAdder.vue";
 export default {
-  components: { Calendar, BarberSelector, Loader },
+  components: { Calendar, BarberSelector, Loader, BarberAdder },
   data() {
     return {
       loading: false,
       bsKey: 0,
       cKey: 1,
       loaderKey: "l",
-      newBarberName: "",
       selectedBarberInfo: {
         name: "",
         roster: [],
@@ -114,18 +99,6 @@ export default {
     },
   },
   methods: {
-    createBarber: async function(barberName) {
-      if (barberName !== "") await fb.createBarber(barberName);
-      this.newBarberName = "";
-      this.selectedBarberInfo = {
-        name: "",
-        roster: [],
-      };
-
-      // re-render components
-      this.bsKey += 1;
-      this.cKey += 1;
-    },
     roster: async function() {
       this.loading = true;
 
@@ -197,20 +170,8 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-#input-container {
-  display: flex;
-  align-items: center;
-}
-#input-container a {
-  margin: 0 0 0 20px;
-  border: solid grey;
-  border-width: 1px;
 
-  color: aliceblue;
-  padding: 1px 10px 1px 10px;
-  background: gray;
-}
-#content-container {
+#panel-2-container {
   display: flex;
   flex-direction: column;
   align-items: center;
