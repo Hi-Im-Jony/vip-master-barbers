@@ -28,6 +28,7 @@
         :barber="selectedBarberInfo.name"
         :currentRoster="selectedBarberInfo.roster"
         :newDates="calendarInfo.selectedDays"
+        :visible="showTimes"
         @rostering="loading = true"
         @done="
           (loading = false),
@@ -63,19 +64,11 @@ export default {
         selectedMonth: null,
       },
       calendarKey: 0, // used for key-based re-rendering
-      loading: false,
+      loading: false, // model loader
       showTimes: false, // model times dialog
     };
   },
-  watch: {
-    // when times popup is active, scroll to number timeslot 9 for convenience
-    showTimes(visible) {
-      if (visible)
-        setTimeout(function() {
-          document.getElementById(9).scrollIntoView();
-        }, 100);
-    },
-  },
+
   computed: {
     showCalendar: function() {
       if (!this.loading && this.selectedBarberInfo.name == "") {
