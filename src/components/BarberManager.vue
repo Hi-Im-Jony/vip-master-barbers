@@ -49,6 +49,12 @@ export default {
   },
   computed: {
     showCalendar: function() {
+      if (!this.loading && this.selectedBarberInfo.name == "") {
+        this.calendarInfo.selectedMonth = null;
+        this.calendarInfo.selectedYear = null;
+        this.calendarInfo.selectedDays = [];
+      }
+
       return !this.loading && this.selectedBarberInfo.name != "";
     },
   },
