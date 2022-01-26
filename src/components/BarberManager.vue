@@ -21,7 +21,8 @@
       <a id="deroster-btn" @click="deroster()"> De-Roster</a>
       <a id="roster-btn" @click="roster()"> Roster</a>
     </div>
-    <div class="btn-container" v-else></div>
+    <div v-else class="btn-container"></div>
+    <roster-time-selector :loading="showTimes" />
   </div>
 </template>
 
@@ -29,22 +30,27 @@
 import * as fb from "@/fb";
 import BarberSelector from "./BarberSelector.vue";
 import Calendar from "./Calendar.vue";
+import RosterTimeSelector from "./RosterTimeSelector.vue";
 
 export default {
-  components: { BarberSelector, Calendar },
+  components: { BarberSelector, Calendar, RosterTimeSelector },
   data() {
     return {
+      // info emitted from barber selector
       selectedBarberInfo: {
         name: "",
         roster: [],
       },
 
-      calendarKey: 0, // used for key-based re-rendering
+      // info emitted from calendar
       calendarInfo: {
         selectedDays: [],
         selectedYear: null,
         selectedMonth: null,
       },
+      calendarKey: 0, // used for key-based re-rendering
+
+      showTimes: false, // model times dialog
     };
   },
   computed: {
