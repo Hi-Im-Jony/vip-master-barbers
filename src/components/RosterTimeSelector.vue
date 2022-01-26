@@ -34,34 +34,47 @@
 <script>
 import * as fb from "@/fb";
 export default {
-  props: ["barber", "currentRoster", "newDates", "visible"],
+  props: ["barber", "currentRoster", "newDates", "visibility"],
   data() {
     return {
       timesSelected: [],
       carouselModel: [],
+      times: {},
     };
   },
   watch: {
     carouselModel: function(newVal) {
       if (newVal == null) return;
       // scroll to "09:00"
-      const scrollableElID = newVal + "-time-list";
+      this.scroll();
+    },
+    // runs whenever component changes to visible
+    visibility: function(visible) {
+      if (visible) {
+        this.sortDates();
+        this.reset();
+        this.scroll();
+      }
+    },
+  },
+  methods: {
+    // sort newDates
+    sortDates: function() {},
+    reset: function() {
+      // reset data structure
+      this.times = {};
+      for (let date in this.newDates) {
+        console.log(this.newDates[date]);
+      }
+    },
+    // scroll to "09:00"
+    scroll: function() {
+      const scrollableElID = this.carouselModel + "-time-list";
       setTimeout(function() {
         const scrollableEl = document.getElementById(scrollableElID);
         scrollableEl.scrollTo(0, 900);
       }, 100);
     },
-    visible: function(visibility) {
-      // scroll to "09:00"
-      const scrollableElID = this.carouselModel + "-time-list";
-      if (visibility)
-        setTimeout(function() {
-          const scrollableEl = document.getElementById(scrollableElID);
-          scrollableEl.scrollTo(0, 900);
-        }, 100);
-    },
-  },
-  methods: {
     roster: async function() {
       console.log(this.timesSelected);
       this.$emit("rostering");
