@@ -77,11 +77,16 @@ export const getAllBarbers = async function() {
 };
 
 // roster a barber on given days
-export const roster = async function(barber, daysToRoster) {
+export const roster = async function(barber, daysToRoster, times) {
+  let timesStr = [];
+  for (let t in times) {
+    let time = times[t];
+    timesStr.push(time < 9 ? "0" + (time + 1) + ":00" : time + 1 + ":00");
+  }
   for (let dayToRoster in daysToRoster) {
     await setDoc(
       doc(db, "barbers", barber, "days_rostered", daysToRoster[dayToRoster]),
-      {}
+      { timesRostered: timesStr }
     );
   }
 };

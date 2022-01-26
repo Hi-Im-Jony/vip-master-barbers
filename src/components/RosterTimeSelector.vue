@@ -38,7 +38,7 @@ export default {
       this.$emit("rostering");
 
       // wait for backend to roster selected days
-      await fb.roster(this.barber, this.newDates);
+      await fb.roster(this.barber, this.newDates, this.timesSelected);
 
       // for every day that was selected
       for (let day in this.newDates) {
