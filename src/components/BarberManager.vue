@@ -28,7 +28,7 @@
         :barber="selectedBarberInfo.name"
         :currentRoster="selectedBarberInfo.roster"
         :newDates="calendarInfo.selectedDays"
-        :visible="showTimes"
+        :visibility="showTimes"
         @rostering="loading = true"
         @done="
           (loading = false),
