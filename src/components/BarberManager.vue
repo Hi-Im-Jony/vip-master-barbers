@@ -29,7 +29,11 @@
         :currentRoster="selectedBarberInfo.roster"
         :newDates="calendarInfo.selectedDays"
         @rostering="loading = true"
-        @done="(loading = false), (showTimes = false)"
+        @done="
+          (loading = false),
+            (showTimes = false),
+            (calendarInfo.selectedDays = [])
+        "
       />
     </v-dialog>
   </div>
