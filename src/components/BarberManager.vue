@@ -1,5 +1,6 @@
 <template>
   <div id="barber-manager">
+    <loader :loading="loading" />
     <barber-selector v-model="selectedBarberInfo" :forAdmin="true" />
 
     <div id="calendar-container" :key="calendarKey">
@@ -19,10 +20,18 @@
       "
     >
       <a id="deroster-btn" @click="deroster()"> De-Roster</a>
-      <a id="roster-btn" @click="roster()"> Roster</a>
+      <a id="roster-btn" @click="showTimes = true"> Roster</a>
     </div>
     <div v-else class="btn-container"></div>
-    <roster-time-selector :loading="showTimes" />
+    <v-dialog open-delay="0" v-model="showTimes">
+      <roster-time-selector
+        :barber="selectedBarberInfo.name"
+        :currentRoster="selectedBarberInfo.roster"
+        :newDates="calendarInfo.selectedDays"
+        @rostering="loading = true"
+        @done="(loading = false), (showTimes = false)"
+      />
+    </v-dialog>
   </div>
 </template>
 
@@ -31,9 +40,10 @@ import * as fb from "@/fb";
 import BarberSelector from "./BarberSelector.vue";
 import Calendar from "./Calendar.vue";
 import RosterTimeSelector from "./RosterTimeSelector.vue";
+import Loader from "./Loader.vue";
 
 export default {
-  components: { BarberSelector, Calendar, RosterTimeSelector },
+  components: { BarberSelector, Calendar, RosterTimeSelector, Loader },
   data() {
     return {
       // info emitted from barber selector
@@ -49,9 +59,18 @@ export default {
         selectedMonth: null,
       },
       calendarKey: 0, // used for key-based re-rendering
-
+      loading: false,
       showTimes: false, // model times dialog
     };
+  },
+  watch: {
+    // when times popup is active, scroll to number timeslot 9 for convenience
+    showTimes(visible) {
+      if (visible)
+        setTimeout(function() {
+          document.getElementById(9).scrollIntoView();
+        }, 100);
+    },
   },
   computed: {
     showCalendar: function() {
@@ -65,35 +84,8 @@ export default {
     },
   },
   methods: {
-    roster: async function() {
-      this.loading = true;
+    // roster method is in rosterTimeSelector
 
-      // wait for backend to roster selected days
-      await fb.roster(
-        this.selectedBarberInfo.name,
-        this.calendarInfo.selectedDays
-      );
-
-      // for every day that was selected
-      for (let day in this.calendarInfo.selectedDays) {
-        // if frontend version of roster doesn't already include the day rostered
-        if (
-          !this.selectedBarberInfo.roster.includes(
-            this.calendarInfo.selectedDays[day]
-          )
-        )
-          // push this day to the front end roster
-          this.selectedBarberInfo.roster.push(
-            this.calendarInfo.selectedDays[day]
-          );
-      }
-
-      // reset and rerender
-      this.calendarInfo.selectedDays = [];
-      this.calendarKey++;
-
-      this.loading = false;
-    },
     deroster: async function() {
       this.loading = true;
 
