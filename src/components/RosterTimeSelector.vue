@@ -16,7 +16,7 @@
             class="time-list"
             dark
           >
-            <v-list-item-group v-model="timesSelected" multiple color="success">
+            <v-list-item-group v-model="times[date]" multiple color="success">
               <v-list-item class="time-slot" v-for="time in 24" :key="time">
                 <v-list-item-content
                   :id="dates.indexOf(date) + '-' + (time - 1)"
@@ -24,7 +24,8 @@
                 >
                   <p v-if="time - 1 < 10">0{{ time - 1 }}:00</p>
                   <p v-else>{{ time - 1 }}:00</p>
-                  <p>{{ dates.indexOf(date) + "-" + (time - 1) }}</p>
+
+                  <!-- <p>{{ dates.indexOf(date) + "-" + (time - 1) }}</p> -->
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -54,6 +55,7 @@ export default {
       if (newVal == null) return;
       // scroll to "09:00"
       this.scroll();
+      console.log(this.times);
     },
     // runs whenever component changes to visible
     visibility: function(visible) {
@@ -61,6 +63,7 @@ export default {
         this.dates = this.sortDates(this.dates);
         this.reset();
         this.scroll();
+        this.carouselModel = 0;
       }
     },
   },
@@ -79,6 +82,7 @@ export default {
         }
         dates[j + 1] = current;
       }
+      this.carouselKey++;
       return dates;
     },
     isLessThan: function(date1, date2) {
@@ -94,10 +98,13 @@ export default {
     },
     reset: function() {
       // reset data structure
-      this.times = {};
       for (let date in this.newDates) {
-        console.log(this.newDates[date]);
+        const key = this.newDates[date];
+        if (!this.times.hasOwnProperty(key)) {
+          this.times[key] = [];
+        }
       }
+      console.log(this.times);
       this.carouselKey++;
     },
     // scroll to "09:00"
@@ -105,7 +112,7 @@ export default {
       const scrollableElID = this.carouselModel + "-time-list";
       setTimeout(function() {
         const scrollableEl = document.getElementById(scrollableElID);
-        scrollableEl.scrollTo(0, 900);
+        if (scrollableEl) scrollableEl.scrollTo(0, 600);
       }, 100);
     },
     roster: async function() {
