@@ -116,7 +116,13 @@ export default {
       });
     },
     selectDate: function(day) {
-      let date = day + ":" + (this.month + 1) + ":" + this.year;
+      let date =
+        day +
+        ":" +
+        (this.month < 9 ? "0" : "") +
+        (this.month + 1) +
+        ":" +
+        this.year;
       if (!this.checkIfInPast(date))
         if (!this.selectedDates.includes(date)) {
           if (this.roster) {
@@ -138,7 +144,13 @@ export default {
     getDayClass: function(day) {
       let classes = "day-num";
 
-      let date = day + ":" + (this.month + 1) + ":" + this.year;
+      let date =
+        day +
+        ":" +
+        (this.month < 9 ? "0" : "") +
+        (this.month + 1) +
+        ":" +
+        this.year;
       let inPast = this.checkIfInPast(date);
       if (inPast) {
         classes = classes + " in-past";
