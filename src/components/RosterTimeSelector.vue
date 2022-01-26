@@ -1,25 +1,30 @@
 <template>
   <div id="roster-time-selector">
     <h2>Select Hours</h2>
-    <v-carousel v-model="carouselModel" id="carousel" hide-delimiters>
-      <v-carousel-item v-for="date in newDates" :key="date" dark>
+    <v-carousel
+      v-model="carouselModel"
+      id="carousel"
+      hide-delimiters
+      :key="carouselKey"
+    >
+      <v-carousel-item v-for="date in dates" :key="date" dark>
         <p style="font-size:25px;">{{ date }}</p>
 
         <v-card>
           <v-list
-            :id="newDates.indexOf(date) + '-time-list'"
+            :id="dates.indexOf(date) + '-time-list'"
             class="time-list"
             dark
           >
             <v-list-item-group v-model="timesSelected" multiple color="success">
               <v-list-item class="time-slot" v-for="time in 24" :key="time">
                 <v-list-item-content
-                  :id="newDates.indexOf(date) + '-' + (time - 1)"
+                  :id="dates.indexOf(date) + '-' + (time - 1)"
                   style="font-size:26px"
                 >
                   <p v-if="time - 1 < 10">0{{ time - 1 }}:00</p>
                   <p v-else>{{ time - 1 }}:00</p>
-                  <p>{{ newDates.indexOf(date) + "-" + (time - 1) }}</p>
+                  <p>{{ dates.indexOf(date) + "-" + (time - 1) }}</p>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -39,7 +44,9 @@ export default {
     return {
       timesSelected: [],
       carouselModel: [],
+      carouselKey: 0,
       times: {},
+      dates: this.newDates,
     };
   },
   watch: {
@@ -51,21 +58,47 @@ export default {
     // runs whenever component changes to visible
     visibility: function(visible) {
       if (visible) {
-        this.sortDates();
+        this.dates = this.sortDates(this.dates);
         this.reset();
         this.scroll();
       }
     },
   },
   methods: {
-    // sort newDates
-    sortDates: function() {},
+    // sort newDates using insertion sort
+    sortDates: function(dates) {
+      let n = dates.length;
+      for (let i = 1; i < n; i++) {
+        // Choosing the first element in our unsorted subarray
+        let current = dates[i];
+        // The last element of our sorted subarray
+        let j = i - 1;
+        while (j > -1 && this.isLessThan(current, dates[j])) {
+          dates[j + 1] = dates[j];
+          j--;
+        }
+        dates[j + 1] = current;
+      }
+      return dates;
+    },
+    isLessThan: function(date1, date2) {
+      const arr1 = date1.split(":");
+      const arr2 = date2.split(":");
+
+      if (arr1[2] < arr2[2]) return true;
+      if (arr1[2] == arr2[2] && arr1[1] < arr2[1]) return true;
+      if (arr1[2] == arr2[2] && arr1[1] == arr2[1] && arr1[0] < arr2[0])
+        return true;
+
+      return false;
+    },
     reset: function() {
       // reset data structure
       this.times = {};
       for (let date in this.newDates) {
         console.log(this.newDates[date]);
       }
+      this.carouselKey++;
     },
     // scroll to "09:00"
     scroll: function() {
