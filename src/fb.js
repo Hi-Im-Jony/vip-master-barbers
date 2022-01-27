@@ -82,7 +82,7 @@ export const roster = async function(barber, dayToRoster, times) {
   let timesStr = [];
   for (let t in times) {
     let time = times[t];
-    timesStr.push(time < 9 ? "0" + time + ":00" : time + ":00");
+    timesStr.push(time < 10 ? "0" + time + ":00" : time + ":00");
   }
 
   await setDoc(doc(db, "barbers", barber, "days_rostered", dayToRoster), {
