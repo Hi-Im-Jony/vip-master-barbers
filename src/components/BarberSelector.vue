@@ -180,7 +180,8 @@ export default {
   display: none;
 }
 .delete-selected {
-  color: red !important;
+  color: rgb(161, 25, 25);
+  font-size: 30px;
   margin-left: 5px;
 }
 </style>
