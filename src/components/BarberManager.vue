@@ -107,6 +107,7 @@ export default {
     },
 
     rosterDefault: async function() {
+      this.loading = true;
       console.log("check");
       let defaultSchedule = await fb.getRosteredDayTimes(
         this.selectedBarberInfo.name,
