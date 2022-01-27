@@ -8,7 +8,7 @@
       :key="carouselKey"
     >
       <v-carousel-item v-for="date in dates" :key="date" dark>
-        <p style="font-size:25px;">{{ currentDateSelected }}</p>
+        <p style="font-size:25px;">{{ date }}</p>
 
         <v-card>
           <v-list
