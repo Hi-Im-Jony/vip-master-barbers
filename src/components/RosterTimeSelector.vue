@@ -163,12 +163,7 @@ export default {
       }
       for (let date in this.currentRoster) {
         // get rostered times of selected days
-        if (
-          !(this.currentRoster[date] == "For All") &&
-          !(this.currentRoster[date] == "init") &&
-          !(this.currentRoster[date] == null) &&
-          this.newDates.includes(this.currentRoster[date])
-        ) {
+        if (this.newDates.includes(this.currentRoster[date])) {
           this.timesSelected[
             this.currentRoster[date]
           ] = await fb.getRosteredDayTimes(
