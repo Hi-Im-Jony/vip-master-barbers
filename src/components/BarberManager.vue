@@ -171,6 +171,7 @@ export default {
       // reset and rerender
       this.calendarInfo.selectedDays = [];
       this.calendarKey = this.calendarKey + 1;
+      this.rtsKey = this.rtsKey + 1;
       this.loading = false;
     },
   },
