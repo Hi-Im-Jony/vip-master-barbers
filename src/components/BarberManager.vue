@@ -147,12 +147,14 @@ export default {
   align-items: center;
   width: 75vw;
   height: 60px;
+  text-align: center;
 }
 #deroster-btn {
   color: aliceblue;
   padding: 1px 10px 1px 10px;
   background: rgb(161, 25, 25);
   margin: 10px;
+  width: 120px;
 }
 
 #roster-btn {
@@ -160,5 +162,6 @@ export default {
   padding: 1px 10px 1px 10px;
   background: rgb(27, 117, 19);
   margin: 10px;
+  width: 120px;
 }
 </style>
