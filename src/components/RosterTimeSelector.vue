@@ -36,10 +36,7 @@
                 class="time-slot"
                 v-for="time in 24"
                 :key="time"
-                @click="
-                  currentDateSelected = date;
-                  quickSelect(time);
-                "
+                @click="quickSelect(time)"
               >
                 <v-list-item-content
                   :id="dates.indexOf(date) + '-' + (time - 1)"
@@ -56,7 +53,10 @@
         </v-card>
       </v-carousel-item>
     </v-carousel>
-    <a id="roster-btn" @click="roster()"> Roster</a>
+    <div class="btn-container">
+      <a id="set-default-btn" @click="setDefault()">Set Default</a>
+      <a id="submit-btn" @click="submit()"> Submit</a>
+    </div>
   </div>
 </template>
 
@@ -69,11 +69,17 @@ export default {
     return {
       carouselModel: [],
       carouselKey: 0,
+      default: this.getDefault(),
       timesSelected: {},
-      currentDateSelected: "",
+
       dates: this.newDates,
       quickEnabled: false,
     };
+  },
+  computed: {
+    dateSelected: function() {
+      return this.dates[this.carouselModel];
+    },
   },
   watch: {
     visibility: async function(visible) {
@@ -100,7 +106,7 @@ export default {
     quickSelect: function(newestClick) {
       if (!this.quickEnabled) return;
       newestClick--;
-      let times = this.timesSelected[this.currentDateSelected];
+      let times = this.timesSelected[this.dateSelected];
       if (times.length < 1) return; // nothing to do
 
       // numerical sort
@@ -182,11 +188,12 @@ export default {
         if (scrollableEl) scrollableEl.scrollTo(0, 600);
       }, 100);
     },
-    roster: async function() {
+    submit: async function() {
       this.$emit("rostering");
 
       let updatedRoster = this.currentRoster;
       for (let day in this.timesSelected) {
+        console.log(day);
         let timesSelected = this.timesSelected[day];
         if (timesSelected.length > 0) {
           // actually roster
@@ -203,6 +210,23 @@ export default {
       }
       this.$emit("done", updatedRoster);
       this.timesSelected = {};
+    },
+    setDefault: async function() {
+      // console.log(this.dateSelected);
+      await fb.roster(
+        this.barber,
+        "default",
+        this.timesSelected[this.dateSelected]
+      );
+      this.default = await this.getDefault();
+    },
+    getDefault: async function() {
+      let defaultSchedule = await fb.getRosteredDayTimes(
+        this.barber,
+        "default"
+      );
+      console.log(defaultSchedule);
+      return defaultSchedule;
     },
     parseDate: function(date) {
       const dateSplit = date.split(":");
@@ -260,10 +284,38 @@ export default {
   position: relative;
 }
 
-#roster-btn {
+.btn-container {
+  padding-top: 10px;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+}
+
+#set-default-btn {
   color: aliceblue;
   padding: 1px 10px 1px 10px;
-  background: rgb(27, 117, 19);
+  background: rgb(139, 131, 131);
+  margin: 10px;
+  width: 100px;
+}
+
+#submit-btn {
+  color: aliceblue;
+  padding: 1px 10px 1px 10px;
+  background: rgb(50, 122, 43);
   margin: 20px;
+  width: 100px;
+}
+
+#roster-default-btn {
+  color: aliceblue;
+  padding: 1px 10px 1px 10px;
+  background: rgb(139, 131, 131);
+  margin: 20px;
+  flex: 1 1 0px;
 }
 </style>
