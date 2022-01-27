@@ -72,7 +72,7 @@ export default {
       timesSelected: {},
       currentDateSelected: "",
       dates: this.newDates,
-      quickEnabled: true,
+      quickEnabled: false,
     };
   },
   watch: {
@@ -176,13 +176,10 @@ export default {
 
       let updatedRoster = this.currentRoster;
       for (let day in this.timesSelected) {
-        let selectedTimes = this.timesSelected[day];
-        if (selectedTimes.length > 0) {
-          // let backend do its thing
-          await fb.roster(this.barber, [day], this.timesSelected[day]);
-          // update front end roster
-          if (!updatedRoster.includes(day)) updatedRoster.push(day);
-        }
+        // let backend do its thing
+        await fb.roster(this.barber, day, this.timesSelected[day]);
+        // update front end roster
+        if (!updatedRoster.includes(day)) updatedRoster.push(day);
       }
 
       this.$emit("done", updatedRoster);
