@@ -115,7 +115,9 @@ export const getRosteredDays = async function(barber) {
 export const getRosteredDayTimes = async function(barber, day) {
   const docRef = doc(db, "barbers", barber, "days_rostered", day);
   const query = await getDoc(docRef);
-  let times = query.data().timesRostered;
+  let times = [];
+  if (query.data()) times = query.data().timesRostered;
+  else return times;
   for (let t in times) {
     let tS = times[t];
     tS = tS.split(":");
