@@ -91,7 +91,6 @@ export default {
       this.showTimes = false;
       this.calendarInfo.selectedDays = [];
       this.calendarKey = this.calendarKey + 1;
-      console.log(updatedRoster);
     },
 
     deroster: async function() {

@@ -167,7 +167,6 @@ export default {
         if (selectedTimes.length > 0) {
           // let backend do its thing
           await fb.roster(this.barber, [day], this.timesSelected[day]);
-          console.log(day);
           // update front end roster
           if (!updatedRoster.includes(day)) updatedRoster.push(day);
         }
