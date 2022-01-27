@@ -16,7 +16,11 @@
             class="time-list"
             dark
           >
-            <v-list-item-group v-model="times[date]" multiple color="success">
+            <v-list-item-group
+              v-model="timesSelected[date]"
+              multiple
+              color="success"
+            >
               <v-list-item class="time-slot" v-for="time in 24" :key="time">
                 <v-list-item-content
                   :id="dates.indexOf(date) + '-' + (time - 1)"
@@ -43,10 +47,9 @@ export default {
   props: ["barber", "currentRoster", "newDates", "visibility"],
   data() {
     return {
-      timesSelected: [],
       carouselModel: [],
       carouselKey: 0,
-      times: {},
+      timesSelected: {},
       dates: this.newDates,
     };
   },
@@ -55,17 +58,22 @@ export default {
       if (newVal == null) return;
       // scroll to "09:00"
       this.scroll();
-      console.log(this.times);
     },
     // runs whenever component changes to visible
     visibility: function(visible) {
       if (visible) {
-        this.dates = this.sortDates(this.dates);
+        this.dates = this.sortDates(this.newDates);
         this.reset();
         this.scroll();
         this.carouselModel = 0;
       }
     },
+  },
+  created: function() {
+    this.dates = this.sortDates(this.newDates);
+    this.reset();
+    this.scroll();
+    this.carouselModel = 0;
   },
   methods: {
     // sort newDates using insertion sort
@@ -100,11 +108,10 @@ export default {
       // reset data structure
       for (let date in this.newDates) {
         const key = this.newDates[date];
-        if (!this.times.hasOwnProperty(key)) {
-          this.times[key] = [];
+        if (!this.timesSelected.hasOwnProperty(key)) {
+          this.timesSelected[key] = [];
         }
       }
-      console.log(this.times);
       this.carouselKey++;
     },
     // scroll to "09:00"
@@ -116,21 +123,22 @@ export default {
       }, 100);
     },
     roster: async function() {
-      console.log(this.timesSelected);
       this.$emit("rostering");
 
-      // wait for backend to roster selected days
-      await fb.roster(this.barber, this.newDates, this.timesSelected);
-
-      // for every day that was selected
-      for (let day in this.newDates) {
-        // if frontend version of roster doesn't already include the day rostered
-        if (!this.currentRoster.includes(this.newDates[day]))
-          // push this day to the front end roster
-          this.currentRoster.push(this.newDates[day]);
+      let updatedRoster = this.currentRoster;
+      for (let day in this.timesSelected) {
+        let selectedTimes = this.timesSelected[day];
+        if (selectedTimes.length > 0) {
+          // let backend do its thing
+          await fb.roster(this.barber, [day], this.timesSelected[day]);
+          console.log(day);
+          // update front end roster
+          if (!updatedRoster.includes(day)) updatedRoster.push(day);
+        }
       }
-      this.$emit("done");
-      this.timesSelected = [];
+
+      this.$emit("done", updatedRoster);
+      this.timesSelected = {};
     },
   },
 };

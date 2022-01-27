@@ -29,12 +29,9 @@
         :currentRoster="selectedBarberInfo.roster"
         :newDates="calendarInfo.selectedDays"
         :visibility="showTimes"
+        :key="rtsKey"
         @rostering="loading = true"
-        @done="
-          (loading = false),
-            (showTimes = false),
-            (calendarInfo.selectedDays = [])
-        "
+        @done="rosteringDone"
       />
     </v-dialog>
   </div>
@@ -63,10 +60,16 @@ export default {
         selectedYear: null,
         selectedMonth: null,
       },
-      calendarKey: 0, // used for key-based re-rendering
+      rtsKey: "rtsKey",
+      calendarKey: "calendarKey", // used for key-based re-rendering
       loading: false, // model loader
       showTimes: false, // model times dialog
     };
+  },
+  watch: {
+    calendarInfo: function() {
+      // console.log(this.calendarInfo.selectedDays);
+    },
   },
 
   computed: {
@@ -81,7 +84,14 @@ export default {
     },
   },
   methods: {
-    // roster method is in rosterTimeSelector
+    rosteringDone: function(updatedRoster) {
+      // console.log(updatedRoster);
+      // this.selectedBarberInfo.roster = updatedRoster;
+      this.loading = false;
+      this.showTimes = false;
+      this.calendarKey = this.calendarKey + 1;
+      console.log(updatedRoster);
+    },
 
     deroster: async function() {
       this.loading = true;
@@ -111,8 +121,7 @@ export default {
 
       // reset and rerender
       this.calendarInfo.selectedDays = [];
-      this.calendarKey++;
-
+      this.calendarKey = this.calendarKey + 1;
       this.loading = false;
     },
   },
