@@ -89,6 +89,7 @@ export default {
       // this.selectedBarberInfo.roster = updatedRoster;
       this.loading = false;
       this.showTimes = false;
+      this.calendarInfo.selectedDays = [];
       this.calendarKey = this.calendarKey + 1;
       console.log(updatedRoster);
     },
