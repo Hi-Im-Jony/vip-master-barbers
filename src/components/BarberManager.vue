@@ -19,8 +19,21 @@
         selectedBarberInfo.name != '' && calendarInfo.selectedDays.length > 0
       "
     >
-      <a id="deroster-btn" @click="deroster()"> De-Roster</a>
-      <a id="roster-btn" @click="showTimes = true"> Roster</a>
+      <a @click="deroster()">
+        <v-icon id="deroster-btn">
+          mdi-calendar-remove-outline
+        </v-icon>
+      </a>
+      <a @click="showTimes = true">
+        <v-icon id="roster-default-btn">
+          mdi-calendar-multiple-check
+        </v-icon>
+      </a>
+      <a @click="showTimes = true">
+        <v-icon id="roster-btn">
+          mdi-calendar-clock-outline
+        </v-icon>
+      </a>
     </div>
     <div v-else class="btn-container"></div>
     <v-dialog open-delay="0" v-model="showTimes">
@@ -150,18 +163,23 @@ export default {
   text-align: center;
 }
 #deroster-btn {
-  color: aliceblue;
   padding: 1px 10px 1px 10px;
-  background: rgb(161, 25, 25);
+  color: rgb(161, 25, 25);
   margin: 10px;
-  width: 120px;
+  font-size: 35px;
+}
+
+#roster-default-btn {
+  padding: 1px 10px 1px 10px;
+  color: rgb(36, 161, 25);
+  margin: 10px;
+  font-size: 35px;
 }
 
 #roster-btn {
-  color: aliceblue;
   padding: 1px 10px 1px 10px;
-  background: rgb(27, 117, 19);
+  color: rgb(35, 70, 185);
   margin: 10px;
-  width: 120px;
+  font-size: 35px;
 }
 </style>
