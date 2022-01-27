@@ -176,10 +176,20 @@ export default {
 
       let updatedRoster = this.currentRoster;
       for (let day in this.timesSelected) {
-        // let backend do its thing
-        await fb.roster(this.barber, day, this.timesSelected[day]);
-        // update front end roster
-        if (!updatedRoster.includes(day)) updatedRoster.push(day);
+        let timesSelected = this.timesSelected[day];
+        if (timesSelected.length > 0) {
+          console.log(timesSelected);
+          // actually roster
+          await fb.roster(this.barber, day, timesSelected);
+          // update front end roster
+          if (!updatedRoster.includes(day)) updatedRoster.push(day);
+        } else {
+          // actually deroster
+          await fb.deroster(this.barber, [day]);
+          // remove from front end roster
+          if (updatedRoster.includes(day))
+            updatedRoster.splice(updatedRoster.indexOf(day), 1);
+        }
       }
 
       this.$emit("done", updatedRoster);
