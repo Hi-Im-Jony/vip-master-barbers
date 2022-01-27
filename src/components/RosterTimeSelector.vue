@@ -8,7 +8,7 @@
       :key="carouselKey"
     >
       <v-carousel-item v-for="date in dates" :key="date" dark>
-        <p style="font-size:25px;">{{ date }}</p>
+        <p style="font-size:25px;">{{ currentDateSelected }}</p>
 
         <v-card>
           <v-list
@@ -21,7 +21,15 @@
               multiple
               color="success"
             >
-              <v-list-item class="time-slot" v-for="time in 24" :key="time">
+              <v-list-item
+                class="time-slot"
+                v-for="time in 24"
+                :key="time"
+                @click="
+                  currentDateSelected = date;
+                  quickSelect(time);
+                "
+              >
                 <v-list-item-content
                   :id="dates.indexOf(date) + '-' + (time - 1)"
                   style="font-size:26px"
@@ -43,6 +51,7 @@
 
 <script>
 import * as fb from "@/fb";
+import Vue from "vue";
 export default {
   props: ["barber", "currentRoster", "newDates", "visibility"],
   data() {
@@ -50,16 +59,11 @@ export default {
       carouselModel: [],
       carouselKey: 0,
       timesSelected: {},
+      currentDateSelected: "",
       dates: this.newDates,
     };
   },
   watch: {
-    carouselModel: function(newVal) {
-      if (newVal == null) return;
-      // scroll to "09:00"
-      this.scroll();
-    },
-    // runs whenever component changes to visible
     visibility: function(visible) {
       if (visible) {
         this.dates = this.sortDates(this.newDates);
@@ -67,6 +71,11 @@ export default {
         this.scroll();
         this.carouselModel = 0;
       }
+    },
+    carouselModel: function(newVal) {
+      if (newVal == null) return;
+      // scroll to "09:00"
+      this.scroll();
     },
   },
   created: function() {
@@ -76,6 +85,33 @@ export default {
     this.carouselModel = 0;
   },
   methods: {
+    quickSelect: function(newestClick) {
+      newestClick--;
+      let times = this.timesSelected[this.currentDateSelected];
+      if (times.length < 1) return; // nothing to do
+
+      // numerical sort
+      times.sort(function(a, b) {
+        return a - b;
+      });
+
+      let startTime = times[0];
+      let endTime = times[times.length - 1];
+
+      if (newestClick <= startTime) {
+        // "fill" from old startTime to new startTime
+        for (let i = startTime - 1; i > newestClick; i--) {
+          times.unshift(i);
+        }
+      }
+
+      // if in between, do nothing
+      else if (newestClick >= endTime) {
+        for (let i = endTime + 1; i < newestClick; i++) {
+          times.push(i);
+        }
+      }
+    },
     // sort newDates using insertion sort
     sortDates: function(dates) {
       let n = dates.length;
@@ -109,7 +145,7 @@ export default {
       for (let date in this.newDates) {
         const key = this.newDates[date];
         if (!this.timesSelected.hasOwnProperty(key)) {
-          this.timesSelected[key] = [];
+          Vue.set(this.timesSelected, key, []);
         }
       }
       this.carouselKey++;
