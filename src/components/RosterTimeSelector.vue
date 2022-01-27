@@ -1,6 +1,7 @@
 <template>
   <div id="roster-time-selector">
     <h2>Select Hours</h2>
+
     <v-carousel
       v-model="carouselModel"
       id="carousel"
@@ -8,7 +9,17 @@
       :key="carouselKey"
     >
       <v-carousel-item v-for="date in dates" :key="date" dark>
-        <p style="font-size:25px;">{{ date }}</p>
+        <div style="font-size:25px;" id="top-row">
+          <p>{{ date }}</p>
+          <v-checkbox
+            id="quick-checkbox"
+            dark
+            v-model="quickEnabled"
+            label="Quick Select"
+            color="success"
+            hide-details
+          ></v-checkbox>
+        </div>
 
         <v-card>
           <v-list
@@ -61,6 +72,7 @@ export default {
       timesSelected: {},
       currentDateSelected: "",
       dates: this.newDates,
+      quickEnabled: true,
     };
   },
   watch: {
@@ -86,6 +98,7 @@ export default {
   },
   methods: {
     quickSelect: function(newestClick) {
+      if (!this.quickEnabled) return;
       newestClick--;
       let times = this.timesSelected[this.currentDateSelected];
       if (times.length < 1) return; // nothing to do
@@ -191,6 +204,16 @@ export default {
   color: whitesmoke;
   padding: 20px 0 0 0;
 }
+#top-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#top-row * {
+  margin: 10px 0 10px 0;
+  padding: 0;
+}
+
 .time-list {
   text-align: center;
   height: 450px;
