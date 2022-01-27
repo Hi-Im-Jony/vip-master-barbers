@@ -9,8 +9,8 @@
       :key="carouselKey"
     >
       <v-carousel-item v-for="date in dates" :key="date" dark>
-        <div style="font-size:25px;" id="top-row">
-          <p>{{ date }}</p>
+        <div style="font-size:20px;" id="top-row">
+          <p>{{ parseDate(date) }}</p>
           <v-checkbox
             id="quick-checkbox"
             dark
@@ -203,6 +203,24 @@ export default {
       }
       this.$emit("done", updatedRoster);
       this.timesSelected = {};
+    },
+    parseDate: function(date) {
+      const dateSplit = date.split(":");
+      let dateDisplayed = new Date(
+        dateSplit[2],
+        dateSplit[1] - 1,
+        dateSplit[0]
+      );
+
+      var options = {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+      };
+      dateDisplayed = dateDisplayed.toLocaleDateString("en-US", options);
+
+      return dateDisplayed;
     },
   },
 };
