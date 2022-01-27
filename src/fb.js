@@ -4,6 +4,7 @@ import {
   doc,
   getFirestore,
   collection,
+  getDoc,
   setDoc,
   deleteDoc,
   getDocs,
@@ -100,7 +101,7 @@ export const deroster = async function(barber, daysToRemove) {
 };
 
 // returns an array of days a barber is rostered
-export const getRoster = async function(barber) {
+export const getRosteredDays = async function(barber) {
   const rosterCollection = collection(db, "barbers", barber, "days_rostered");
   const query = await getDocs(rosterCollection);
   let daysRostered = [];
@@ -109,6 +110,18 @@ export const getRoster = async function(barber) {
   });
 
   return daysRostered;
+};
+
+export const getRosteredDayTimes = async function(barber, day) {
+  const docRef = doc(db, "barbers", barber, "days_rostered", day);
+  const query = await getDoc(docRef);
+  let times = query.data().timesRostered;
+  for (let t in times) {
+    let tS = times[t];
+    tS = tS.split(":");
+    times[t] = parseInt(tS[0]);
+  }
+  return times;
 };
 
 // create a booking for a barber

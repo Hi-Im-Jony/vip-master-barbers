@@ -78,7 +78,7 @@ export default {
     update: async function(barber) {
       if (this.selectedBarber !== barber) {
         this.selectedBarber = barber;
-        this.roster = await fb.getRoster(barber);
+        this.roster = await fb.getRosteredDays(barber);
       } else {
         this.selectedBarber = "";
         this.roster = [];

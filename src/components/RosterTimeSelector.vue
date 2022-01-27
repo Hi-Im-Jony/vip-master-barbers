@@ -76,12 +76,12 @@ export default {
     };
   },
   watch: {
-    visibility: function(visible) {
+    visibility: async function(visible) {
       if (visible) {
         this.dates = this.sortDates(this.newDates);
-        this.reset();
-        this.scroll();
+        await this.reset();
         this.carouselModel = 0;
+        this.scroll();
       }
     },
     carouselModel: function(newVal) {
@@ -90,11 +90,11 @@ export default {
       this.scroll();
     },
   },
-  created: function() {
+  created: async function() {
     this.dates = this.sortDates(this.newDates);
-    this.reset();
-    this.scroll();
+    await this.reset();
     this.carouselModel = 0;
+    this.scroll();
   },
   methods: {
     quickSelect: function(newestClick) {
@@ -153,12 +153,28 @@ export default {
 
       return false;
     },
-    reset: function() {
+    reset: async function() {
       // reset data structure
       for (let date in this.newDates) {
         const key = this.newDates[date];
         if (!this.timesSelected.hasOwnProperty(key)) {
           Vue.set(this.timesSelected, key, []);
+        }
+      }
+      for (let date in this.currentRoster) {
+        // get rostered times of selected days
+        if (
+          !(this.currentRoster[date] == "For All") &&
+          !(this.currentRoster[date] == "init") &&
+          !(this.currentRoster[date] == null) &&
+          this.newDates.includes(this.currentRoster[date])
+        ) {
+          this.timesSelected[
+            this.currentRoster[date]
+          ] = await fb.getRosteredDayTimes(
+            this.barber,
+            this.currentRoster[date]
+          );
         }
       }
       this.carouselKey++;
@@ -178,7 +194,6 @@ export default {
       for (let day in this.timesSelected) {
         let timesSelected = this.timesSelected[day];
         if (timesSelected.length > 0) {
-          console.log(timesSelected);
           // actually roster
           await fb.roster(this.barber, day, timesSelected);
           // update front end roster
@@ -191,7 +206,6 @@ export default {
             updatedRoster.splice(updatedRoster.indexOf(day), 1);
         }
       }
-
       this.$emit("done", updatedRoster);
       this.timesSelected = {};
     },
