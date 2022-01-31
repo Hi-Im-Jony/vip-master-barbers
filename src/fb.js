@@ -51,32 +51,41 @@ export const createBarber = async function(barberName) {
 
 // delete a barber and their data
 export const deleteBarber = async function(barber) {
-  /* To delete an entire collection or subcollection in Cloud Firestore, retrieve all the documents within the collection or subcollection and delete them*/
-  console.log("Delete", barber, "!");
+  /* To delete an entire collection or subcollection in Cloud Firestore, 
+  retrieve all the documents within the collection or subcollection and delete them*/
 
+  // Find barber id
+  const q = query(collection(db, "barbers"), where("name", "==", barber));
+  let barberID = "";
+  const barbersDoc = await getDocs(q);
+  barbersDoc.forEach((doc) => {
+    barberID = doc.id;
+  });
+
+  console.log(barberID);
   // Delete roster
-  const rosterCollection = collection(db, "barbers", barber, "days_rostered");
-  let query = await getDocs(rosterCollection);
+  const rosterCollection = collection(db, "barbers", barberID, "days_rostered");
+  let rosters = await getDocs(rosterCollection);
   let docIds = [];
-  query.forEach((doc) => {
+  rosters.forEach((doc) => {
     docIds.push(doc.id);
   });
   for (let id in docIds) {
-    await deleteDoc(doc(db, "barbers", barber, "days_rostered", docIds[id]));
+    await deleteDoc(doc(db, "barbers", barberID, "days_rostered", docIds[id]));
   }
 
   // Delete bookings
-  const bookingsCollection = collection(db, "barbers", barber, "bookings");
-  query = await getDocs(bookingsCollection);
-  query.forEach((doc) => {
+  const bookingsCollection = collection(db, "barbers", barberID, "bookings");
+  let bookings = await getDocs(bookingsCollection);
+  bookings.forEach((doc) => {
     docIds.push(doc.id);
   });
   for (let id in docIds) {
-    await deleteDoc(doc(db, "barbers", barber, "bookings", docIds[id]));
+    await deleteDoc(doc(db, "barbers", barberID, "bookings", docIds[id]));
   }
 
   // Delete barber
-  await deleteDoc(doc(db, "barbers", barber));
+  await deleteDoc(doc(db, "barbers", barberID));
 };
 
 // returns an array with the names of all barbers
