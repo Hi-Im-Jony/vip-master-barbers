@@ -29,7 +29,7 @@
           mdi-calendar-multiple-check
         </v-icon>
       </a>
-      <a @click="showTimes = true">
+      <a @click="rosterIndividually()">
         <v-icon id="roster-btn">
           mdi-calendar-clock-outline
         </v-icon>
@@ -42,6 +42,7 @@
         :currentRoster="selectedBarberInfo.roster"
         :newDates="calendarInfo.selectedDays"
         :visibility="showTimes"
+        :rosterMultiple="willRosterMultiple"
         :key="rtsKey"
         @rostering="loading = true"
         @done="rosteringDone"
@@ -73,6 +74,7 @@ export default {
         selectedYear: null,
         selectedMonth: null,
       },
+      willRosterMultiple: false,
       rtsKey: "rtsKey",
       calendarKey: "calendarKey", // used for key-based re-rendering
       loading: false, // model loader
@@ -106,7 +108,14 @@ export default {
       this.calendarKey = this.calendarKey + 1;
     },
 
-    rosterMultiple: async function() {},
+    rosterMultiple: async function() {
+      this.willRosterMultiple = true;
+      this.showTimes = true;
+    },
+    rosterIndividually: function() {
+      this.willRosterMultiple = false;
+      this.showTimes = true;
+    },
 
     deroster: async function() {
       this.loading = true;

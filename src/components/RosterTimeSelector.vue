@@ -3,6 +3,7 @@
     <h2>Select Hours</h2>
 
     <v-carousel
+      v-if="!rosterMultiple"
       v-model="carouselModel"
       id="carousel"
       hide-delimiters
@@ -44,8 +45,50 @@
                 >
                   <p v-if="time - 1 < 10">0{{ time - 1 }}:00</p>
                   <p v-else>{{ time - 1 }}:00</p>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-card>
+      </v-carousel-item>
+    </v-carousel>
+    <v-carousel
+      v-else
+      v-model="carouselModel"
+      id="carousel"
+      hide-delimiters
+      :show-arrows="false"
+      :key="carouselKey"
+    >
+      <v-carousel-item dark>
+        <div style="font-size:20px;" id="top-row">
+          <p>For All</p>
+          <v-checkbox
+            id="quick-checkbox"
+            dark
+            v-model="quickEnabled"
+            label="Quick Select"
+            color="success"
+            hide-details
+          ></v-checkbox>
+        </div>
 
-                  <!-- <p>{{ dates.indexOf(date) + "-" + (time - 1) }}</p> -->
+        <v-card>
+          <v-list :id="'time-list'" class="time-list" dark>
+            <v-list-item-group
+              v-model="timesSelected['ForAll']"
+              multiple
+              color="success"
+            >
+              <v-list-item
+                class="time-slot"
+                v-for="time in 24"
+                :key="time"
+                @click="quickSelect(time)"
+              >
+                <v-list-item-content style="font-size:26px">
+                  <p v-if="time - 1 < 10">0{{ time - 1 }}:00</p>
+                  <p v-else>{{ time - 1 }}:00</p>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -63,7 +106,13 @@
 import * as fb from "@/fb";
 import Vue from "vue";
 export default {
-  props: ["barber", "currentRoster", "newDates", "visibility"],
+  props: [
+    "barber",
+    "currentRoster",
+    "newDates",
+    "visibility",
+    "rosterMultiple",
+  ],
   data() {
     return {
       carouselModel: [],
@@ -104,7 +153,9 @@ export default {
     quickSelect: function(newestClick) {
       if (!this.quickEnabled) return;
       newestClick--;
-      let times = this.timesSelected[this.dateSelected];
+      let times = this.rosterMultiple
+        ? this.timesSelected["ForAll"]
+        : this.timesSelected[this.dateSelected];
       if (times.length < 1) return; // nothing to do
 
       // numerical sort
@@ -165,6 +216,9 @@ export default {
           Vue.set(this.timesSelected, key, []);
         }
       }
+      if (!this.timesSelected.hasOwnProperty("ForAll")) {
+        Vue.set(this.timesSelected, "ForAll", []);
+      }
       for (let date in this.currentRoster) {
         // get rostered times of selected days
         if (this.newDates.includes(this.currentRoster[date])) {
@@ -180,7 +234,9 @@ export default {
     },
     // scroll to "09:00"
     scroll: function() {
-      const scrollableElID = this.carouselModel + "-time-list";
+      const scrollableElID = this.rosterMultiple
+        ? "time-list"
+        : this.carouselModel + "-time-list";
       setTimeout(function() {
         const scrollableEl = document.getElementById(scrollableElID);
         if (scrollableEl) scrollableEl.scrollTo(0, 600);
@@ -192,7 +248,9 @@ export default {
       let updatedRoster = this.currentRoster;
       for (let day in this.timesSelected) {
         console.log(day);
-        let timesSelected = this.timesSelected[day];
+        let timesSelected = this.rosterMultiple
+          ? this.timesSelected["ForAll"]
+          : this.timesSelected[day];
         if (timesSelected.length > 0) {
           // actually roster
           await fb.roster(this.barber, day, timesSelected);
