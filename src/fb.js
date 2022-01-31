@@ -11,6 +11,7 @@ import {
   getDocs,
   query,
   where,
+  updateDoc,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -86,6 +87,24 @@ export const deleteBarber = async function(barber) {
 
   // Delete barber
   await deleteDoc(doc(db, "barbers", barberID));
+};
+
+export const editBarber = async function(selectedBarber, newName) {
+  // Find barber id
+  const q = query(
+    collection(db, "barbers"),
+    where("name", "==", selectedBarber)
+  );
+  let barberID = "";
+  const barbersDoc = await getDocs(q);
+  barbersDoc.forEach((doc) => {
+    barberID = doc.id;
+  });
+
+  const barberRef = doc(db, "barbers", barberID);
+  await updateDoc(barberRef, {
+    name: newName,
+  });
 };
 
 // returns an array with the names of all barbers

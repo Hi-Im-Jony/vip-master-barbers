@@ -14,6 +14,21 @@
         </div>
       </div>
     </v-dialog>
+
+    <v-dialog v-model="editDialogue">
+      <div id="dialog">
+        <v-text-field
+          dark
+          v-model="editedName"
+          label="Barber Name"
+          style="font-size: 25px;"
+        ></v-text-field>
+        <div id="btn-container">
+          <a id="cancel-btn" @click="confirmDialogue = false">Cancel</a>
+          <a id="confirm-edit-btn" @click="submitEdit()">Confirm</a>
+        </div>
+      </div>
+    </v-dialog>
     <h2>Select a Barber</h2>
     <p style="margin: 10px; color: red" v-if="getAttempted && noBarbersFound">
       There Are Currently No Barbers In The System
@@ -27,7 +42,10 @@
         <label class="barber-name">{{ barber }}</label>
       </div>
       <div class="icon-container" v-if="forAdmin">
-        <v-icon id="edit-icon" :class="getIconClass(barber)"
+        <v-icon
+          id="edit-icon"
+          @click="edit(barber)"
+          :class="getIconClass(barber)"
           >mdi-pencil-outline</v-icon
         >
         <v-icon
@@ -52,7 +70,9 @@ export default {
     return {
       loading: false,
       confirmDialogue: false,
-      barbers: "",
+      editDialogue: false,
+      editedName: "",
+      barbers: [],
       selectedBarber: "",
       roster: [],
       getAttempted: false,
@@ -95,6 +115,11 @@ export default {
         roster: this.roster,
       });
     },
+    edit: function(barber) {
+      this.editedName = barber;
+      this.editDialogue = true;
+    },
+
     confirmDelete: function() {
       this.confirmDialogue = true;
     },
@@ -112,6 +137,13 @@ export default {
         name: "",
         roster: [],
       });
+    },
+    submitEdit: async function() {
+      this.editDialogue = false;
+      this.loading = true;
+      await fb.editBarber(this.selectedBarber, this.editedName);
+      this.barbers[this.barbers.indexOf(this.selectedBarber)] = this.editedName;
+      this.loading = false;
     },
   },
 };
@@ -181,6 +213,12 @@ export default {
 #confirm-delete-btn {
   padding: 1px 10px 1px 10px;
   background: rgb(124, 22, 22);
+  color: aliceblue;
+}
+
+#confirm-edit-btn {
+  padding: 1px 10px 1px 10px;
+  background: rgb(61, 121, 49);
   color: aliceblue;
 }
 
