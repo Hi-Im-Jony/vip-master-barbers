@@ -54,8 +54,7 @@
       </v-carousel-item>
     </v-carousel>
     <div class="btn-container">
-      <a id="set-default-btn" @click="setDefault()">Set Default</a>
-      <a id="submit-btn" @click="submit()"> Submit</a>
+      <v-btn id="submit-btn" @click="submit()"> Submit</v-btn>
     </div>
   </div>
 </template>
@@ -69,7 +68,6 @@ export default {
     return {
       carouselModel: [],
       carouselKey: 0,
-      default: this.getDefault(),
       timesSelected: {},
 
       dates: this.newDates,
@@ -211,23 +209,7 @@ export default {
       this.$emit("done", updatedRoster);
       this.timesSelected = {};
     },
-    setDefault: async function() {
-      // console.log(this.dateSelected);
-      await fb.roster(
-        this.barber,
-        "default",
-        this.timesSelected[this.dateSelected]
-      );
-      this.default = await this.getDefault();
-    },
-    getDefault: async function() {
-      let defaultSchedule = await fb.getRosteredDayTimes(
-        this.barber,
-        "default"
-      );
-      console.log(defaultSchedule);
-      return defaultSchedule;
-    },
+
     parseDate: function(date) {
       const dateSplit = date.split(":");
       let dateDisplayed = new Date(
@@ -288,19 +270,11 @@ export default {
   padding-top: 10px;
   font-size: 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 60px;
   text-align: center;
-}
-
-#set-default-btn {
-  color: aliceblue;
-  padding: 1px 10px 1px 10px;
-  background: rgb(139, 131, 131);
-  margin: 10px;
-  width: 100px;
 }
 
 #submit-btn {
@@ -309,13 +283,5 @@ export default {
   background: rgb(50, 122, 43);
   margin: 20px;
   width: 100px;
-}
-
-#roster-default-btn {
-  color: aliceblue;
-  padding: 1px 10px 1px 10px;
-  background: rgb(139, 131, 131);
-  margin: 20px;
-  flex: 1 1 0px;
 }
 </style>
