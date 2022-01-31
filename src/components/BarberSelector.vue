@@ -8,7 +8,9 @@
         <p>This will delete all their data, and cancel all their bookings.</p>
         <div id="btn-container">
           <a id="cancel-btn" @click="confirmDialogue = false">Cancel</a>
-          <a id="delete-btn" @click="deleteBarber(selectedBarber)">Delete</a>
+          <a id="confirm-delete-btn" @click="deleteBarber(selectedBarber)"
+            >Delete</a
+          >
         </div>
       </div>
     </v-dialog>
@@ -24,12 +26,16 @@
       <div :class="getBarberClass(barber)" @click="update(barber)">
         <label class="barber-name">{{ barber }}</label>
       </div>
-      <div
-        class="delete-icon-container"
-        v-if="forAdmin"
-        @click="confirmDelete(barber)"
-      >
-        <v-icon :class="getDeleteClass(barber)">mdi-trash-can-outline</v-icon>
+      <div class="icon-container" v-if="forAdmin">
+        <v-icon id="edit-icon" :class="getIconClass(barber)"
+          >mdi-pencil-outline</v-icon
+        >
+        <v-icon
+          id="delete-icon"
+          @click="confirmDelete(barber)"
+          :class="getIconClass(barber)"
+          >mdi-trash-can-outline</v-icon
+        >
       </div>
     </div>
   </div>
@@ -71,9 +77,9 @@ export default {
       if (this.selectedBarber === barber) return "barber selected";
       else return "barber ";
     },
-    getDeleteClass: function(barber) {
-      if (this.selectedBarber === barber) return " delete-selected";
-      else return "delete-icon";
+    getIconClass: function(barber) {
+      if (this.selectedBarber === barber) return " icon-selected";
+      else return "icon";
     },
     update: async function(barber) {
       if (this.selectedBarber !== barber) {
@@ -159,12 +165,6 @@ export default {
   background: gray;
 }
 
-#delete-btn {
-  color: aliceblue;
-  padding: 1px 10px 1px 10px;
-  background: rgb(124, 22, 22);
-}
-
 .barber-name {
   margin: 6px !important;
   font-size: 25px;
@@ -173,14 +173,31 @@ export default {
 .selected {
   background: rgba(53, 81, 156, 0.548);
 }
-.delete-icon-container {
+.icon-container {
   width: 30px;
+  display: flex;
 }
-.delete-icon {
+
+#confirm-delete-btn {
+  padding: 1px 10px 1px 10px;
+  background: rgb(124, 22, 22);
+  color: aliceblue;
+}
+
+#delete-icon {
+  padding: 1px 10px 1px 10px;
+  color: rgb(124, 22, 22);
+}
+
+#edit-icon {
+  padding: 1px 10px 1px 10px;
+  color: rgb(144, 176, 206);
+}
+.icon {
   display: none;
 }
-.delete-selected {
-  color: rgb(161, 25, 25);
+.icon-selected {
+  display: inline;
   font-size: 30px;
   margin-left: 5px;
 }
