@@ -85,7 +85,7 @@ export const getAllBarbers = async function() {
   const query = await getDocs(barbersCollection);
   let barbers = [];
   query.forEach((doc) => {
-    barbers.push(doc.id);
+    barbers.push(doc.data().name);
   });
   return barbers;
 };
