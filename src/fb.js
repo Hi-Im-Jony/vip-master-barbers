@@ -6,8 +6,11 @@ import {
   collection,
   getDoc,
   setDoc,
+  addDoc,
   deleteDoc,
   getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -31,9 +34,19 @@ const db = getFirestore();
 
 // creates barber
 export const createBarber = async function(barberName) {
-  await setDoc(doc(db, "barbers", barberName), {});
-  await setDoc(doc(db, "barbers", barberName, "bookings", "init"), {});
-  await setDoc(doc(db, "barbers", barberName, "days_rostered", "init"), {});
+  const q = query(collection(db, "barbers"), where("name", "==", barberName));
+  let barberExists = false;
+  const dbQuery = await getDocs(q);
+  dbQuery.forEach(() => {
+    barberExists = true;
+  });
+  if (barberExists) return;
+
+  const barber = await addDoc(collection(db, "barbers"), {
+    name: barberName,
+  });
+  await setDoc(doc(db, "barbers", barber.id, "bookings", "init"), {});
+  await setDoc(doc(db, "barbers", barber.id, "days_rostered", "init"), {});
 };
 
 // delete a barber and their data
