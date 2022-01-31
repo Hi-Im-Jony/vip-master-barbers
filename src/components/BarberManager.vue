@@ -24,8 +24,8 @@
           mdi-calendar-remove-outline
         </v-icon>
       </a>
-      <a @click="rosterDefault()">
-        <v-icon id="roster-default-btn">
+      <a @click="rosterMultiple()">
+        <v-icon id="roster-multiple-btn">
           mdi-calendar-multiple-check
         </v-icon>
       </a>
@@ -106,42 +106,7 @@ export default {
       this.calendarKey = this.calendarKey + 1;
     },
 
-    rosterDefault: async function() {
-      this.loading = true;
-      console.log("check");
-      let defaultSchedule = await fb.getRosteredDayTimes(
-        this.selectedBarberInfo.name,
-        "default"
-      );
-      console.log(defaultSchedule);
-
-      // for every day that was selected
-      for (let day in this.calendarInfo.selectedDays) {
-        // wait for backend to roster selected day
-        console.log(this.calendarInfo.selectedDays[day]);
-        await fb.roster(
-          this.selectedBarberInfo.name,
-          this.calendarInfo.selectedDays[day],
-          defaultSchedule
-        );
-
-        // if frontend version of roster doesn't contain this day
-        if (
-          !this.selectedBarberInfo.roster.includes(
-            this.calendarInfo.selectedDays[day]
-          )
-        )
-          // add this day to front end roster
-          this.selectedBarberInfo.roster.push(
-            this.calendarInfo.selectedDays[day]
-          );
-      }
-
-      // reset and rerender
-      this.calendarInfo.selectedDays = [];
-      this.calendarKey = this.calendarKey + 1;
-      this.loading = false;
-    },
+    rosterMultiple: async function() {},
 
     deroster: async function() {
       this.loading = true;
@@ -207,7 +172,7 @@ export default {
   font-size: 35px;
 }
 
-#roster-default-btn {
+#roster-multiple-btn {
   padding: 1px 10px 1px 10px;
   color: rgb(36, 161, 25);
   margin: 10px;
