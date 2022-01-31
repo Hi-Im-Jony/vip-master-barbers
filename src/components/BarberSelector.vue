@@ -225,7 +225,7 @@ export default {
 
 #delete-icon {
   padding: 1px 10px 1px 10px;
-  color: rgb(124, 22, 22);
+  color: rgb(161, 25, 25);
 }
 
 #edit-icon {
