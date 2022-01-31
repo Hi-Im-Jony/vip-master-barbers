@@ -143,6 +143,7 @@ export default {
       this.loading = true;
       await fb.editBarber(this.selectedBarber, this.editedName);
       this.barbers[this.barbers.indexOf(this.selectedBarber)] = this.editedName;
+      this.selectedBarber = this.editedName;
       this.loading = false;
     },
   },
