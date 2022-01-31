@@ -144,6 +144,7 @@ export default {
     },
   },
   created: async function() {
+    Vue.set(this.timesSelected, "ForAll", []);
     this.dates = this.sortDates(this.newDates);
     await this.reset();
     this.carouselModel = 0;
@@ -216,9 +217,7 @@ export default {
           Vue.set(this.timesSelected, key, []);
         }
       }
-      if (!this.timesSelected.hasOwnProperty("ForAll")) {
-        Vue.set(this.timesSelected, "ForAll", []);
-      }
+
       for (let date in this.currentRoster) {
         // get rostered times of selected days
         if (this.newDates.includes(this.currentRoster[date])) {
@@ -229,6 +228,7 @@ export default {
             this.currentRoster[date]
           );
         }
+        this.timesSelected["ForAll"] = [];
       }
       this.carouselKey++;
     },
