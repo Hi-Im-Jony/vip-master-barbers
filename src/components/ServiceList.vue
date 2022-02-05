@@ -1,12 +1,18 @@
 <template>
   <div id="service-list">
-    <p>{{ services }}</p>
+    <service
+      v-for="service in services"
+      :service="service"
+      :key="service.name"
+    />
   </div>
 </template>
 
 <script>
 import * as fb from "@/fb";
+import Service from "./Service.vue";
 export default {
+  components: { Service },
   data() {
     return {
       services: [],
@@ -17,10 +23,17 @@ export default {
   },
   methods: {
     getServices: async function() {
-      console.log("hi");
       let services = await fb.getServices();
       this.services = services;
     },
   },
 };
 </script>
+
+<style scoped>
+#service-list {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+</style>
