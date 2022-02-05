@@ -30,7 +30,7 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <!-- services manager -->
-          <add-service-form />
+          <service-manager />
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -42,7 +42,7 @@ import Calendar from "../components/Calendar.vue";
 import BarberSelector from "../components/BarberSelector.vue";
 import BarberAdder from "../components/BarberAdder.vue";
 import BarberManager from "../components/BarberManager.vue";
-import AddServiceForm from "../components/ServiceAdder.vue";
+import ServiceManager from "../components/ServiceManager.vue";
 
 export default {
   components: {
@@ -50,7 +50,7 @@ export default {
     BarberSelector,
     BarberAdder,
     BarberManager,
-    AddServiceForm,
+    ServiceManager,
   },
   data() {
     return {
