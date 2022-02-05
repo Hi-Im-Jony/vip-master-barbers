@@ -169,10 +169,9 @@ export default {
       if (currentDate.getFullYear() > this.year) return true;
       if (
         currentDate.getFullYear() == this.year &&
-        currentDate.getMonth() < this.month
+        currentDate.getMonth() > this.month
       )
-        return false;
-
+        return true;
       // get current day date (ie, 25th)
       let str = currentDate.toString();
       let arr = str.split(" ");
