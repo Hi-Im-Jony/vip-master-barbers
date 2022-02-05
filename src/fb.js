@@ -35,6 +35,7 @@ const db = getFirestore();
 
 // creates barber
 export const createBarber = async function(barberName) {
+  // check if barber exists
   const q = query(collection(db, "barbers"), where("name", "==", barberName));
   let barberExists = false;
   const dbQuery = await getDocs(q);
@@ -202,4 +203,25 @@ export const getRosteredDayTimes = async function(barber, day) {
 export const createBooking = async function(barber, day) {
   console.log(barber);
   console.log(day);
+};
+
+export const addService = async function(
+  serviceName,
+  servicePrice,
+  serviceDesc
+) {
+  // check if service exists
+  const q = query(collection(db, "services"), where("name", "==", serviceName));
+  let serviceExists = false;
+  const dbQuery = await getDocs(q);
+  dbQuery.forEach(() => {
+    serviceExists = true;
+  });
+  if (serviceExists) return;
+
+  const service = await addDoc(collection(db, "services"), {
+    name: serviceName,
+    price: servicePrice,
+    desc: serviceDesc,
+  });
 };

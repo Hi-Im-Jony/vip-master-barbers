@@ -26,10 +26,11 @@
       <!-- Panel 3 -->
       <v-expansion-panel>
         <v-expansion-panel-header>
-          <h1>Services and Products</h1>
+          <h1>Manage Services</h1>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <!-- services manager -->
+          <add-service-form />
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -39,11 +40,18 @@
 <script>
 import Calendar from "../components/Calendar.vue";
 import BarberSelector from "../components/BarberSelector.vue";
-
 import BarberAdder from "../components/BarberAdder.vue";
 import BarberManager from "../components/BarberManager.vue";
+import AddServiceForm from "../components/ServiceAdder.vue";
+
 export default {
-  components: { Calendar, BarberSelector, BarberAdder, BarberManager },
+  components: {
+    Calendar,
+    BarberSelector,
+    BarberAdder,
+    BarberManager,
+    AddServiceForm,
+  },
   data() {
     return {
       managerKey: 1,
