@@ -5,55 +5,36 @@
       >Add Service</v-btn
     >
     <v-dialog dark v-model="showForm">
-      <form id="dialog-form">
-        <v-text-field
-          v-model="name"
-          label="Service Name"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="price"
-          label="Service Price"
-          required
-        ></v-text-field>
-        <v-text-field
-          v-model="description"
-          label="Service Description"
-          required
-        ></v-text-field>
-        <v-btn id="add-service-btn" dark @click="submit()">Submit</v-btn>
-      </form>
+      <add-service-form
+        @submitting-service="(showForm = false), (loading = true)"
+        @done-service="loading = false"
+      />
     </v-dialog>
   </div>
 </template>
 
 <script>
+import AddServiceForm from "./AddServiceForm.vue";
 import Loader from "./Loader.vue";
 
-import * as fb from "@/fb";
 export default {
-  components: { Loader },
+  components: { Loader, AddServiceForm },
   data() {
     return {
-      loading: false,
       showForm: false,
-      name: "",
-      price: undefined,
-      description: "",
+      loading: false,
     };
-  },
-  methods: {
-    submit: async function() {
-      this.showForm = false;
-      this.loading = true;
-      await fb.addService(this.name, this.price, this.description);
-      this.loading = false;
-    },
   },
 };
 </script>
 
 <style scoped>
+#service-adder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 #dialog-form {
   display: flex;
   flex-direction: column;
