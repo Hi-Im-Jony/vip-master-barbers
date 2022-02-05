@@ -7,22 +7,26 @@
     <v-dialog dark v-model="showForm">
       <add-service-form
         @submitting-service="(showForm = false), (loading = true)"
-        @done-service="loading = false"
+        @done-service="(loading = false), serviceListKey++"
       />
     </v-dialog>
+
+    <service-list :key="serviceListKey" />
   </div>
 </template>
 
 <script>
 import AddServiceForm from "./AddServiceForm.vue";
 import Loader from "./Loader.vue";
+import ServiceList from "./ServiceList.vue";
 
 export default {
-  components: { Loader, AddServiceForm },
+  components: { Loader, AddServiceForm, ServiceList },
   data() {
     return {
       showForm: false,
       loading: false,
+      serviceListKey: "serviceListKey",
     };
   },
 };

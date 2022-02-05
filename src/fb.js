@@ -225,3 +225,13 @@ export const addService = async function(
     desc: serviceDesc,
   });
 };
+
+export const getServices = async function() {
+  let services = [];
+  const colectionRef = collection(db, "services");
+  const servicesQ = await getDocs(colectionRef);
+  servicesQ.forEach((doc) => {
+    services.push(doc.data());
+  });
+  return services;
+};
