@@ -112,7 +112,8 @@ export const editBarber = async function(selectedBarber, newName) {
 // returns an array with the names of all barbers
 export const getAllBarbers = async function() {
   const barbersCollection = collection(db, "barbers");
-  const barbersQ = await getDocs(barbersCollection);
+  const q = query(barbersCollection, orderBy("position"));
+  const barbersQ = await getDocs(q);
   let barbers = [];
   barbersQ.forEach((doc) => {
     barbers.push(doc.data().name);
