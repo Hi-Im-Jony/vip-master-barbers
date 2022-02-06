@@ -1,5 +1,5 @@
 <template>
-  <div id="service-adder">
+  <div id="service-manager">
     <loader :loading="loading" />
 
     <v-btn id="add-service-btn" dark @click="showForm = true">
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style scoped>
-#service-adder {
+#service-manager {
   display: flex;
   flex-direction: column;
   justify-content: center;
