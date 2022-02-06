@@ -7,7 +7,7 @@
     </v-btn>
 
     <v-dialog dark v-model="showForm">
-      <add-service-form
+      <service-adder
         @submitting-service="(showForm = false), (loading = true)"
         @done-service="(loading = false), updateList++"
       />
@@ -23,13 +23,12 @@
 </template>
 
 <script>
-import AddServiceForm from "./AddServiceForm.vue";
-
+import ServiceAdder from "./ServiceAdder.vue";
 import Loader from "./Loader.vue";
 import ServiceList from "./ServiceList.vue";
 
 export default {
-  components: { Loader, AddServiceForm, ServiceList },
+  components: { Loader, ServiceAdder, ServiceList },
   data() {
     return {
       showForm: false,
