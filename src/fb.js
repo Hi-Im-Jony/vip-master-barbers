@@ -12,6 +12,7 @@ import {
   query,
   where,
   updateDoc,
+  orderBy,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -229,7 +230,9 @@ export const addService = async function(
 export const getServices = async function() {
   let services = [];
   const colectionRef = collection(db, "services");
-  const servicesQ = await getDocs(colectionRef);
+  const q = query(colectionRef, orderBy("position"));
+
+  const servicesQ = await getDocs(q);
   servicesQ.forEach((doc) => {
     services.push(doc.data());
   });
