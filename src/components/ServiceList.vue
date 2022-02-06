@@ -8,39 +8,43 @@
         @submit="submit"
       />
     </v-dialog>
-
-    <div
-      class="service-container"
-      v-for="service in services"
-      :key="service.name"
-    >
-      <div
-        @click="
-          selectedService = selectedService == service.name ? '' : service.name
-        "
-      >
-        <service
-          class="service"
-          :service="service"
-          :selected="selectedService == service.name"
-        />
-      </div>
-
-      <div class="icon-container" v-if="forAdmin">
-        <v-icon
-          id="edit-icon"
-          @click="edit(service)"
-          :class="getIconClass(service.name)"
-          >mdi-pencil-outline</v-icon
+    <draggable v-model="services">
+      <transition-group>
+        <div
+          class="service-container"
+          v-for="service in services"
+          :key="service.name"
         >
-        <v-icon
-          id="delete-icon"
-          @click="deleteService(service.name)"
-          :class="getIconClass(service.name)"
-          >mdi-trash-can-outline</v-icon
-        >
-      </div>
-    </div>
+          <div
+            @click="
+              selectedService =
+                selectedService == service.name ? '' : service.name
+            "
+          >
+            <service
+              class="service"
+              :service="service"
+              :selected="selectedService == service.name"
+            />
+          </div>
+
+          <div class="icon-container" v-if="forAdmin">
+            <v-icon
+              id="edit-icon"
+              @click="edit(service)"
+              :class="getIconClass(service.name)"
+              >mdi-pencil-outline</v-icon
+            >
+            <v-icon
+              id="delete-icon"
+              @click="deleteService(service.name)"
+              :class="getIconClass(service.name)"
+              >mdi-trash-can-outline</v-icon
+            >
+          </div>
+        </div>
+      </transition-group>
+    </draggable>
   </div>
 </template>
 
@@ -48,18 +52,36 @@
 import * as fb from "@/fb";
 import Editor from "./Editor.vue";
 import Service from "./Service.vue";
+import Draggable from "vuedraggable";
 
 export default {
-  props: ["forAdmin", "services"],
-  components: { Service, Editor },
+  props: ["forAdmin", "givenServices"],
+  components: { Service, Editor, Draggable },
   data() {
     return {
       showEditor: false,
+      services: this.givenServices,
       serviceToEdit: {},
       selectedService: "",
     };
   },
+  watch: {
+    givenServices: function() {
+      this.services = this.givenServices;
+    },
+    services: {
+      deep: true,
 
+      async handler() {
+        console.log("Services changed");
+        for (let i in this.services) {
+          this.services[i].position = i;
+          fb.editService(this.services[i].name, this.services[i]);
+        }
+        this.$emit("update", this.services);
+      },
+    },
+  },
   methods: {
     getIconClass: function(service) {
       if (this.selectedService === service) return " icon-selected";

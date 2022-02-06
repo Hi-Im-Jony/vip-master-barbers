@@ -15,8 +15,9 @@
     </v-dialog>
 
     <service-list
-      :services="services"
+      :givenServices="services"
       :forAdmin="true"
+      @update="(newList) => (services = newList)"
       @loading="loading = true"
       @done="(loading = false), getServices()"
     />
