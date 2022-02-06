@@ -1,7 +1,6 @@
 <template>
   <div id="barber-selector">
     <loader :loading="loading" />
-
     <v-dialog v-model="confirmDialogue">
       <div id="dialog">
         <p>Are you sure you want to remove {{ selectedBarber }}?</p>
@@ -39,26 +38,27 @@
     <div v-if="!getAttempted">
       <preloader color="whitesmoke" :scale="0.2" />
     </div>
-
-    <div class="barber-container" v-for="barber in barbers" :key="barber">
-      <div :class="getBarberClass(barber)" @click="update(barber)">
-        <label class="barber-name">{{ barber }}</label>
+    <draggable v-if="forAdmin" v-model="barbers">
+      <div class="barber-container" v-for="barber in barbers" :key="barber">
+        <div :class="getBarberClass(barber)" @click="update(barber)">
+          <label class="barber-name">{{ barber }}</label>
+        </div>
+        <div class="icon-container" v-if="forAdmin">
+          <v-icon
+            id="edit-icon"
+            @click="edit(barber)"
+            :class="getIconClass(barber)"
+            >mdi-pencil-outline</v-icon
+          >
+          <v-icon
+            id="delete-icon"
+            @click="confirmDelete(barber)"
+            :class="getIconClass(barber)"
+            >mdi-trash-can-outline</v-icon
+          >
+        </div>
       </div>
-      <div class="icon-container" v-if="forAdmin">
-        <v-icon
-          id="edit-icon"
-          @click="edit(barber)"
-          :class="getIconClass(barber)"
-          >mdi-pencil-outline</v-icon
-        >
-        <v-icon
-          id="delete-icon"
-          @click="confirmDelete(barber)"
-          :class="getIconClass(barber)"
-          >mdi-trash-can-outline</v-icon
-        >
-      </div>
-    </div>
+    </draggable>
   </div>
 </template>
 
@@ -66,9 +66,11 @@
 import * as fb from "@/fb";
 import Loader from "./Loader.vue";
 import Preloader from "./Preloader.vue";
+import Draggable from "vuedraggable";
+
 export default {
-  components: { Loader, Preloader },
-  props: ["barbers", "forAdmin", "getAttempted"],
+  components: { Loader, Preloader, Draggable },
+  props: ["givenBarbers", "forAdmin", "getAttempted"],
   data() {
     return {
       loading: false,
@@ -77,11 +79,28 @@ export default {
       editedName: "",
       selectedBarber: "",
       roster: [],
+      barbers: this.givenBarbers,
     };
+  },
+  watch: {
+    givenBarbers: function(newVal) {
+      this.barbers = newVal;
+    },
+    barbers: {
+      deep: true,
+
+      async handler() {
+        for (let i in this.barbers) {
+          this.barbers[i];
+          fb.editBarber(this.barbers[i], { position: i });
+        }
+        this.$emit("update", this.barbers);
+      },
+    },
   },
   computed: {
     noBarbersFound: function() {
-      return this.barbers == 0;
+      return this.barbers.length == 0;
     },
   },
 
@@ -154,8 +173,11 @@ export default {
 }
 .barber-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: center;
+  width: 60vw;
+  max-width: 300px;
 }
 .barber {
   display: flex;
@@ -200,8 +222,9 @@ export default {
   background: rgba(53, 81, 156, 0.548);
 }
 .icon-container {
-  width: 30px;
+  width: 100%;
   display: flex;
+  justify-content: center;
 }
 
 #confirm-delete-btn {

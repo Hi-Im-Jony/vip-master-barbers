@@ -91,7 +91,7 @@ export const deleteBarber = async function(barber) {
   await deleteDoc(doc(db, "barbers", barberID));
 };
 
-export const editBarber = async function(selectedBarber, newName) {
+export const editBarber = async function(selectedBarber, newVals) {
   // Find barber id
   const q = query(
     collection(db, "barbers"),
@@ -104,9 +104,7 @@ export const editBarber = async function(selectedBarber, newName) {
   });
 
   const barberRef = doc(db, "barbers", barberID);
-  await updateDoc(barberRef, {
-    name: newName,
-  });
+  await updateDoc(barberRef, newVals);
 };
 
 // returns an array with the names of all barbers

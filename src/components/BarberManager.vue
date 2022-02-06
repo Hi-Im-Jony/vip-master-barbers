@@ -4,9 +4,10 @@
     <barber-adder :numBarbers="barbers.length" @barberAdded="getBarbers()" />
     <barber-selector
       v-model="selectedBarberInfo"
-      :barbers="barbers"
+      :givenBarbers="barbers"
       :forAdmin="true"
       :getAttempted="getAttempted"
+      @update="(newBarbers) => (barbers = newBarbers)"
     />
 
     <div id="calendar-container" :key="calendarKey">
