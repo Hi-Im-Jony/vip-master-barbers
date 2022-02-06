@@ -205,7 +205,11 @@ export const createBooking = async function(barber, day) {
   console.log(day);
 };
 
-export const addService = async function(serviceName, servicePrice) {
+export const addService = async function(
+  serviceName,
+  servicePrice,
+  servicePos
+) {
   // check if service exists
   const q = query(collection(db, "services"), where("name", "==", serviceName));
   let serviceExists = false;
@@ -218,6 +222,7 @@ export const addService = async function(serviceName, servicePrice) {
   const service = await addDoc(collection(db, "services"), {
     name: serviceName,
     price: servicePrice,
+    position: servicePos,
   });
 };
 

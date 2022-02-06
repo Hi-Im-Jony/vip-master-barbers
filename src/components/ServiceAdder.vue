@@ -13,6 +13,7 @@
 import * as fb from "@/fb";
 
 export default {
+  props: ["numOfServices"],
   data() {
     return {
       name: "",
@@ -22,7 +23,7 @@ export default {
   methods: {
     submit: async function() {
       this.$emit("submitting-service");
-      await fb.addService(this.name, this.price);
+      await fb.addService(this.name, this.price, this.numOfServices);
       this.$emit("done-service");
       this.name = "";
       this.price = undefined;
