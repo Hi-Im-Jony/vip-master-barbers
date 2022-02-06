@@ -1,11 +1,12 @@
 <template>
   <div id="barber-manager">
     <loader :loading="loading" />
-    <barber-adder @barberAdded="bsKey = bsKey + '1'" />
+    <barber-adder @barberAdded="getBarbers()" />
     <barber-selector
       v-model="selectedBarberInfo"
+      :barbers="barbers"
       :forAdmin="true"
-      :key="bsKey"
+      :getAttempted="getAttempted"
     />
 
     <div id="calendar-container" :key="calendarKey">
@@ -72,8 +73,13 @@ export default {
     Loader,
     BarberAdder,
   },
+  created: function() {
+    this.getBarbers();
+  },
   data() {
     return {
+      barbers: [],
+      getAttempted: false,
       // info emitted from barber selector
       selectedBarberInfo: {
         name: "",
@@ -87,7 +93,6 @@ export default {
         selectedMonth: null,
       },
       willRosterMultiple: false,
-      bsKey: "bsKey",
       rtsKey: "rtsKey",
       calendarKey: "calendarKey", // used for key-based re-rendering
       loading: false, // model loader
@@ -112,6 +117,12 @@ export default {
     },
   },
   methods: {
+    getBarbers: async function() {
+      await fb.getAllBarbers().then((response) => {
+        this.barbers = response;
+      });
+      this.getAttempted = true;
+    },
     rosteringDone: function() {
       this.loading = false;
       this.showTimes = false;

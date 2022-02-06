@@ -68,17 +68,15 @@ import Loader from "./Loader.vue";
 import Preloader from "./Preloader.vue";
 export default {
   components: { Loader, Preloader },
-  props: ["forAdmin"],
+  props: ["barbers", "forAdmin", "getAttempted"],
   data() {
     return {
       loading: false,
       confirmDialogue: false,
       editDialogue: false,
       editedName: "",
-      barbers: [],
       selectedBarber: "",
       roster: [],
-      getAttempted: false,
     };
   },
   computed: {
@@ -86,16 +84,8 @@ export default {
       return this.barbers == 0;
     },
   },
-  created: function() {
-    this.getAllBarbers();
-  },
+
   methods: {
-    getAllBarbers: async function() {
-      await fb.getAllBarbers().then((response) => {
-        this.barbers = response;
-      });
-      this.getAttempted = true;
-    },
     getBarberClass: function(barber) {
       if (this.selectedBarber === barber) return "barber selected";
       else return "barber ";
