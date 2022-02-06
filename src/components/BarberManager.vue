@@ -1,7 +1,12 @@
 <template>
   <div id="barber-manager">
     <loader :loading="loading" />
-    <barber-selector v-model="selectedBarberInfo" :forAdmin="true" />
+    <barber-adder @barberAdded="bsKey = bsKey + '1'" />
+    <barber-selector
+      v-model="selectedBarberInfo"
+      :forAdmin="true"
+      :key="bsKey"
+    />
 
     <div id="calendar-container" :key="calendarKey">
       <calendar
@@ -57,9 +62,16 @@ import BarberSelector from "./BarberSelector.vue";
 import Calendar from "./Calendar.vue";
 import RosterTimeSelector from "./RosterTimeSelector.vue";
 import Loader from "./Loader.vue";
+import BarberAdder from "../components/BarberAdder.vue";
 
 export default {
-  components: { BarberSelector, Calendar, RosterTimeSelector, Loader },
+  components: {
+    BarberSelector,
+    Calendar,
+    RosterTimeSelector,
+    Loader,
+    BarberAdder,
+  },
   data() {
     return {
       // info emitted from barber selector
@@ -75,6 +87,7 @@ export default {
         selectedMonth: null,
       },
       willRosterMultiple: false,
+      bsKey: "bsKey",
       rtsKey: "rtsKey",
       calendarKey: "calendarKey", // used for key-based re-rendering
       loading: false, // model loader
@@ -99,9 +112,7 @@ export default {
     },
   },
   methods: {
-    rosteringDone: function(updatedRoster) {
-      // console.log(updatedRoster);
-      // this.selectedBarberInfo.roster = updatedRoster;
+    rosteringDone: function() {
       this.loading = false;
       this.showTimes = false;
       this.calendarInfo.selectedDays = [];

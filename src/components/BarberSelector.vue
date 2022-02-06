@@ -30,7 +30,10 @@
       </div>
     </v-dialog>
     <h2>Select a Barber</h2>
-    <p style="margin: 10px; color: red" v-if="getAttempted && noBarbersFound">
+    <p
+      style="margin: 10px; color: red; text-align: center;"
+      v-if="getAttempted && noBarbersFound"
+    >
       There Are Currently No Barbers In The System
     </p>
     <div v-if="!getAttempted">

@@ -4,17 +4,6 @@
       <!-- Panel 1 -->
       <v-expansion-panel>
         <v-expansion-panel-header>
-          <h1>Add a Barber</h1>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <!-- barber adder -->
-          <barber-adder @barberAdded="managerKey++" />
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-      <!-- Panel 2 -->
-      <v-expansion-panel>
-        <v-expansion-panel-header>
           <h1>Manage Barbers</h1>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -23,7 +12,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <!-- Panel 3 -->
+      <!-- Panel 2 -->
       <v-expansion-panel>
         <v-expansion-panel-header>
           <h1>Manage Services</h1>
@@ -38,17 +27,13 @@
 </template>
 
 <script>
-import Calendar from "../components/Calendar.vue";
 import BarberSelector from "../components/BarberSelector.vue";
-import BarberAdder from "../components/BarberAdder.vue";
 import BarberManager from "../components/BarberManager.vue";
 import ServiceManager from "../components/ServiceManager.vue";
 
 export default {
   components: {
-    Calendar,
     BarberSelector,
-    BarberAdder,
     BarberManager,
     ServiceManager,
   },
