@@ -23,7 +23,7 @@
           style="font-size: 25px;"
         ></v-text-field>
         <div id="btn-container">
-          <a id="cancel-btn" @click="confirmDialogue = false">Cancel</a>
+          <a id="cancel-btn" @click="editDialogue = false">Cancel</a>
           <a id="confirm-edit-btn" @click="submitEdit()">Confirm</a>
         </div>
       </div>
@@ -153,7 +153,7 @@ export default {
     submitEdit: async function() {
       this.editDialogue = false;
       this.loading = true;
-      await fb.editBarber(this.selectedBarber, this.editedName);
+      await fb.editBarber(this.selectedBarber, { name: this.editedName });
       this.barbers[this.barbers.indexOf(this.selectedBarber)] = this.editedName;
       this.selectedBarber = this.editedName;
       this.loading = false;
