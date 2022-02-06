@@ -1,33 +1,41 @@
 <template>
-  <div id="service">
-    <h2 id="name">{{ service.name }}</h2>
-    <h4>€{{ service.price }}</h4>
-    <p>{{ service.desc }}</p>
+  <div :class="serviceClass">
+    <p class="name">{{ service.name }}</p>
+    <p class="price">€{{ service.price }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["service"],
+  props: ["service", "selected"],
+  computed: {
+    serviceClass: function() {
+      let classes = "service";
+      if (this.selected) classes = classes + " selected";
+      return classes;
+    },
+  },
 };
 </script>
 
 <style scoped>
-#service {
-  margin: 15px;
-  padding: 15px;
-  border: solid aliceblue;
+.service {
+  padding: 0 15px 0 15px;
+  border-bottom: solid aliceblue 1px;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  flex: 1 1 0px;
-  min-width: 100px;
+  align-items: baseline;
+  width: 100%;
+  max-width: 600px;
 }
 
-#name {
-  border-bottom: solid aliceblue 1px;
-  padding: 0 10px 0 10px;
+.service p {
+  font-size: 20px;
+  text-transform: capitalize;
+
+  margin: 0 0 5px 0;
+}
+.selected {
+  background: rgba(53, 81, 156, 0.548);
 }
 </style>

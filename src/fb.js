@@ -230,3 +230,31 @@ export const getServices = async function() {
   });
   return services;
 };
+
+export const editService = async function(originalName, newVals) {
+  // Find service doc id
+  const q = query(
+    collection(db, "services"),
+    where("name", "==", originalName)
+  );
+  let serviceID = "";
+  const serviceDoc = await getDocs(q);
+  serviceDoc.forEach((doc) => {
+    serviceID = doc.id;
+  });
+
+  // update with new vals
+  const serviceRef = doc(db, "services", serviceID);
+  await updateDoc(serviceRef, newVals);
+};
+
+export const deleteService = async function(service) {
+  // Find service doc id
+  const q = query(collection(db, "services"), where("name", "==", service));
+  let serviceID = "";
+  const serviceDoc = await getDocs(q);
+  serviceDoc.forEach((doc) => {
+    serviceID = doc.id;
+  });
+  await deleteDoc(doc(db, "services", serviceID));
+};
