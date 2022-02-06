@@ -8,21 +8,24 @@
 
     <v-dialog dark v-model="showForm">
       <service-adder
+        :numOfServices="services.length"
         @submitting-service="(showForm = false), (loading = true)"
-        @done-service="(loading = false), updateList++"
+        @done-service="(loading = false), getServices()"
       />
     </v-dialog>
 
     <service-list
+      :services="services"
       :forAdmin="true"
-      :update="updateList"
       @loading="loading = true"
-      @done="loading = false"
+      @done="(loading = false), getServices()"
     />
   </div>
 </template>
 
 <script>
+import * as fb from "@/fb";
+
 import ServiceAdder from "./ServiceAdder.vue";
 import Loader from "./Loader.vue";
 import ServiceList from "./ServiceList.vue";
@@ -33,8 +36,17 @@ export default {
     return {
       showForm: false,
       loading: false,
-      updateList: 0,
+      services: [],
     };
+  },
+  created: function() {
+    this.getServices();
+  },
+  methods: {
+    getServices: async function() {
+      let services = await fb.getServices();
+      this.services = services;
+    },
   },
 };
 </script>

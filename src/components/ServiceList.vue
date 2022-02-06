@@ -50,29 +50,17 @@ import Editor from "./Editor.vue";
 import Service from "./Service.vue";
 
 export default {
-  props: ["forAdmin", "update"],
+  props: ["forAdmin", "services"],
   components: { Service, Editor },
   data() {
     return {
       showEditor: false,
       serviceToEdit: {},
-      services: [],
       selectedService: "",
     };
   },
-  created: function() {
-    this.getServices();
-  },
-  watch: {
-    update: function() {
-      this.getServices();
-    },
-  },
+
   methods: {
-    getServices: async function() {
-      let services = await fb.getServices();
-      this.services = services;
-    },
     getIconClass: function(service) {
       if (this.selectedService === service) return " icon-selected";
       else return "icon";
@@ -85,14 +73,12 @@ export default {
       this.$emit("loading");
       this.showEditor = false;
       await fb.editService(this.selectedService, editedValues);
-      this.getServices();
       this.$emit("done");
     },
     deleteService: async function(service) {
       this.$emit("loading");
 
       await fb.deleteService(service);
-      this.getServices();
       this.$emit("done");
     },
   },
