@@ -12,6 +12,7 @@
 <script>
 import * as fb from "@/fb";
 export default {
+  props: ["numBarbers"],
   data() {
     return {
       newBarberName: "",
@@ -19,7 +20,7 @@ export default {
   },
   methods: {
     createBarber: async function(barberName) {
-      if (barberName !== "") await fb.createBarber(barberName);
+      if (barberName !== "") await fb.createBarber(barberName, this.numBarbers);
       this.newBarberName = "";
       this.selectedBarberInfo = {
         name: "",

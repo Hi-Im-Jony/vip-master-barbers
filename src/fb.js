@@ -35,7 +35,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 // creates barber
-export const createBarber = async function(barberName) {
+export const createBarber = async function(barberName, pos) {
   // check if barber exists
   const q = query(collection(db, "barbers"), where("name", "==", barberName));
   let barberExists = false;
@@ -47,6 +47,7 @@ export const createBarber = async function(barberName) {
 
   const barber = await addDoc(collection(db, "barbers"), {
     name: barberName,
+    position: pos,
   });
   await setDoc(doc(db, "barbers", barber.id, "bookings", "init"), {});
   await setDoc(doc(db, "barbers", barber.id, "days_rostered", "init"), {});
@@ -65,7 +66,6 @@ export const deleteBarber = async function(barber) {
     barberID = doc.id;
   });
 
-  console.log(barberID);
   // Delete roster
   const rosterCollection = collection(db, "barbers", barberID, "days_rostered");
   let rosters = await getDocs(rosterCollection);

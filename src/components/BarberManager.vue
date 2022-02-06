@@ -1,7 +1,7 @@
 <template>
   <div id="barber-manager">
     <loader :loading="loading" />
-    <barber-adder @barberAdded="getBarbers()" />
+    <barber-adder :numBarbers="barbers.length" @barberAdded="getBarbers()" />
     <barber-selector
       v-model="selectedBarberInfo"
       :barbers="barbers"
