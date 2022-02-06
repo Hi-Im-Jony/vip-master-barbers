@@ -8,7 +8,7 @@
         @submit="submit"
       />
     </v-dialog>
-    <draggable v-model="services">
+    <draggable v-if="forAdmin" v-model="services">
       <transition-group>
         <div
           class="service-container"
@@ -45,6 +45,41 @@
         </div>
       </transition-group>
     </draggable>
+    <transition-group v-else>
+      <div
+        class="service-container"
+        v-for="service in services"
+        :key="service.name"
+      >
+        <div
+          @click="
+            selectedService =
+              selectedService == service.name ? '' : service.name
+          "
+        >
+          <service
+            class="service"
+            :service="service"
+            :selected="selectedService == service.name"
+          />
+        </div>
+
+        <div class="icon-container" v-if="forAdmin">
+          <v-icon
+            id="edit-icon"
+            @click="edit(service)"
+            :class="getIconClass(service.name)"
+            >mdi-pencil-outline</v-icon
+          >
+          <v-icon
+            id="delete-icon"
+            @click="deleteService(service.name)"
+            :class="getIconClass(service.name)"
+            >mdi-trash-can-outline</v-icon
+          >
+        </div>
+      </div>
+    </transition-group>
   </div>
 </template>
 
@@ -73,7 +108,6 @@ export default {
       deep: true,
 
       async handler() {
-        console.log("Services changed");
         for (let i in this.services) {
           this.services[i].position = i;
           fb.editService(this.services[i].name, this.services[i]);
