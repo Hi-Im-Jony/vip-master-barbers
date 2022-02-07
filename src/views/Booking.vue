@@ -1,8 +1,13 @@
 <template>
   <div id="booking-page">
     <h1 id="page-title">Make a Booking</h1>
-    <barber-selector v-model="selectedBarberInfo" :key="bsKey" />
-
+    <barber-selector
+      v-model="selectedBarberInfo"
+      :givenBarbers="barbers"
+      :forAdmin="false"
+      :getAttempted="getAttempted"
+      @update="(newBarbers) => (barbers = newBarbers)"
+    />
     <calendar
       v-model="calendarInfo"
       :roster="selectedBarberInfo.roster"
@@ -20,8 +25,13 @@ import BarberSelector from "@/components/BarberSelector.vue";
 import Calendar from "@/components/Calendar.vue";
 export default {
   components: { BarberSelector, Calendar },
+  created: function() {
+    this.getBarbers();
+  },
   data() {
     return {
+      barbers: [],
+      getAttempted: false,
       selectedBarberInfo: {
         name: "",
         roster: [],
@@ -36,6 +46,12 @@ export default {
     };
   },
   methods: {
+    getBarbers: async function() {
+      await fb.getAllBarbers().then((response) => {
+        this.barbers = response;
+      });
+      this.getAttempted = true;
+    },
     book: async function() {
       await fb.createBooking(
         this.selectedBarberInfo.name,
