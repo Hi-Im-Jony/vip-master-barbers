@@ -39,25 +39,27 @@
       <preloader color="whitesmoke" :scale="0.2" />
     </div>
     <draggable v-if="forAdmin" v-model="barbers">
-      <div class="barber-container" v-for="barber in barbers" :key="barber">
-        <div :class="getBarberClass(barber)" @click="update(barber)">
-          <label class="barber-name">{{ barber }}</label>
+      <transition-group>
+        <div class="barber-container" v-for="barber in barbers" :key="barber">
+          <div :class="getBarberClass(barber)" @click="update(barber)">
+            <label class="barber-name">{{ barber }}</label>
+          </div>
+          <div class="icon-container" v-if="forAdmin">
+            <v-icon
+              id="edit-icon"
+              @click="edit(barber)"
+              :class="getIconClass(barber)"
+              >mdi-pencil-outline</v-icon
+            >
+            <v-icon
+              id="delete-icon"
+              @click="confirmDelete(barber)"
+              :class="getIconClass(barber)"
+              >mdi-trash-can-outline</v-icon
+            >
+          </div>
         </div>
-        <div class="icon-container" v-if="forAdmin">
-          <v-icon
-            id="edit-icon"
-            @click="edit(barber)"
-            :class="getIconClass(barber)"
-            >mdi-pencil-outline</v-icon
-          >
-          <v-icon
-            id="delete-icon"
-            @click="confirmDelete(barber)"
-            :class="getIconClass(barber)"
-            >mdi-trash-can-outline</v-icon
-          >
-        </div>
-      </div>
+      </transition-group>
     </draggable>
   </div>
 </template>
