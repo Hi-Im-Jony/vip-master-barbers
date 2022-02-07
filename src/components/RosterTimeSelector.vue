@@ -201,9 +201,17 @@ export default {
     isLessThan: function(date1, date2) {
       const arr1 = date1.split(":");
       const arr2 = date2.split(":");
+      // parse to int
+      for (let i = 0; i < 3; i++) {
+        arr1[i] = parseInt(arr1[i]);
+        arr2[i] = parseInt(arr2[i]);
+      }
 
+      // year1 < year2
       if (arr1[2] < arr2[2]) return true;
+      // year1 == year2 && month1 < month2
       if (arr1[2] == arr2[2] && arr1[1] < arr2[1]) return true;
+      // year1 == year2 && month1 == month 2 && day1 < day2
       if (arr1[2] == arr2[2] && arr1[1] == arr2[1] && arr1[0] < arr2[0])
         return true;
 
