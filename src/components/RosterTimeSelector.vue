@@ -22,7 +22,7 @@
           ></v-checkbox>
         </div>
 
-        <v-card>
+        <v-card v-if="!loading">
           <v-list
             :id="dates.indexOf(date) + '-time-list'"
             class="time-list"
@@ -50,10 +50,13 @@
             </v-list-item-group>
           </v-list>
         </v-card>
+        <div>
+          <preloader v-if="loading" color="whitesmoke" :scale="0.3" />
+        </div>
       </v-carousel-item>
     </v-carousel>
     <v-carousel
-      v-else
+      v-else-if="rosterMultiple"
       v-model="carouselModel"
       id="carousel"
       hide-delimiters
@@ -73,7 +76,7 @@
           ></v-checkbox>
         </div>
 
-        <v-card>
+        <v-card v-if="!loading">
           <v-list :id="'time-list'" class="time-list" dark>
             <v-list-item-group
               v-model="timesSelected['ForAll']"
@@ -94,9 +97,12 @@
             </v-list-item-group>
           </v-list>
         </v-card>
+        <div>
+          <preloader v-if="loading" color="whitesmoke" :scale="0.3" />
+        </div>
       </v-carousel-item>
     </v-carousel>
-    <div class="btn-container">
+    <div v-if="!loading" class="btn-container">
       <v-btn id="submit-btn" @click="submit()"> Submit</v-btn>
     </div>
   </div>
@@ -105,20 +111,23 @@
 <script>
 import * as fb from "@/fb";
 import Vue from "vue";
+import Preloader from "./Preloader.vue";
 export default {
   props: [
     "barber",
+
     "currentRoster",
     "newDates",
     "visibility",
     "rosterMultiple",
   ],
+  components: { Preloader },
   data() {
     return {
       carouselModel: [],
       carouselKey: 0,
       timesSelected: {},
-
+      loading: false,
       dates: this.newDates,
       quickEnabled: false,
     };
@@ -131,10 +140,13 @@ export default {
   watch: {
     visibility: async function(visible) {
       if (visible) {
+        this.loading = true;
         this.dates = this.sortDates(this.newDates);
-        await this.reset();
         this.carouselModel = 0;
+
+        await this.reset();
         this.scroll();
+        this.loading = false;
       }
     },
     carouselModel: function(newVal) {
@@ -144,11 +156,14 @@ export default {
     },
   },
   created: async function() {
+    this.loading = true;
     Vue.set(this.timesSelected, "ForAll", []);
     this.dates = this.sortDates(this.newDates);
-    await this.reset();
     this.carouselModel = 0;
+    await this.reset();
+
     this.scroll();
+    this.loading = false;
   },
   methods: {
     quickSelect: function(newestClick) {
