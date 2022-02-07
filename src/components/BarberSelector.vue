@@ -38,10 +38,15 @@
     <div v-if="!getAttempted">
       <preloader color="whitesmoke" :scale="0.2" />
     </div>
-    <draggable v-if="forAdmin" v-model="barbers">
+    <draggable v-model="barbers" handle=".handle">
       <transition-group>
         <div class="barber-container" v-for="barber in barbers" :key="barber">
           <div :class="getBarberClass(barber)" @click="update(barber)">
+            <div v-if="forAdmin" class="handle">
+              <v-icon>
+                mdi-swap-vertical
+              </v-icon>
+            </div>
             <label class="barber-name">{{ barber }}</label>
           </div>
           <div class="icon-container" v-if="forAdmin">
@@ -189,6 +194,11 @@ export default {
   width: 100%;
   border: solid rgba(240, 248, 255, 0.137);
   border-width: 1px;
+  position: relative;
+}
+.handle {
+  position: absolute;
+  left: 10px;
 }
 #dialog {
   color: aliceblue;
