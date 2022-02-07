@@ -8,19 +8,25 @@
         @submit="submit"
       />
     </v-dialog>
-    <draggable v-if="forAdmin" v-model="services">
+    <draggable v-if="forAdmin" v-model="services" handle=".handle">
       <transition-group>
         <div
-          class="service-container"
+          class="draggable-container"
           v-for="service in services"
           :key="service.name"
         >
           <div
+            class="service-container"
             @click="
               selectedService =
                 selectedService == service.name ? '' : service.name
             "
           >
+            <div v-if="forAdmin" class="handle">
+              <v-icon>
+                mdi-swap-vertical
+              </v-icon>
+            </div>
             <service
               class="service"
               :service="service"
@@ -47,7 +53,7 @@
     </draggable>
     <transition-group v-else>
       <div
-        class="service-container"
+        class="draggable-container"
         v-for="service in services"
         :key="service.name"
       >
@@ -148,12 +154,18 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
 }
-.service-container {
+.draggable-container {
   display: flex;
   flex-direction: column;
   width: 80vw;
   max-width: 500px;
   margin: 5px;
+}
+
+.service-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-container {
