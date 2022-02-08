@@ -71,9 +71,12 @@ export default {
     },
     calendarInfo: {
       deep: true,
-      handler: function() {
-        if (this.calendarInfo.selectedDays.length > 0) {
-          let s = this.calendarInfo.selectedDays[0];
+      handler: function(newVal, oldVal) {
+        if (
+          newVal.selectedDays.length > 0 &&
+          newVal.selectedDays[0] != oldVal.selectedDays[0]
+        ) {
+          let s = newVal.selectedDays[0];
           console.log(s);
           this.selectedDay = s;
           this.bookingStep++;
