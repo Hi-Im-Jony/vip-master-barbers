@@ -1,21 +1,35 @@
 <template>
   <div id="booking-page">
     <h1 id="page-title">Make a Booking</h1>
-    <barber-selector
-      v-model="selectedBarberInfo"
-      :givenBarbers="barbers"
-      :forAdmin="false"
-      :getAttempted="getAttempted"
-      @update="(newBarbers) => (barbers = newBarbers)"
-    />
-    <calendar
-      v-model="calendarInfo"
-      :limited="true"
-      :roster="selectedBarberInfo.roster"
-      :givenMonth="calendarInfo.selectedMonth"
-      :givenYear="calendarInfo.selectedYear"
-      :key="cKey"
-    />
+    <v-carousel v-model="bookingStep" :hide-delimiters="true">
+      <v-carousel-item dark>
+        <div class="step">
+          <barber-selector
+            v-model="selectedBarberInfo"
+            :givenBarbers="barbers"
+            :forAdmin="false"
+            :getAttempted="getAttempted"
+          />
+        </div>
+      </v-carousel-item>
+      <v-carousel-item dark>
+        <div class="step">
+          <calendar
+            v-model="calendarInfo"
+            :limited="true"
+            :roster="selectedBarberInfo.roster"
+            :givenMonth="calendarInfo.selectedMonth"
+            :givenYear="calendarInfo.selectedYear"
+            :key="cKey"
+          />
+        </div>
+      </v-carousel-item>
+      <v-carousel-item dark>
+        <div class="step">
+          <p>Coming Soon...</p>
+        </div>
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
@@ -30,6 +44,7 @@ export default {
   },
   data() {
     return {
+      bookingStep: 0,
       barbers: [],
       getAttempted: false,
       selectedBarberInfo: {
@@ -41,10 +56,32 @@ export default {
         selectedYear: null,
         selectedMonth: null,
       },
+      selectedDay: "",
       bsKey: 0,
       cKey: 1,
     };
   },
+
+  watch: {
+    selectedBarberInfo: {
+      deep: true,
+      handler: function(newVal) {
+        if (newVal.name != "") this.bookingStep++;
+      },
+    },
+    calendarInfo: {
+      deep: true,
+      handler: function() {
+        if (this.calendarInfo.selectedDays.length > 0) {
+          let s = this.calendarInfo.selectedDays[0];
+          console.log(s);
+          this.selectedDay = s;
+          this.bookingStep++;
+        }
+      },
+    },
+  },
+
   methods: {
     getBarbers: async function() {
       await fb.getAllBarbers().then((response) => {
@@ -76,5 +113,10 @@ export default {
 #page-title {
   width: 100%;
   text-align: center;
+}
+
+.step {
+  display: flex !important;
+  justify-content: center !important;
 }
 </style>
