@@ -44,7 +44,7 @@
 
 <script>
 export default {
-  props: ["roster", "givenYear", "givenMonth"],
+  props: ["limited", "roster", "givenYear", "givenMonth"],
   data() {
     return {
       year: this.givenYear === null ? this.currentYear() : this.givenYear,
@@ -125,7 +125,7 @@ export default {
         this.year;
       if (!this.checkIfInPast(date))
         if (!this.selectedDates.includes(date)) {
-          if (this.roster) {
+          if (!this.limited) {
             // unlimited dates can be selected
             this.selectedDates.push(date);
           } else {

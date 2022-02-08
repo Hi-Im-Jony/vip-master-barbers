@@ -10,12 +10,12 @@
     />
     <calendar
       v-model="calendarInfo"
+      :limited="true"
       :roster="selectedBarberInfo.roster"
       :givenMonth="calendarInfo.selectedMonth"
       :givenYear="calendarInfo.selectedYear"
       :key="cKey"
     />
-    <a @click="book()">Book</a>
   </div>
 </template>
 
