@@ -124,7 +124,7 @@ export default {
         ":" +
         this.year;
       if (this.limited) {
-        if (!this.roster.includes(date)) return;
+        if (!this.roster.includes(date) || this.checkIfInPast(date)) return;
       }
       if (!this.checkIfInPast(date))
         if (!this.selectedDates.includes(date)) {
@@ -156,7 +156,7 @@ export default {
         this.year;
       let inPast = this.checkIfInPast(date);
       if (this.limited) {
-        if (!this.roster.includes(date)) {
+        if (!this.roster.includes(date) || inPast) {
           classes = classes + " in-past";
           return classes;
         }
