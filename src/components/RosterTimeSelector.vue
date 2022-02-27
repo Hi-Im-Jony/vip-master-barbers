@@ -32,19 +32,30 @@
               v-model="timesSelected[date]"
               multiple
               color="success"
+              style="font-size:26px"
             >
+              <v-list-item class="time-slot" @click="quickSelect(0)">
+                <v-list-item-content>
+                  <p>00:20</p>
+                </v-list-item-content>
+              </v-list-item>
               <v-list-item
                 class="time-slot"
-                v-for="time in 24"
+                v-for="time in 47"
                 :key="time"
                 @click="quickSelect(time)"
               >
                 <v-list-item-content
                   :id="dates.indexOf(date) + '-' + (time - 1)"
-                  style="font-size:26px"
                 >
-                  <p v-if="time - 1 < 10">0{{ time - 1 }}:00</p>
-                  <p v-else>{{ time - 1 }}:00</p>
+                  <div v-if="time % 2 == 0">
+                    <p v-if="time / 2 < 10">0{{ time / 2 }}:20</p>
+                    <p v-else>{{ time / 2 }}:20</p>
+                  </div>
+                  <div v-else>
+                    <p v-if="time / 2 < 10">0{{ time / 2 - 0.5 }}:50</p>
+                    <p v-else>{{ time / 2 - 0.5 }}:50</p>
+                  </div>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -82,16 +93,28 @@
               v-model="timesSelected['ForAll']"
               multiple
               color="success"
+              style="font-size:26px"
             >
+              <v-list-item class="time-slot" @click="quickSelect(0)">
+                <v-list-item-content>
+                  <p>00:20</p>
+                </v-list-item-content>
+              </v-list-item>
               <v-list-item
                 class="time-slot"
-                v-for="time in 24"
+                v-for="time in 47"
                 :key="time"
                 @click="quickSelect(time)"
               >
-                <v-list-item-content style="font-size:26px">
-                  <p v-if="time - 1 < 10">0{{ time - 1 }}:00</p>
-                  <p v-else>{{ time - 1 }}:00</p>
+                <v-list-item-content>
+                  <div v-if="time % 2 == 0">
+                    <p v-if="time / 2 < 10">0{{ time / 2 }}:20</p>
+                    <p v-else>{{ time / 2 }}:20</p>
+                  </div>
+                  <div v-else>
+                    <p v-if="time / 2 < 10">0{{ time / 2 - 0.5 }}:50</p>
+                    <p v-else>{{ time / 2 - 0.5 }}:50</p>
+                  </div>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -168,7 +191,6 @@ export default {
   methods: {
     quickSelect: function(newestClick) {
       if (!this.quickEnabled) return;
-      newestClick--;
       let times = this.rosterMultiple
         ? this.timesSelected["ForAll"]
         : this.timesSelected[this.dateSelected];
@@ -262,7 +284,7 @@ export default {
         : this.carouselModel + "-time-list";
       setTimeout(function() {
         const scrollableEl = document.getElementById(scrollableElID);
-        if (scrollableEl) scrollableEl.scrollTo(0, 600);
+        if (scrollableEl) scrollableEl.scrollTo(0, 1150);
       }, 100);
     },
     submit: async function() {
