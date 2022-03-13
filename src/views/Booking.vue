@@ -1,7 +1,11 @@
 <template>
   <div id="booking-page">
     <h1 id="page-title">Make a Booking</h1>
-    <v-carousel v-model="bookingStep" :hide-delimiters="true">
+    <v-carousel
+      v-model="bookingStep"
+      :show-arrows="false"
+      :hide-delimiters="true"
+    >
       <v-carousel-item dark>
         <div class="step">
           <barber-selector
@@ -30,6 +34,14 @@
         </div>
       </v-carousel-item>
     </v-carousel>
+    <div id="arrows-container">
+      <v-icon class="arrow" @click="bookingStep > 0 ? bookingStep-- : null">
+        mdi-chevron-left
+      </v-icon>
+      <v-icon class="arrow" @click="bookingStep < 2 ? bookingStep++ : null">
+        mdi-chevron-right
+      </v-icon>
+    </div>
   </div>
 </template>
 
@@ -112,6 +124,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 #page-title {
   width: 100%;
@@ -121,5 +134,18 @@ export default {
 .step {
   display: flex !important;
   justify-content: center !important;
+}
+#arrows-container {
+  width: 80%;
+  display: flex;
+  position: absolute;
+  bottom: 20px;
+  justify-content: space-between;
+}
+.arrow {
+  color: whitesmoke;
+  background: rgb(59, 58, 58);
+  border-radius: 10px;
+  font-size: 45px;
 }
 </style>
