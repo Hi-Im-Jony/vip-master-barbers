@@ -38,7 +38,10 @@
       <v-icon class="arrow" @click="bookingStep > 0 ? bookingStep-- : null">
         mdi-chevron-left
       </v-icon>
-      <v-icon class="arrow" @click="bookingStep < 2 ? bookingStep++ : null">
+      <v-icon
+        class="arrow"
+        @click="bookingStep < maxStep ? bookingStep++ : null"
+      >
         mdi-chevron-right
       </v-icon>
     </div>
@@ -56,6 +59,7 @@ export default {
   },
   data() {
     return {
+      maxStep: 2,
       bookingStep: 0,
       barbers: [],
       getAttempted: false,
