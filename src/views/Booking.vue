@@ -30,10 +30,23 @@
       </v-carousel-item>
       <v-carousel-item dark>
         <div class="step">
+          <booking-time-selector
+            :rosteredTimes="rosteredTimes"
+            :bookedTimes="bookedTimes"
+          />
+        </div>
+      </v-carousel-item>
+      <v-carousel-item dark>
+        <div class="step">
           <p>Coming Soon...</p>
         </div>
       </v-carousel-item>
     </v-carousel>
+
+    <v-btn @click="book()">
+      hi
+    </v-btn>
+
     <div id="arrows-container">
       <v-icon class="arrow" @click="bookingStep > 0 ? bookingStep-- : null">
         mdi-chevron-left
@@ -52,8 +65,9 @@
 import * as fb from "@/fb";
 import BarberSelector from "@/components/BarberSelector.vue";
 import Calendar from "@/components/Calendar.vue";
+import BookingTimeSelector from "../components/BookingTimeSelector.vue";
 export default {
-  components: { BarberSelector, Calendar },
+  components: { BarberSelector, Calendar, BookingTimeSelector },
   created: function() {
     this.getBarbers();
   },
@@ -67,6 +81,8 @@ export default {
         name: "",
         roster: [],
       },
+      rosteredTimes: [],
+      bookedTimes: [],
       calendarInfo: {
         selectedDays: [],
         selectedYear: null,
@@ -82,19 +98,31 @@ export default {
     selectedBarberInfo: {
       deep: true,
       handler: function(newVal) {
+        this.calendarInfo = {
+          selectedDays: [],
+          selectedYear: null,
+          selectedMonth: null,
+        };
         if (newVal.name != "") this.bookingStep++;
       },
     },
     calendarInfo: {
       deep: true,
-      handler: function(newVal, oldVal) {
+      handler: async function(newVal, oldVal) {
         if (
           newVal.selectedDays.length > 0 &&
           newVal.selectedDays[0] != oldVal.selectedDays[0]
         ) {
-          let s = newVal.selectedDays[0];
-          console.log(s);
-          this.selectedDay = s;
+          this.selectedDay = newVal.selectedDays[0];
+
+          this.rosteredTimes = await fb.getRosteredDayTimes(
+            this.selectedBarberInfo.name,
+            this.selectedDay
+          );
+          this.bookedTimes = await fb.getBookingsOnDay(
+            this.selectedBarberInfo.name,
+            this.selectedDay
+          );
           this.bookingStep++;
         }
       },
@@ -102,18 +130,18 @@ export default {
   },
 
   methods: {
+    book: async function() {
+      await fb.createBooking(
+        this.selectedBarberInfo.name,
+        this.selectedDay,
+        17
+      );
+    },
     getBarbers: async function() {
       await fb.getAllBarbers().then((response) => {
         this.barbers = response;
       });
       this.getAttempted = true;
-    },
-    book: async function() {
-      await fb.createBooking(
-        this.selectedBarberInfo.name,
-        this.calendarInfo.selectedDays
-      );
-      this.cKey += 1;
     },
   },
 };
