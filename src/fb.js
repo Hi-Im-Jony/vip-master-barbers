@@ -117,14 +117,8 @@ export const getAllBarbers = async function() {
 export const roster = async function(barber, dayToRoster, times) {
   let barberID = await getBarberID(barber);
 
-  let timesStr = [];
-  for (let t in times) {
-    let time = times[t];
-    timesStr.push(time < 10 ? "0" + time + ":00" : time + ":00");
-  }
-
   await setDoc(doc(db, "barbers", barberID, "days_rostered", dayToRoster), {
-    timesRostered: timesStr,
+    timesRostered: times,
   });
 };
 
@@ -160,12 +154,6 @@ export const getRosteredDayTimes = async function(barber, day) {
   const daysRostered = await getDoc(docRef);
   let times = [];
   if (daysRostered.data()) times = daysRostered.data().timesRostered;
-  else return [];
-  for (let t in times) {
-    let tS = times[t];
-    tS = tS.split(":");
-    times[t] = parseInt(tS[0]);
-  }
   return times;
 };
 
