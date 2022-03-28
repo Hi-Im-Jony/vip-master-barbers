@@ -34,7 +34,7 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
 
-// creates barber
+/******* Barbers *******/
 export const createBarber = async function(barberName, pos) {
   // check if barber exists
   const q = query(collection(db, "barbers"), where("name", "==", barberName));
@@ -53,18 +53,19 @@ export const createBarber = async function(barberName, pos) {
   await setDoc(doc(db, "barbers", barber.id, "days_rostered", "init"), {});
 };
 
-// delete a barber and their data
-export const deleteBarber = async function(barber) {
-  /* To delete an entire collection or subcollection in Cloud Firestore, 
-  retrieve all the documents within the collection or subcollection and delete them*/
-
-  // Find barber id
-  const q = query(collection(db, "barbers"), where("name", "==", barber));
+// Find barber id
+const getBarberID = async function(barberName) {
+  const q = query(collection(db, "barbers"), where("name", "==", barberName));
   let barberID = "";
   const barbersDoc = await getDocs(q);
   barbersDoc.forEach((doc) => {
     barberID = doc.id;
   });
+  return barberID;
+};
+// delete a barber and their data
+export const deleteBarber = async function(barber) {
+  let barberID = await getBarberID(barber);
 
   // Delete roster
   const rosterCollection = collection(db, "barbers", barberID, "days_rostered");
@@ -91,23 +92,15 @@ export const deleteBarber = async function(barber) {
   await deleteDoc(doc(db, "barbers", barberID));
 };
 
+// edit a barbers details
 export const editBarber = async function(selectedBarber, newVals) {
-  // Find barber id
-  const q = query(
-    collection(db, "barbers"),
-    where("name", "==", selectedBarber)
-  );
-  let barberID = "";
-  const barbersDoc = await getDocs(q);
-  barbersDoc.forEach((doc) => {
-    barberID = doc.id;
-  });
+  let barberID = await getBarberID(selectedBarber);
 
   const barberRef = doc(db, "barbers", barberID);
   await updateDoc(barberRef, newVals);
 };
 
-// returns an array with the names of all barbers
+// get names of all Barbers
 export const getAllBarbers = async function() {
   const barbersCollection = collection(db, "barbers");
   const q = query(barbersCollection, orderBy("position"));
@@ -119,15 +112,10 @@ export const getAllBarbers = async function() {
   return barbers;
 };
 
-// roster a barber on given days
+/******* Rosters *******/
+// roster a barber
 export const roster = async function(barber, dayToRoster, times) {
-  // Find barber id
-  const q = query(collection(db, "barbers"), where("name", "==", barber));
-  let barberID = "";
-  const barbersDoc = await getDocs(q);
-  barbersDoc.forEach((doc) => {
-    barberID = doc.id;
-  });
+  let barberID = await getBarberID(barber);
 
   let timesStr = [];
   for (let t in times) {
@@ -142,13 +130,7 @@ export const roster = async function(barber, dayToRoster, times) {
 
 // de-roster a barber on given days
 export const deroster = async function(barber, daysToRemove) {
-  // Find barber id
-  const q = query(collection(db, "barbers"), where("name", "==", barber));
-  let barberID = "";
-  const barbersDoc = await getDocs(q);
-  barbersDoc.forEach((doc) => {
-    barberID = doc.id;
-  });
+  let barberID = await getBarberID(barber);
 
   for (let dayToRemove in daysToRemove) {
     await deleteDoc(
@@ -159,13 +141,7 @@ export const deroster = async function(barber, daysToRemove) {
 
 // returns an array of days a barber is rostered
 export const getRosteredDays = async function(barber) {
-  // Find barber id
-  const q = query(collection(db, "barbers"), where("name", "==", barber));
-  let barberID = "";
-  const barbersDoc = await getDocs(q);
-  barbersDoc.forEach((doc) => {
-    barberID = doc.id;
-  });
+  let barberID = await getBarberID(barber);
 
   const rosterCollection = collection(db, "barbers", barberID, "days_rostered");
   const roseterQ = await getDocs(rosterCollection);
@@ -178,13 +154,7 @@ export const getRosteredDays = async function(barber) {
 };
 
 export const getRosteredDayTimes = async function(barber, day) {
-  // Find barber id
-  const q = query(collection(db, "barbers"), where("name", "==", barber));
-  let barberID = "";
-  const barbersDoc = await getDocs(q);
-  barbersDoc.forEach((doc) => {
-    barberID = doc.id;
-  });
+  let barberID = await getBarberID(barber);
 
   const docRef = doc(db, "barbers", barberID, "days_rostered", day);
   const daysRostered = await getDoc(docRef);
@@ -199,12 +169,20 @@ export const getRosteredDayTimes = async function(barber, day) {
   return times;
 };
 
+/******* Bookings *******/
 // create a booking for a barber
-export const createBooking = async function(barber, day) {
+export const createBooking = async function(barber, day, time) {
   console.log(barber);
   console.log(day);
+  console.log(time);
 };
 
+// retrieve all bookings on requested day for requested barber
+export const getBookings = async function(barber, day) {
+  let barberID = await getBarberID(barber);
+};
+
+/******* Services *******/
 export const addService = async function(
   serviceName,
   servicePrice,
