@@ -144,9 +144,9 @@ export const getRosteredDays = async function(barber) {
   let barberID = await getBarberID(barber);
 
   const rosterCollection = collection(db, "barbers", barberID, "days_rostered");
-  const roseterQ = await getDocs(rosterCollection);
+  const roseterDocs = await getDocs(rosterCollection);
   let daysRostered = [];
-  roseterQ.forEach((doc) => {
+  roseterDocs.forEach((doc) => {
     daysRostered.push(doc.id);
   });
 
@@ -160,7 +160,7 @@ export const getRosteredDayTimes = async function(barber, day) {
   const daysRostered = await getDoc(docRef);
   let times = [];
   if (daysRostered.data()) times = daysRostered.data().timesRostered;
-  else return times;
+  else return [];
   for (let t in times) {
     let tS = times[t];
     tS = tS.split(":");
@@ -178,8 +178,13 @@ export const createBooking = async function(barber, day, time) {
 };
 
 // retrieve all bookings on requested day for requested barber
-export const getBookings = async function(barber, day) {
+export const getBookingsOnDay = async function(barber, day) {
   let barberID = await getBarberID(barber);
+  const bookingRef = doc(db, "barbers", barberID, "bookings", barber);
+  const bookingDoc = await getDoc(bookingRef);
+  let bookedTimes = [];
+  if (bookingDoc.data()) bookedTimes = bookingDoc.data().bookedTimes;
+  return bookedTimes;
 };
 
 /******* Services *******/
