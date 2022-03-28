@@ -13,6 +13,7 @@ import {
   where,
   updateDoc,
   orderBy,
+  arrayUnion,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -160,15 +161,26 @@ export const getRosteredDayTimes = async function(barber, day) {
 /******* Bookings *******/
 // create a booking for a barber
 export const createBooking = async function(barber, day, time) {
-  console.log(barber);
-  console.log(day);
-  console.log(time);
+  let barberID = await getBarberID(barber);
+  const bookedDayRef = doc(db, "barbers", barberID, "bookings", day);
+  const bookedDayDoc = await getDoc(bookedDayRef);
+  // if doc exists
+  if (bookedDayDoc.data()) {
+    await updateDoc(bookedDayRef, {
+      bookedTimes: arrayUnion(time),
+    });
+  } else {
+    // else, create doc
+    await setDoc(doc(db, "barbers", barberID, "bookings", day), {
+      bookedTimes: [time],
+    });
+  }
 };
 
 // retrieve all bookings on requested day for requested barber
 export const getBookingsOnDay = async function(barber, day) {
   let barberID = await getBarberID(barber);
-  const bookingRef = doc(db, "barbers", barberID, "bookings", barber);
+  const bookingRef = doc(db, "barbers", barberID, "bookings", day);
   const bookingDoc = await getDoc(bookingRef);
   let bookedTimes = [];
   if (bookingDoc.data()) bookedTimes = bookingDoc.data().bookedTimes;
