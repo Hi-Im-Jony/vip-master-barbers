@@ -1,6 +1,7 @@
 <template>
   <div id="booking-page">
     <h1 id="page-title">Make a Booking</h1>
+    <h2>{{ selectedTime }}</h2>
     <v-carousel
       v-model="bookingStep"
       :show-arrows="false"
@@ -38,6 +39,7 @@
             :rosteredTimes="rosteredTimes"
             :bookedTimes="bookedTimes"
             :visibility="bookingStep == 2"
+            v-model="selectedTime"
           />
         </div>
       </v-carousel-item>
@@ -48,14 +50,13 @@
       </v-carousel-item>
     </v-carousel>
 
-    <v-btn @click="book()">
-      book
-    </v-btn>
-
     <div id="arrows-container">
       <v-icon class="arrow" @click="bookingStep > 0 ? bookingStep-- : null">
         mdi-chevron-left
       </v-icon>
+      <v-btn @click="book()">
+        book
+      </v-btn>
       <v-icon
         class="arrow"
         @click="bookingStep < maxStep ? bookingStep++ : null"
@@ -86,6 +87,7 @@ export default {
         name: "",
         roster: [],
       },
+      selectedTime: null,
       rosteredTimes: [],
       bookedTimes: [],
       calendarInfo: {
@@ -114,6 +116,7 @@ export default {
     calendarInfo: {
       deep: true,
       handler: async function(newVal, oldVal) {
+        // if a new day was selected
         if (
           newVal.selectedDays.length > 0 &&
           newVal.selectedDays[0] != oldVal.selectedDays[0]

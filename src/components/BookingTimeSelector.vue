@@ -3,11 +3,11 @@
     <h2>Select Time</h2>
     <v-list class="time-list" dark>
       <v-list-item-group
-        v-model="selectedTime"
+        v-model="oldTimeSelected"
         color="success"
         style="font-size:26px"
       >
-        <v-list-item :class="getSlotClass(0)" @click="select(0)">
+        <v-list-item :class="getSlotClass(0)" @click="emitSelected(0)">
           <v-list-item-content>
             <p>00:20</p>
           </v-list-item-content>
@@ -16,7 +16,7 @@
           :class="getSlotClass(time)"
           v-for="time in 47"
           :key="time"
-          @click="select(time)"
+          @click="emitSelected(time)"
         >
           <v-list-item-content>
             <div v-if="time % 2 == 0">
@@ -40,12 +40,16 @@ export default {
   props: ["rosteredTimes", "bookedTimes", "visibility"],
   data() {
     return {
-      selectedTime: null,
+      oldTimeSelected: null,
     };
   },
   watch: {
     visibility: function(visibile) {
-      if (!visibile) this.selectedTime = null;
+      if (!visibile) {
+        this.oldTimeSelected = null;
+        this.$emit("input", null);
+        console.log("hi");
+      }
     },
   },
   methods: {
@@ -55,8 +59,10 @@ export default {
       if (this.bookedTimes.includes(slot)) slotClass = "time-slot unavailable";
       return slotClass;
     },
-    select: function(slot) {
-      console.log(slot);
+    emitSelected: function(newTimeSelected) {
+      if (newTimeSelected != this.oldTimeSelected)
+        this.$emit("input", newTimeSelected);
+      else this.$emit("input", null);
     },
   },
 };
