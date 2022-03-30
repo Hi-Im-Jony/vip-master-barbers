@@ -5,8 +5,10 @@
       v-model="bookingStep"
       :show-arrows="false"
       :hide-delimiters="true"
+      height="auto"
     >
       <v-carousel-item dark>
+        <!-- Step 1 -->
         <div class="step">
           <barber-selector
             v-model="selectedBarberInfo"
@@ -17,6 +19,7 @@
         </div>
       </v-carousel-item>
       <v-carousel-item dark>
+        <!-- Step 2 -->
         <div class="step">
           <calendar
             v-model="calendarInfo"
@@ -29,10 +32,12 @@
         </div>
       </v-carousel-item>
       <v-carousel-item dark>
+        <!-- Step 3 -->
         <div class="step">
           <booking-time-selector
             :rosteredTimes="rosteredTimes"
             :bookedTimes="bookedTimes"
+            :visibility="bookingStep == 2"
           />
         </div>
       </v-carousel-item>
@@ -44,7 +49,7 @@
     </v-carousel>
 
     <v-btn @click="book()">
-      hi
+      book
     </v-btn>
 
     <div id="arrows-container">
@@ -134,7 +139,7 @@ export default {
       await fb.createBooking(
         this.selectedBarberInfo.name,
         this.selectedDay,
-        17
+        18
       );
     },
     getBarbers: async function() {
