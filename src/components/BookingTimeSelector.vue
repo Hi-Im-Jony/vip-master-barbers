@@ -95,14 +95,4 @@ export default {
   opacity: 0.5;
   pointer-events: none;
 }
-.btn-container {
-  padding-top: 10px;
-  font-size: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 60px;
-  text-align: center;
-}
 </style>
