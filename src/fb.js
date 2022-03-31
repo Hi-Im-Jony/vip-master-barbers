@@ -55,7 +55,10 @@ export const createBarber = async function(barberName, pos) {
 
 // Find barber id
 const getBarberID = async function(barberName) {
-  const q = query(collection(db, "barbers"), where("name", "==", barberName));
+  const q = query(
+    collection(db, "tmp_barbers"),
+    where("name", "==", barberName)
+  );
   let barberID = "";
   const barbersDoc = await getDocs(q);
   barbersDoc.forEach((doc) => {
@@ -96,13 +99,13 @@ export const deleteBarber = async function(barber) {
 export const editBarber = async function(selectedBarber, newVals) {
   let barberID = await getBarberID(selectedBarber);
 
-  const barberRef = doc(db, "barbers", barberID);
+  const barberRef = doc(db, "tmp_barbers", barberID);
   await updateDoc(barberRef, newVals);
 };
 
 // get names of all Barbers
 export const getAllBarbers = async function() {
-  const barbersCollection = collection(db, "barbers");
+  const barbersCollection = collection(db, "tmp_barbers");
   const q = query(barbersCollection, orderBy("position"));
   const barbersQ = await getDocs(q);
   let barbers = [];
