@@ -169,7 +169,8 @@ export default {
       await fb.createBooking(
         this.selectedBarberInfo.name,
         this.selectedDay,
-        this.selectedTime
+        this.selectedTime,
+        this.selectedService
       );
     },
     getBarbers: async function() {
