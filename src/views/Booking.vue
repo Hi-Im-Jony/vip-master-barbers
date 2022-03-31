@@ -1,7 +1,7 @@
 <template>
   <div id="booking-page">
     <h1 id="page-title">Make a Booking</h1>
-    <h2>{{ selectedTime }}</h2>
+
     <v-carousel
       v-model="bookingStep"
       :show-arrows="false"
@@ -44,8 +44,29 @@
         </div>
       </v-carousel-item>
       <v-carousel-item dark>
+        <!-- Step 4 -->
         <div class="step">
-          <p>Coming Soon...</p>
+          <service-list
+            v-model="selectedService"
+            :forAdmin="false"
+            :givenServices="services"
+            @input="bookingStep++"
+          />
+        </div>
+      </v-carousel-item>
+      <v-carousel-item dark>
+        <!-- Step 5 -->
+        <div class="step">
+          <ul>
+            <h3>Booking Summary:</h3>
+            <h4>Barber: {{ selectedBarberInfo.name }}</h4>
+            <h4>Date: {{ selectedDay }}</h4>
+
+            <h4>Time: {{ selectedTime }}</h4>
+            <h4>
+              Service: {{ selectedService.name }}, €{{ selectedService.price }}
+            </h4>
+          </ul>
         </div>
       </v-carousel-item>
     </v-carousel>
@@ -72,16 +93,20 @@ import * as fb from "@/fb";
 import BarberSelector from "@/components/BarberSelector.vue";
 import Calendar from "@/components/Calendar.vue";
 import BookingTimeSelector from "../components/BookingTimeSelector.vue";
+import ServiceList from "../components/ServiceList.vue";
 export default {
-  components: { BarberSelector, Calendar, BookingTimeSelector },
+  components: { BarberSelector, Calendar, BookingTimeSelector, ServiceList },
   created: function() {
     this.getBarbers();
+    this.getServices();
   },
   data() {
     return {
-      maxStep: 3,
+      maxStep: 4,
       bookingStep: 0,
       barbers: [],
+      services: [],
+      selectedService: {},
       getAttempted: false,
       selectedBarberInfo: {
         name: "",
@@ -100,7 +125,6 @@ export default {
       cKey: 1,
     };
   },
-
   watch: {
     selectedBarberInfo: {
       deep: true,
@@ -145,7 +169,7 @@ export default {
       await fb.createBooking(
         this.selectedBarberInfo.name,
         this.selectedDay,
-        18
+        this.selectedTime
       );
     },
     getBarbers: async function() {
@@ -153,6 +177,10 @@ export default {
         this.barbers = response;
       });
       this.getAttempted = true;
+    },
+    getServices: async function() {
+      let services = await fb.getServices();
+      this.services = services;
     },
   },
 };
