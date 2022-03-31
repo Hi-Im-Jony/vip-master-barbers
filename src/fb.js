@@ -38,20 +38,19 @@ const db = getFirestore();
 /******* Barbers *******/
 export const createBarber = async function(barberName, pos) {
   // check if barber exists
-  const q = query(collection(db, "barbers"), where("name", "==", barberName));
-  let barberExists = false;
+  const q = query(
+    collection(db, "tmp_barbers"),
+    where("name", "==", barberName)
+  );
   const dbQuery = await getDocs(q);
   dbQuery.forEach(() => {
-    barberExists = true;
+    return;
   });
-  if (barberExists) return;
 
-  const barber = await addDoc(collection(db, "barbers"), {
+  await addDoc(collection(db, "tmp_barbers"), {
     name: barberName,
     position: pos,
   });
-  await setDoc(doc(db, "barbers", barber.id, "bookings", "init"), {});
-  await setDoc(doc(db, "barbers", barber.id, "days_rostered", "init"), {});
 };
 
 // Find barber id
