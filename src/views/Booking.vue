@@ -1,7 +1,6 @@
 <template>
   <div id="booking-page">
     <h1 id="page-title">Make a Booking</h1>
-
     <v-carousel
       v-model="bookingStep"
       :show-arrows="false"
@@ -170,7 +169,8 @@ export default {
         this.selectedBarberInfo.name,
         this.selectedDay,
         this.selectedTime,
-        this.selectedService
+        this.selectedService.name,
+        "n/a"
       );
     },
     getBarbers: async function() {
