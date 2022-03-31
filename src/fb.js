@@ -160,25 +160,28 @@ export const getRosteredDayTimes = async function(barber, day) {
 
 /******* Bookings *******/
 // create a booking for a barber
-export const createBooking = async function(barber, day, time) {
+export const createBooking = async function(barber, day, time, service) {
   let barberID = await getBarberID(barber);
   const bookedDayRef = doc(db, "barbers", barberID, "bookings", day);
   const bookedDayDoc = await getDoc(bookedDayRef);
+  let booking = { time: time, service: service.name, price: service.price };
   // if doc exists
   if (bookedDayDoc.data()) {
     await updateDoc(bookedDayRef, {
       bookedTimes: arrayUnion(time),
+      bookings: arrayUnion(booking),
     });
   } else {
     // else, create doc
     await setDoc(doc(db, "barbers", barberID, "bookings", day), {
       bookedTimes: [time],
+      bookings: [booking],
     });
   }
 };
 
 // retrieve all bookings on requested day for requested barber
-export const getBookingsOnDay = async function(barber, day) {
+export const getBookedTimes = async function(barber, day) {
   let barberID = await getBarberID(barber);
   const bookingRef = doc(db, "barbers", barberID, "bookings", day);
   const bookingDoc = await getDoc(bookingRef);

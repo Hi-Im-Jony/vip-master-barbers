@@ -151,7 +151,7 @@ export default {
             this.selectedBarberInfo.name,
             this.selectedDay
           );
-          this.bookedTimes = await fb.getBookingsOnDay(
+          this.bookedTimes = await fb.getBookedTimes(
             this.selectedBarberInfo.name,
             this.selectedDay
           );
