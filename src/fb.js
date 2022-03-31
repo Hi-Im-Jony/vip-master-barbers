@@ -118,10 +118,12 @@ export const getAllBarbers = async function() {
 /******* Rosters *******/
 // roster a barber
 export const roster = async function(barber, dayToRoster, times) {
-  let barberID = await getBarberID(barber);
+  let bID = await getBarberID(barber);
 
-  await setDoc(doc(db, "barbers", barberID, "days_rostered", dayToRoster), {
-    timesRostered: times,
+  await setDoc(doc(db, "schedules"), {
+    barberId: bID,
+    date: dayToRoster,
+    hours: times,
   });
 };
 
@@ -129,34 +131,47 @@ export const roster = async function(barber, dayToRoster, times) {
 export const deroster = async function(barber, daysToRemove) {
   let barberID = await getBarberID(barber);
 
-  for (let dayToRemove in daysToRemove) {
-    await deleteDoc(
-      doc(db, "barbers", barberID, "days_rostered", daysToRemove[dayToRemove])
-    );
-  }
+  const schedulesRef = collection(db, "schedules");
+  const q = query(schedulesRef, where("barberID", "==", barberID));
+
+  const qSnapshot = await getDocs(q);
+
+  qSnapshot.forEach((doc) => {
+    if (daysToRemove.includes(doc.data().date))
+      deleteDoc(doc(db, "schedules", doc.id));
+  });
 };
 
 // returns an array of days a barber is rostered
 export const getRosteredDays = async function(barber) {
   let barberID = await getBarberID(barber);
 
-  const rosterCollection = collection(db, "barbers", barberID, "days_rostered");
-  const roseterDocs = await getDocs(rosterCollection);
-  let daysRostered = [];
-  roseterDocs.forEach((doc) => {
-    daysRostered.push(doc.id);
-  });
+  const schedulesRef = collection(db, "schedules");
+  const q = query(schedulesRef, where("barberID", "==", barberID));
+  const qSnapshot = await getDocs(q);
 
-  return daysRostered;
+  let dates = [];
+  qSnapshot.forEach((doc) => {
+    dates.push(doc.data().date);
+  });
+  return dates;
 };
 
 export const getRosteredDayTimes = async function(barber, day) {
   let barberID = await getBarberID(barber);
 
-  const docRef = doc(db, "barbers", barberID, "days_rostered", day);
-  const daysRostered = await getDoc(docRef);
+  const schedulesRef = collection(db, "schedules");
+  const q = query(
+    schedulesRef,
+    where("barberID", "==", barberID),
+    where("date", "==", day)
+  );
+  const qSnapshot = await getDocs(q);
+
   let times = [];
-  if (daysRostered.data()) times = daysRostered.data().timesRostered;
+  qSnapshot.forEach((doc) => {
+    times = doc.data().hours;
+  });
   return times;
 };
 
