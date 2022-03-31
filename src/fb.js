@@ -39,16 +39,13 @@ const db = getFirestore();
 /******* Barbers *******/
 export const createBarber = async function(barberName, pos) {
   // check if barber exists
-  const q = query(
-    collection(db, "tmp_barbers"),
-    where("name", "==", barberName)
-  );
+  const q = query(collection(db, "barbers"), where("name", "==", barberName));
   const dbQuery = await getDocs(q);
   dbQuery.forEach(() => {
     return;
   });
 
-  await addDoc(collection(db, "tmp_barbers"), {
+  await addDoc(collection(db, "barbers"), {
     name: barberName,
     position: pos,
   });
@@ -56,10 +53,7 @@ export const createBarber = async function(barberName, pos) {
 
 // Find barber id
 const getBarberId = async function(barberName) {
-  const q = query(
-    collection(db, "tmp_barbers"),
-    where("name", "==", barberName)
-  );
+  const q = query(collection(db, "barbers"), where("name", "==", barberName));
   let barberId = "";
   const barbersDoc = await getDocs(q);
   barbersDoc.forEach((barber) => {
@@ -83,20 +77,20 @@ export const deleteBarber = async function(barber) {
   });
 
   // Delete barber
-  await deleteDoc(doc(db, "tmp_barbers", barberId));
+  await deleteDoc(doc(db, "barbers", barberId));
 };
 
 // edit a barbers details
 export const editBarber = async function(selectedBarber, newVals) {
   let barberId = await getBarberId(selectedBarber);
 
-  const barberRef = doc(db, "tmp_barbers", barberId);
+  const barberRef = doc(db, "barbers", barberId);
   await updateDoc(barberRef, newVals);
 };
 
 // get names of all Barbers
 export const getAllBarbers = async function() {
-  const barbersCollection = collection(db, "tmp_barbers");
+  const barbersCollection = collection(db, "barbers");
   const q = query(barbersCollection, orderBy("position"));
   const barbersQ = await getDocs(q);
   let barbers = [];
