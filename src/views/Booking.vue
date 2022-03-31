@@ -38,7 +38,7 @@
           <booking-time-selector
             :rosteredTimes="rosteredTimes"
             :bookedTimes="bookedTimes"
-            :visibility="bookingStep == 2"
+            :visibility="bookingStep >= 2"
             v-model="selectedTime"
           />
         </div>
@@ -79,7 +79,7 @@ export default {
   },
   data() {
     return {
-      maxStep: 2,
+      maxStep: 3,
       bookingStep: 0,
       barbers: [],
       getAttempted: false,
@@ -134,6 +134,9 @@ export default {
           this.bookingStep++;
         }
       },
+    },
+    selectedTime: function(newVal) {
+      if (newVal != null) this.bookingStep++;
     },
   },
 
