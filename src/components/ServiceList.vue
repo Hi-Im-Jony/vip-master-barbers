@@ -18,8 +18,9 @@
           <div
             class="service-container"
             @click="
-              selectedService =
-                selectedService == service.name ? '' : service.name
+              (selectedService =
+                selectedService == service.name ? '' : service.name),
+                emitSelected(service)
             "
           >
             <div v-if="forAdmin" class="handle">
@@ -59,8 +60,9 @@
       >
         <div
           @click="
-            selectedService =
-              selectedService == service.name ? '' : service.name
+            (selectedService =
+              selectedService == service.name ? '' : service.name),
+              emitSelected(service)
           "
         >
           <service
@@ -142,6 +144,9 @@ export default {
 
       await fb.deleteService(service);
       this.$emit("done");
+    },
+    emitSelected: function(service) {
+      if (this.selectedService != "") this.$emit("input", service);
     },
   },
 };
