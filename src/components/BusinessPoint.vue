@@ -21,7 +21,7 @@ export default {
   justify-content: center;
   align-items: center;
   color: rgb(255, 255, 255);
-  background: rgb(126, 173, 211);
+  background: #38c;
   margin: 10px;
   border-radius: 10px;
   padding: 5px 10px 5px 10px;
