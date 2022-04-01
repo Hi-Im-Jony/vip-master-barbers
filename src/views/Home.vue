@@ -34,8 +34,7 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 60px 0 0 0;
-  background-color: rgb(30, 30, 32);
-  color: #fff;
+  background-color: white;
 }
 #services-btn {
   color: rgb(175, 67, 67);
