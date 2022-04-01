@@ -4,10 +4,9 @@
       title="Welcome to 
       Elvis Hairstyle"
       description="Where Everyone Is A VIP"
-      image="saloon3-mbl.jpeg"
+      image="saloon3-mbl.jpg"
     />
     <qualities />
-    <a id="services-btn"><h3>SERVICES & PRODUCTS</h3> </a>
     <map />
   </div>
 </template>
@@ -37,12 +36,7 @@ export default {
   padding: 60px 0 0 0;
   background-color: white;
 }
-#services-btn {
-  color: rgb(175, 67, 67);
-  border: solid rgb(65, 65, 168);
-  padding: 10px;
-  margin: 10px 10px 30px 10px;
-}
+
 @media (max-width: 860px) {
   #homepage {
     padding: 0px 0 0 0;
