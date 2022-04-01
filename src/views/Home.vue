@@ -3,7 +3,7 @@
     <banner-item
       title="Welcome to Elvis Hairstyle"
       description="Where Everyone Is A VIP"
-      image="saloon3.jpeg"
+      image="saloon3-mbl.jpeg"
     />
     <about />
     <a id="services-btn"><h3>SERVICES & PRODUCTS</h3> </a>
