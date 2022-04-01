@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-app-bar id="nav" app>
+    <v-app-bar
+      id="nav"
+      flat
+      :style="'background-color: rgb(30, 30, 32,' + navOpacity + ');'"
+      app
+    >
       <a href="/" id="title-sub-container">
         <img id="logo" src="@/assets/logo.png" />
       </a>
@@ -23,7 +28,20 @@ export default {
   name: "navTwo",
   data: () => ({
     drawer: false,
+    navOpacity: 0,
   }),
+  mounted() {
+    window.addEventListener("scroll", this.onScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll);
+  },
+  methods: {
+    onScroll() {
+      let windowTop = window.top.scrollY;
+      this.navOpacity = windowTop / 400;
+    },
+  },
 };
 </script>
 
@@ -31,7 +49,6 @@ export default {
 #nav {
   padding: 0 !important;
   margin: 0 !important;
-  background-color: rgb(30, 30, 32);
 }
 #drawer {
   background-color: rgb(34, 33, 33);
