@@ -1,5 +1,6 @@
 <template>
   <div id="about-container">
+    <h2 style="text-decoration: underline;">What We Offer</h2>
     <business-point
       icon="mdi-account-group"
       title="Professional Staff"
