@@ -7,11 +7,14 @@
       }"
     ></div>
     <div id="foreground">
-      <h1>{{ title }}</h1>
+      <h2 id="title">{{ title }}</h2>
       <br />
       <p>
         {{ description }}
       </p>
+      <v-btn dark color="#38C" to="/bookings">
+        Book Now
+      </v-btn>
     </div>
   </div>
 </template>
@@ -26,6 +29,10 @@ export default {
 </script>
 
 <style scoped>
+#title {
+  width: 50%;
+  max-width: 250px;
+}
 #banner-container {
   margin: 0;
   padding: 0;
@@ -36,11 +43,10 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   height: 80vh;
-  min-height: 350px;
+  min-height: 550px;
   width: 100vw;
   padding: 0;
   margin: 0;
-  color: red;
 }
 #foreground {
   color: rgb(236, 241, 245);
