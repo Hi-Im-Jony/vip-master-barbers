@@ -9,7 +9,7 @@
     <div id="foreground">
       <h2 id="title">{{ title }}</h2>
       <br />
-      <p>
+      <p id="description">
         {{ description }}
       </p>
       <v-btn dark color="#38C" to="/bookings">
@@ -29,10 +29,6 @@ export default {
 </script>
 
 <style scoped>
-#title {
-  width: 50%;
-  max-width: 250px;
-}
 #banner-container {
   margin: 0;
   padding: 0;
@@ -42,15 +38,23 @@ export default {
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 80vh;
+  height: 100vh;
   min-height: 550px;
   width: 100vw;
   padding: 0;
   margin: 0;
 }
+#title {
+  font-size: 35px;
+  white-space: pre-line;
+}
+
+#description {
+  font-size: 25px;
+}
+
 #foreground {
   color: rgb(236, 241, 245);
-  text-shadow: 2px 2px 10px black;
   top: 50px;
   display: flex;
   flex-direction: column;
@@ -71,24 +75,5 @@ export default {
 #foreground p {
   width: 50%;
   min-width: 200px;
-}
-@media (min-width: 1160px) {
-  #banner {
-    background-attachment: fixed;
-    background-position: bottom;
-  }
-}
-@media (max-width: 770px) {
-  #foreground {
-    font-size: 1.5rem;
-  }
-  #banner {
-    height: 70vh;
-  }
-}
-@media (max-width: 450px) {
-  #foreground {
-    font-size: 1.3rem;
-  }
 }
 </style>
