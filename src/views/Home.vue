@@ -15,7 +15,7 @@
 <script>
 import Map from "../components/Map.vue";
 import BannerItem from "../components/BannerItem.vue";
-import About from "../components/About.vue";
+import About from "../components/Qualities.vue";
 
 export default {
   name: "Home",
