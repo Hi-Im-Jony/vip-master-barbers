@@ -1,7 +1,8 @@
 <template>
   <div id="homepage">
     <banner-item
-      title="Welcome to Elvis Hairstyle"
+      title="Welcome to 
+      Elvis Hairstyle"
       description="Where Everyone Is A VIP"
       image="saloon3-mbl.jpeg"
     />
