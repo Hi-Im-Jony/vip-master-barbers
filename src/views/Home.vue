@@ -6,7 +6,7 @@
       description="Where Everyone Is A VIP"
       image="saloon3-mbl.jpeg"
     />
-    <about />
+    <qualities />
     <a id="services-btn"><h3>SERVICES & PRODUCTS</h3> </a>
     <map />
   </div>
@@ -15,7 +15,7 @@
 <script>
 import Map from "../components/Map.vue";
 import BannerItem from "../components/BannerItem.vue";
-import About from "../components/Qualities.vue";
+import Qualities from "../components/Qualities.vue";
 
 export default {
   name: "Home",
@@ -23,7 +23,7 @@ export default {
   components: {
     Map,
     BannerItem,
-    About,
+    Qualities,
   },
 };
 </script>
