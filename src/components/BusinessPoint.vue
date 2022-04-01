@@ -34,7 +34,10 @@ export default {
   font-size: 50px;
   color: whitesmoke;
 }
-
+#title {
+  text-decoration: underline;
+  margin: 2px 0 5px 0;
+}
 #text {
   white-space: pre-line;
 }
