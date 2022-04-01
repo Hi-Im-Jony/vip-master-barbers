@@ -26,7 +26,8 @@ export default {
   border-radius: 10px;
   padding: 5px 10px 5px 10px;
   width: 100%;
-  box-shadow: 0px 6px 10px #000000;
+  box-shadow: 0px 6px 10px #777;
+  max-width: 200px;
 }
 #icon {
   padding: 5px;
