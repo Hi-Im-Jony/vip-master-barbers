@@ -1,9 +1,9 @@
 <template>
   <div id="homepage">
     <banner-item
-      title="Welcome to VIP Master Barbers"
+      title="Welcome to Elvis Hairstyle"
       description="Where Everyone Is A VIP"
-      image="welcome.jpg"
+      image="saloon3.jpeg"
     />
     <about />
     <a id="services-btn"><h3>SERVICES & PRODUCTS</h3> </a>

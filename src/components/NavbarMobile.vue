@@ -37,7 +37,7 @@ export default {
   background-color: rgb(34, 33, 33);
 }
 #logo {
-  height: 60px;
+  height: 50px;
 }
 #title-sub-container {
   color: black;

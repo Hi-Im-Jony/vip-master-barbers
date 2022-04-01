@@ -10,7 +10,7 @@
       repellat cum impedit nostrum quod ullam eum in fugit voluptate libero
       minus recusandae, reprehenderit error minima expedita?
     </p>
-    <img id="shop-img" src="@/assets/shop.jpg" />
+    <img id="shop-img" src="" />
     <p>
       Porro autem itaque nostrum perferendis explicabo, laborum nesciunt magni
       vitae nihil facilis fugiat dignissimos voluptatem, accusamus in illum
