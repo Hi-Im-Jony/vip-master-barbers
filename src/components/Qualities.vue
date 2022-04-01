@@ -1,6 +1,6 @@
 <template>
   <div id="about-container">
-    <h2 style="text-decoration: underline;">What We Offer</h2>
+    <h2 id="section-header">What We Offer</h2>
     <business-point
       icon="mdi-account-group"
       title="Professional Staff"
@@ -30,5 +30,9 @@ export default {
   align-items: center;
   width: 80vw;
   text-align: center;
+}
+#section-header {
+  text-decoration: underline;
+  color: rgb(26, 45, 59);
 }
 </style>
