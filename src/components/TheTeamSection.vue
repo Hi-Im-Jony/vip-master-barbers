@@ -3,12 +3,12 @@
     <h2 id="section-title">Meet The Team</h2>
     <barber-showcase
       name="Elvis"
-      description="A description"
+      description="Professional Hairstylist"
       src="elvis.jpeg"
     />
     <barber-showcase
       name="Gabrila"
-      description="A description"
+      description="Professional Hairstylist"
       src="gab.jpeg"
     />
   </section>
@@ -39,5 +39,6 @@ export default {
   text-decoration: underline;
   color: rgb(26, 45, 59);
   font-size: 27px;
+  text-align: center;
 }
 </style>
