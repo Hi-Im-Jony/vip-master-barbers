@@ -12,7 +12,7 @@ export default {
 <style scoped>
 footer {
   width: 100%;
-  background: rgb(10, 8, 41);
+  background: rgb(34, 33, 33);
   color: aliceblue;
   display: flex;
   align-items: center;
