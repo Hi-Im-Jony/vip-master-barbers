@@ -23,6 +23,6 @@ export default {
 
 <style scoped>
 * {
-  font-family: Helvetica, sans-serif;
+  font-family: "Amatic SC";
 }
 </style>
