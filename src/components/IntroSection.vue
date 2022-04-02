@@ -1,13 +1,8 @@
 <template>
   <section id="intro">
     <h2 id="section-title">
-      <div class="color-1">About</div>
-      <div class="color-2">Us</div>
+      About Us
     </h2>
-    <div class="img-filter-container">
-      <img id="duo-img" src="../assets/duo.jpeg" alt="" />
-      <div class="filter"></div>
-    </div>
 
     <p>
       Elvis Hairstyle is a luxurious barber shop that delivers awesome haircuts
@@ -15,6 +10,10 @@
       recent barbering or haircut machine that ensures your world-class
       experience for our customers
     </p>
+    <div class="img-filter-container">
+      <img id="duo-img" src="../assets/duo.jpeg" alt="" />
+      <div class="filter"></div>
+    </div>
     <p>
       Our main aim has always been in developing a great fusion of light, music,
       uniqueness, and remarkable barbering services that surely offer and
@@ -53,15 +52,9 @@ export default {};
   width: 100%;
 }
 #section-title {
-  display: flex;
-  font-size: 30px;
-  align-self: flex-start;
-  padding: 0 10px 0 10px !important;
-  margin: 0;
-}
-#section-title div {
-  margin: 0 4px 0 4px;
-  padding: 0;
+  text-decoration: underline;
+  color: rgb(26, 45, 59);
+  font-size: 27px;
 }
 
 .color-1 {
