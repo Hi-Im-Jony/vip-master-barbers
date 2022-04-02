@@ -8,10 +8,9 @@
     ></div>
     <div id="foreground">
       <h2 id="title">{{ title }}</h2>
-      <br />
-      <p id="description">
+      <h3 id="description">
         {{ description }}
-      </p>
+      </h3>
       <v-btn dark color="#38C" to="/bookings">
         Book Now
       </v-btn>
@@ -29,6 +28,7 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap");
 #banner-container {
   margin: 0;
   padding: 0;
@@ -47,33 +47,30 @@ export default {
 #title {
   font-size: 35px;
   white-space: pre-line;
+  padding: 0 8px 0 8px;
 }
 
 #description {
   font-size: 25px;
+  font-family: "Playfair Display", serif;
+  width: 75%;
+  min-width: 200px;
+  margin: 20px 0 40px 0;
 }
 
 #foreground {
+  background: rgba(12, 31, 56, 0.452);
   color: rgb(236, 241, 245);
-  top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: 1.7rem;
+  text-align: center;
+  height: 100%;
+  min-height: 350px;
   width: 100%;
   position: absolute;
   top: 0;
-  font-size: 1.7rem;
-  text-align: center;
-  background: rgba(12, 31, 56, 0.452);
-  height: 100%;
-  min-height: 350px;
-}
-#foreground h1 {
-  padding: 0 8px 0 8px;
-}
-#foreground p {
-  width: 50%;
-  min-width: 200px;
 }
 </style>
