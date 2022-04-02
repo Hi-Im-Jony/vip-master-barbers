@@ -7,6 +7,7 @@
       image="saloon3-mbl.jpg"
     />
     <services-section />
+    <the-team-section />
     <intro-section />
 
     <map />
@@ -18,6 +19,7 @@ import Map from "../components/Map.vue";
 import BannerItem from "../components/BannerItem.vue";
 import ServicesSection from "../components/ServicesSection.vue";
 import IntroSection from "../components/IntroSection.vue";
+import TheTeamSection from "../components/TheTeamSection.vue";
 
 export default {
   name: "Home",
@@ -27,6 +29,7 @@ export default {
     BannerItem,
     ServicesSection,
     IntroSection,
+    TheTeamSection,
   },
 };
 </script>
