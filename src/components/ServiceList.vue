@@ -36,7 +36,10 @@
             />
           </div>
 
-          <div class="icon-container" v-if="forAdmin">
+          <div
+            class="icon-container"
+            v-if="forAdmin && selectedService == service.name"
+          >
             <v-icon
               id="edit-icon"
               @click="edit(service)"
