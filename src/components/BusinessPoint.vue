@@ -20,8 +20,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: rgb(255, 255, 255);
-  background: #38c;
+  border: solid #38c;
+  border-width: 1px;
   margin: 10px;
   border-radius: 10px;
   padding: 5px 10px 5px 10px;
@@ -32,7 +32,7 @@ export default {
 #icon {
   padding: 5px;
   font-size: 50px;
-  color: whitesmoke;
+  color: black;
 }
 #title {
   text-decoration: underline;

@@ -1,6 +1,10 @@
 <template>
-  <div id="about-container">
+  <section id="about-section">
     <h2 id="section-header">What We Offer</h2>
+    <p>
+      With our enriching knowledge in the grooming industry, we always make sure
+      that we are offering high-quality barbering services at awestruck prices!
+    </p>
     <business-point
       icon="mdi-account-group"
       title="Professional Staff"
@@ -12,7 +16,12 @@
       title="Quality Service"
       text="At Elvis Hairstyle, you can relax and enjoy the high quality service that our staff provides."
     />
-  </div>
+    <business-point
+      icon="mdi-coffee-outline"
+      title="Free Drinks"
+      text="Everyone is a VIP here, and deserves to relax with a free soft drink or coffee while waiting. "
+    />
+  </section>
 </template>
 
 <script>
@@ -23,7 +32,7 @@ export default {
 </script>
 
 <style scoped>
-#about-container {
+#about-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
