@@ -6,8 +6,9 @@
       description="Where Everyone Is A VIP"
       image="saloon3-mbl.jpg"
     />
-    <intro />
-    <qualities />
+    <services-section />
+    <intro-section />
+
     <map />
   </div>
 </template>
@@ -15,8 +16,8 @@
 <script>
 import Map from "../components/Map.vue";
 import BannerItem from "../components/BannerItem.vue";
-import Qualities from "../components/Qualities.vue";
-import Intro from "../components/Intro.vue";
+import ServicesSection from "../components/ServicesSection.vue";
+import IntroSection from "../components/IntroSection.vue";
 
 export default {
   name: "Home",
@@ -24,8 +25,8 @@ export default {
   components: {
     Map,
     BannerItem,
-    Qualities,
-    Intro,
+    ServicesSection,
+    IntroSection,
   },
 };
 </script>
