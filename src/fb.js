@@ -234,7 +234,7 @@ export const addService = async function(
   });
   if (serviceExists) return;
 
-  const service = await addDoc(collection(db, "services"), {
+  await addDoc(collection(db, "services"), {
     name: serviceName,
     price: servicePrice,
     position: servicePos,
@@ -254,29 +254,13 @@ export const getServices = async function() {
 };
 
 export const editService = async function(originalName, newVals) {
-  // Find service doc id
-  const q = query(
-    collection(db, "services"),
-    where("name", "==", originalName)
-  );
-  let serviceId = "";
-  const serviceDoc = await getDocs(q);
-  serviceDoc.forEach((service) => {
-    serviceId = service.id;
-  });
-
+  let serviceId = await getServiceId(originalName);
   // update with new vals
   const serviceRef = doc(db, "services", serviceId);
   await updateDoc(serviceRef, newVals);
 };
 
 export const deleteService = async function(service) {
-  // Find service doc id
-  const q = query(collection(db, "services"), where("name", "==", service));
-  let serviceId = "";
-  const serviceDoc = await getDocs(q);
-  serviceDoc.forEach((service) => {
-    serviceId = service.id;
-  });
+  let serviceId = await getServiceId(originalName);
   await deleteDoc(doc(db, "services", serviceId));
 };
