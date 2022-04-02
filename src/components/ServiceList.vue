@@ -18,9 +18,10 @@
           <div
             class="service-container"
             @click="
-              (selectedService =
-                selectedService == service.name ? '' : service.name),
-                emitSelected(service)
+              if (!menu)
+                (selectedService =
+                  selectedService == service.name ? '' : service.name),
+                  emitSelected(service);
             "
           >
             <div v-if="forAdmin" class="handle">
@@ -60,9 +61,10 @@
       >
         <div
           @click="
-            (selectedService =
-              selectedService == service.name ? '' : service.name),
-              emitSelected(service)
+            if (!menu)
+              (selectedService =
+                selectedService == service.name ? '' : service.name),
+                emitSelected(service);
           "
         >
           <service
@@ -98,7 +100,7 @@ import Service from "./Service.vue";
 import Draggable from "vuedraggable";
 
 export default {
-  props: ["forAdmin", "givenServices"],
+  props: ["forAdmin", "givenServices", "menu"],
   components: { Service, Editor, Draggable },
   data() {
     return {
