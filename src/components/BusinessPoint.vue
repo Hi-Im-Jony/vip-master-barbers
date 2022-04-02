@@ -3,14 +3,13 @@
     <v-icon id="icon">
       {{ icon }}
     </v-icon>
-    <h3 id="title">{{ title }}</h3>
-    <p id="text">{{ text }}</p>
+    <p id="title">{{ title }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["icon", "title", "text"],
+  props: ["icon", "title"],
 };
 </script>
 
@@ -20,25 +19,18 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: solid #38c;
-  border-width: 1px;
-  margin: 10px;
+  margin: 15px 2px;
   border-radius: 10px;
-  padding: 5px 10px 5px 10px;
-  width: 100%;
-  box-shadow: 0px 6px 10px #777;
-  max-width: 200px;
+  width: 30%;
+  max-width: 250px;
 }
 #icon {
   padding: 5px;
-  font-size: 50px;
+  font-size: 40px;
   color: black;
 }
 #title {
-  text-decoration: underline;
   margin: 2px 0 5px 0;
-}
-#text {
   white-space: pre-line;
 }
 </style>

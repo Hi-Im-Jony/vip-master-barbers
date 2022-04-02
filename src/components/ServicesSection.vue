@@ -3,10 +3,22 @@
     <h2 id="section-title">What We Offer</h2>
 
     <service-list :givenServices="services" menu="true" />
-    <business-point icon="mdi-account-group" title="Professional Staff" />
 
-    <business-point icon="mdi-content-cut" title="Quality Service" />
-    <business-point icon="mdi-coffee-outline" title="Free Drinks" />
+    <business-point
+      icon="mdi-content-cut"
+      title="Quality 
+    Service"
+    />
+    <business-point
+      icon="mdi-account-group"
+      title="Professional 
+    Staff"
+    />
+    <business-point
+      icon="mdi-coffee-outline"
+      title="Free 
+    Drinks"
+    />
   </section>
 </template>
 
