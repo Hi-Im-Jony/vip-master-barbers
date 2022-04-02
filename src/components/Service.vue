@@ -21,20 +21,25 @@ export default {
 <style scoped>
 .service {
   padding: 0 15px 0 15px;
-  border-bottom: solid aliceblue 1px;
+  border-bottom: solid #000 1px;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   width: 100%;
   max-width: 600px;
+  text-align: left;
 }
 
 .service p {
   font-size: 20px;
   text-transform: capitalize;
-
   margin: 0 0 5px 0;
 }
+
+.name {
+  max-width: 75%;
+}
+
 .selected {
   background: rgba(53, 81, 156, 0.548);
 }
