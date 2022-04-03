@@ -264,7 +264,7 @@ export default {
 }
 
 .selected {
-  background: rgba(134, 136, 123, 0.671);
+  background: rgba(13, 66, 109, 0.651);
 }
 .icon-container {
   width: 100%;

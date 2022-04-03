@@ -41,6 +41,6 @@ export default {
 }
 
 .selected {
-  background: rgba(53, 81, 156, 0.548);
+  background: rgba(29, 101, 160, 0.651);
 }
 </style>
