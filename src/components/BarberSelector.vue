@@ -27,7 +27,7 @@
         </div>
       </div>
     </v-dialog>
-    <h2>Select a Barber</h2>
+    <h2 v-if="!forAdmin">Select a Barber</h2>
     <p
       style="margin: 10px; color: red; text-align: center;"
       v-if="getAttempted && noBarbersFound"
