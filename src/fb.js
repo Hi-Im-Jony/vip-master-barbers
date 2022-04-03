@@ -1,18 +1,20 @@
 // Import the functions you need from the SDKs you need
+import { async } from "@firebase/util";
 import { initializeApp } from "firebase/app";
 import {
   doc,
   getFirestore,
   collection,
   addDoc,
+  getDoc,
   deleteDoc,
   getDocs,
   query,
   where,
   updateDoc,
   orderBy,
-  arrayUnion,
 } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -32,9 +34,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore();
+const storage = getStorage();
 
 /******* Barbers *******/
-export const createBarber = async function(barberName, pos) {
+// Find barber id
+const getBarberId = async function(barberName) {
+  const q = query(collection(db, "barbers"), where("name", "==", barberName));
+  let barberId = "";
+  const barbersDoc = await getDocs(q);
+  barbersDoc.forEach((barber) => {
+    barberId = barber.id;
+  });
+  return barberId;
+};
+
+export const createBarber = async function(
+  barberName,
+  subheading,
+  description,
+  pos
+) {
   // check if barber exists
   const q = query(collection(db, "barbers"), where("name", "==", barberName));
   const dbQuery = await getDocs(q);
@@ -45,18 +64,9 @@ export const createBarber = async function(barberName, pos) {
   await addDoc(collection(db, "barbers"), {
     name: barberName,
     position: pos,
+    subheading: subheading,
+    description: description,
   });
-};
-
-// Find barber id
-const getBarberId = async function(barberName) {
-  const q = query(collection(db, "barbers"), where("name", "==", barberName));
-  let barberId = "";
-  const barbersDoc = await getDocs(q);
-  barbersDoc.forEach((barber) => {
-    barberId = barber.id;
-  });
-  return barberId;
 };
 
 // delete a barber and their data
@@ -83,6 +93,22 @@ export const editBarber = async function(selectedBarber, newVals) {
 
   const barberRef = doc(db, "barbers", barberId);
   await updateDoc(barberRef, newVals);
+};
+
+// get barber details
+export const getBarber = async function(barberName) {
+  console.log("hello");
+  let barberId = await getBarberId(barberName);
+  const barberRef = doc(db, "barbers", barberId);
+  const barber = await getDoc(barberRef);
+  return barber.data();
+};
+
+export const getBarberImgUrl = async function(barberName) {
+  let imgUrl = await getDownloadURL(
+    ref(storage, "barber_imgs/" + barberName + ".jpeg")
+  );
+  return imgUrl;
 };
 
 // get names of all Barbers

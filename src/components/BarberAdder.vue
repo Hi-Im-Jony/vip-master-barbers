@@ -1,11 +1,29 @@
 <template>
   <div id="barber-adder">
-    <v-text-field
-      dark
-      v-model="newBarberName"
-      label="Barber Name"
-    ></v-text-field>
-    <a @click="createBarber(newBarberName)">Add</a>
+    <v-btn @click="showForm = !showForm"> Add Barber</v-btn>
+    <v-dialog v-model="showForm">
+      <form>
+        <h2>Add Barber Details</h2>
+        <v-text-field dark v-model="name" label="Barber Name"></v-text-field>
+        <v-text-field
+          dark
+          v-model="subheading"
+          label="Barber SubHeading"
+        ></v-text-field>
+
+        <v-textarea
+          dark
+          outlined
+          clearable
+          v-model="description"
+          label="Barber Description"
+        ></v-textarea>
+
+        <v-btn @click="createBarber(name, subheading, description)"
+          >Submit</v-btn
+        >
+      </form>
+    </v-dialog>
   </div>
 </template>
 
@@ -15,17 +33,20 @@ export default {
   props: ["numBarbers"],
   data() {
     return {
-      newBarberName: "",
+      showForm: false,
+      name: "",
+      subheading: "",
+      description: "",
     };
   },
   methods: {
-    createBarber: async function(barberName) {
-      if (barberName !== "") await fb.createBarber(barberName, this.numBarbers);
-      this.newBarberName = "";
-      this.selectedBarberInfo = {
-        name: "",
-        roster: [],
-      };
+    createBarber: async function(name, subheading, description) {
+      this.showForm = false;
+      if (name !== "")
+        await fb.createBarber(name, subheading, description, this.numBarbers);
+      this.name = "";
+      this.subheading = "";
+      this.description = "";
       // let parent know a barber was added
       this.$emit("barberAdded");
     },
@@ -36,15 +57,20 @@ export default {
 <style scoped>
 #barber-adder {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
-a {
-  margin: 0 0 0 20px;
-  border: solid grey;
-  border-width: 1px;
-
-  color: aliceblue;
-  padding: 1px 10px 1px 10px;
-  background: gray;
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  background-color: #212121;
+  padding: 10px;
+  text-align: center;
+  color: whitesmoke;
+  font-family: "Amatic SC";
 }
 </style>
