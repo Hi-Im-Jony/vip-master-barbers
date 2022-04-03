@@ -17,7 +17,6 @@
     <v-dialog v-model="editDialogue">
       <div id="dialog">
         <v-text-field
-          dark
           v-model="editedName"
           label="Barber Name"
           style="font-size: 25px;"
@@ -47,7 +46,7 @@
                 mdi-swap-vertical
               </v-icon>
             </div>
-            <label class="barber-name">{{ barber }}</label>
+            <barber-showcase :name="barber" src="elvis.jpeg" />
           </div>
           <div class="icon-container" v-if="forAdmin">
             <v-icon
@@ -74,9 +73,9 @@ import * as fb from "@/fb";
 import Loader from "./Loader.vue";
 import Preloader from "./Preloader.vue";
 import Draggable from "vuedraggable";
-
+import BarberShowcase from "./BarberShowcase.vue";
 export default {
-  components: { Loader, Preloader, Draggable },
+  components: { Loader, Preloader, Draggable, BarberShowcase },
   props: ["givenBarbers", "forAdmin", "getAttempted"],
   data() {
     return {
@@ -201,7 +200,6 @@ export default {
   left: 10px;
 }
 #dialog {
-  color: aliceblue;
   background: rgb(14, 13, 13);
   width: 100%;
   height: 100%;
