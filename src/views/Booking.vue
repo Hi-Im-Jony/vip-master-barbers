@@ -46,19 +46,21 @@
         <!-- Step 4 -->
         <div class="step">
           <h2>Select A Service</h2>
-          <service-list
-            v-model="selectedService"
-            :forAdmin="false"
-            :givenServices="services"
-            @input="bookingStep++"
-          />
+          <div id="service-list-container">
+            <service-list
+              v-model="selectedService"
+              :forAdmin="false"
+              :givenServices="services"
+              @input="bookingStep++"
+            />
+          </div>
         </div>
       </v-carousel-item>
       <v-carousel-item>
         <!-- Step 5 -->
         <div class="step">
+          <h2>Booking Summary:</h2>
           <ul>
-            <h3>Booking Summary:</h3>
             <h4>Barber: {{ selectedBarberInfo.name }}</h4>
             <h4>Date: {{ selectedDay }}</h4>
 
@@ -67,6 +69,9 @@
               Service: {{ selectedService.name }}, €{{ selectedService.price }}
             </h4>
           </ul>
+          <v-btn dark @click="book()">
+            book
+          </v-btn>
         </div>
       </v-carousel-item>
     </v-carousel>
@@ -75,9 +80,7 @@
       <v-icon class="arrow" @click="bookingStep > 0 ? bookingStep-- : null">
         mdi-chevron-left
       </v-icon>
-      <v-btn @click="book()">
-        book
-      </v-btn>
+
       <v-icon
         class="arrow"
         @click="bookingStep < maxStep ? bookingStep++ : null"
@@ -218,7 +221,22 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center !important;
+
   padding: 5px;
+}
+
+#service-list-container {
+  height: 55vh !important;
+  overflow-y: scroll;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #arrows-container {
