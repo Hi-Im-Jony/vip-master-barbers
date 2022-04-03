@@ -198,11 +198,12 @@ export default {
 #calendar {
   display: flex;
   flex-direction: column;
-  border: solid black 1px;
-  background-color: rgba(255, 255, 255, 0.678);
+  background: rgba(3, 3, 3, 0.87);
+  color: white;
   height: 100%;
-  width: 90vw;
-  padding-bottom: 10px;
+  width: 100%;
+  margin: 5px;
+  padding: 2px 5px 10px 5px;
   max-width: 600px;
 }
 #month-row {
@@ -218,9 +219,8 @@ export default {
   opacity: 0;
 }
 .icon {
-  color: black;
-  border: solid black;
-  border-width: 1px;
+  color: white;
+  border: solid white 1px;
   border-radius: 10px;
   margin: 0 5px 0 5px;
 }
@@ -237,10 +237,10 @@ export default {
   justify-content: center;
 }
 .day-num {
-  border: solid black;
+  border: solid #555;
   border-radius: 20px;
   border-width: 1px;
-  color: black;
+  color: #555;
   width: 35px;
   height: 35px;
   display: flex;
@@ -253,7 +253,7 @@ export default {
 }
 .empty-day {
   opacity: 0.5;
-  border: solid black;
+  border: solid #555;
   border-radius: 20px;
   border-width: 1px;
   width: 35px;
@@ -264,7 +264,7 @@ export default {
   color: #38c !important;
 }
 .rostered {
-  border: solid rgb(24, 83, 37) 2px;
-  color: rgb(24, 83, 37);
+  border: solid white 2px;
+  color: white;
 }
 </style>
