@@ -1,12 +1,8 @@
 <template>
   <section id="the-team">
     <h2 id="section-title">Meet The Team</h2>
-    <barber-showcase
-      name="Elvis"
-      description="Professional Hairstylist"
-      src="elvis.jpeg"
-      :forAdmin="false"
-    />
+    <barber-showcase name="Elvis" :showDesc="true" />
+    <barber-showcase name="Gabrila" :showDesc="true" />
   </section>
 </template>
 
@@ -31,15 +27,15 @@ export default {
 </script>
 
 <style scoped>
+#the-team {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 #section-title {
   color: rgb(26, 45, 59);
   font-size: 27px;
   text-align: center;
-}
-p {
-  width: 85vw;
-  max-width: 600px;
-  text-align: center;
-  margin: 5px 0 !important;
 }
 </style>
