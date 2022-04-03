@@ -159,7 +159,6 @@ export default {
 
 <style scoped>
 #service-list {
-  margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
