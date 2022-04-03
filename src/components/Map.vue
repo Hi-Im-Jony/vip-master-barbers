@@ -28,7 +28,6 @@ export default {};
   align-items: center;
 }
 #section-title {
-  text-decoration: underline;
   color: rgb(26, 45, 59);
   font-size: 27px;
   text-align: c;
