@@ -1,7 +1,7 @@
 <template>
   <div id="barber-showcase">
     <div id="top-row">
-      <img class="barber-img" :id="'barber-img-' + name" src="" />
+      <img class="barber-img" :id="'barber-img-' + name" :src="url" />
       <div>
         <p id="name">{{ name }}</p>
         <small id="subheading">{{ subheading }}</small>
@@ -33,10 +33,8 @@ export default {
       const barber = await fb.getBarber(name);
       this.subheading = barber.subheading;
       this.description = barber.description;
-      fb.getBarberImgUrl(name).then(function(url) {
-        let id = "barber-img-" + name;
-        document.getElementById(id).src = url;
-      });
+      let url = await fb.getBarberImgUrl(name);
+      this.url = url;
     },
   },
 };
