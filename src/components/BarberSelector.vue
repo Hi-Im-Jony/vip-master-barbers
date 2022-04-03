@@ -15,18 +15,37 @@
     </v-dialog>
 
     <v-dialog v-model="editDialogue">
-      <div id="dialog">
+      <form style="color:white; font-family: 'Amatic SC';" id="edit-form">
+        <h2>Edit Barber Details</h2>
         <v-text-field
+          dark
           v-model="editedName"
           label="Barber Name"
-          style="font-size: 25px;"
         ></v-text-field>
+        <v-text-field
+          dark
+          v-model="editedSubheading"
+          label="Barber SubHeading"
+        ></v-text-field>
+
+        <v-textarea
+          dark
+          outlined
+          clearable
+          v-model="editedDescription"
+          label="Barber Description"
+        ></v-textarea>
         <div id="btn-container">
-          <a id="cancel-btn" @click="editDialogue = false">Cancel</a>
-          <a id="confirm-edit-btn" @click="submitEdit()">Confirm</a>
+          <v-btn id="cancel-btn" @click="editDialogue = false">Cancel</v-btn>
+          <v-btn
+            color="success"
+            @click="submitEdit(editedName, editedSubheading, editedDescription)"
+            >Submit</v-btn
+          >
         </div>
-      </div>
+      </form>
     </v-dialog>
+
     <h2 v-if="!forAdmin">Select a Barber</h2>
     <p
       style="margin: 10px; color: red; text-align: center;"
@@ -38,9 +57,9 @@
       <preloader color="whitesmoke" :scale="0.2" />
     </div>
     <draggable v-model="barbers" handle=".handle">
-      <transition-group>
+      <transition-group :key="tgKey">
         <div class="barber-container" v-for="barber in barbers" :key="barber">
-          <div :class="getBarberClass(barber)" @click="update(barber)">
+          <div :class="getBarberClass(barber)" @click="selectBarber(barber)">
             <div v-if="forAdmin" class="handle">
               <v-icon>
                 mdi-swap-vertical
@@ -83,9 +102,12 @@ export default {
       confirmDialogue: false,
       editDialogue: false,
       editedName: "",
+      editedSubheading: "",
+      editedDescription: "",
       selectedBarber: "",
       roster: [],
       barbers: this.givenBarbers,
+      tgKey: 0,
     };
   },
   watch: {
@@ -100,7 +122,7 @@ export default {
           this.barbers[i];
           fb.editBarber(this.barbers[i], { position: i });
         }
-        this.$emit("update", this.barbers);
+        this.$emit("selectBarber", this.barbers);
       },
     },
   },
@@ -119,7 +141,7 @@ export default {
       if (this.selectedBarber === barber) return " icon-selected";
       else return "icon";
     },
-    update: async function(barber) {
+    selectBarber: async function(barber) {
       if (this.selectedBarber !== barber) {
         this.selectedBarber = barber;
         this.roster = await fb.getRosteredDays(barber);
@@ -133,8 +155,11 @@ export default {
         roster: this.roster,
       });
     },
-    edit: function(barber) {
+    edit: async function(barber) {
       this.editedName = barber;
+      const barberDetails = await fb.getBarber(barber);
+      this.editedSubheading = barberDetails.subheading;
+      this.editedDescription = barberDetails.description;
       this.editDialogue = true;
     },
 
@@ -156,12 +181,21 @@ export default {
         roster: [],
       });
     },
-    submitEdit: async function() {
+    submitEdit: async function(
+      editedName,
+      editedSubheading,
+      editedDescription
+    ) {
       this.editDialogue = false;
       this.loading = true;
-      await fb.editBarber(this.selectedBarber, { name: this.editedName });
+      await fb.editBarber(this.selectedBarber, {
+        name: editedName,
+        description: editedDescription,
+        subheading: editedSubheading,
+      });
       this.barbers[this.barbers.indexOf(this.selectedBarber)] = this.editedName;
-      this.selectedBarber = this.editedName;
+      this.selectedBarber = "";
+      this.tgKey++;
       this.loading = false;
     },
   },
@@ -198,7 +232,7 @@ export default {
   position: relative;
   left: 10px;
 }
-#dialog {
+#edit-form {
   background: rgb(14, 13, 13);
   width: 100%;
   height: 100%;

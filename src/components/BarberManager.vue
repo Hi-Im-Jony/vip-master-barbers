@@ -7,7 +7,7 @@
       :givenBarbers="barbers"
       :forAdmin="true"
       :getAttempted="getAttempted"
-      @update="(newBarbers) => (barbers = newBarbers)"
+      @selectBarber="(newBarbers) => (barbers = newBarbers)"
     />
 
     <div id="calendar-container" :key="calendarKey">
