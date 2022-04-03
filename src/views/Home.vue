@@ -6,7 +6,7 @@
       description="Where Everyone Is A VIP"
       image="saloon3-mbl.jpg"
     />
-    <h2 id="intro-title">Tailored For You</h2>
+    <h3 id="intro-title">Service Tailored <br />Just For You</h3>
     <div id="intro-text">
       <p>
         Elvis Hairstyle is a luxurious barber shop that delivers awesome
