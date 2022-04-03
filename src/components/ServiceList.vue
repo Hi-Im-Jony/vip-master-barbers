@@ -163,6 +163,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background: rgba(0, 0, 0, 0.836);
+  color: white;
 }
 .draggable-container {
   display: flex;
