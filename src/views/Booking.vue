@@ -45,6 +45,7 @@
       <v-carousel-item>
         <!-- Step 4 -->
         <div class="step">
+          <h2>Select A Service</h2>
           <service-list
             v-model="selectedService"
             :forAdmin="false"
@@ -214,9 +215,12 @@ export default {
 }
 
 .step {
-  display: flex !important;
-  justify-content: center !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
 }
+
 #arrows-container {
   width: 80%;
   display: flex;
