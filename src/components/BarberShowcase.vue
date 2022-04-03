@@ -31,7 +31,6 @@ export default {
     getBarberDetails: async function() {
       let name = this.name;
       const barber = await fb.getBarber(name);
-      console.log(barber);
       this.subheading = barber.subheading;
       this.description = barber.description;
       fb.getBarberImgUrl(name).then(function(url) {

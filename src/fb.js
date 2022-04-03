@@ -97,7 +97,6 @@ export const editBarber = async function(selectedBarber, newVals) {
 
 // get barber details
 export const getBarber = async function(barberName) {
-  console.log("hello");
   let barberId = await getBarberId(barberName);
   const barberRef = doc(db, "barbers", barberId);
   const barber = await getDoc(barberRef);
