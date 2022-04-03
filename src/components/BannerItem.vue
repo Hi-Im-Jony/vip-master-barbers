@@ -11,7 +11,7 @@
       <h3 id="description">
         {{ description }}
       </h3>
-      <v-btn dark color="#38C" to="/bookings">
+      <v-btn dark color="#22222a" to="/bookings">
         Book Now
       </v-btn>
     </div>
@@ -59,7 +59,8 @@ export default {
 }
 
 #foreground {
-  background: rgba(12, 31, 56, 0.452);
+  /* background: rgba(12, 31, 56, 0.452); */
+  background: rgba(0, 0, 0, 0.205);
   color: rgb(236, 241, 245);
   display: flex;
   flex-direction: column;
