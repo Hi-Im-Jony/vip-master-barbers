@@ -7,7 +7,7 @@
       :hide-delimiters="true"
       height="auto"
     >
-      <v-carousel-item dark>
+      <v-carousel-item>
         <!-- Step 1 -->
         <div class="step">
           <barber-selector
@@ -18,7 +18,7 @@
           />
         </div>
       </v-carousel-item>
-      <v-carousel-item dark>
+      <v-carousel-item>
         <!-- Step 2 -->
         <div class="step">
           <calendar
@@ -31,7 +31,7 @@
           />
         </div>
       </v-carousel-item>
-      <v-carousel-item dark>
+      <v-carousel-item>
         <!-- Step 3 -->
         <div class="step">
           <booking-time-selector
@@ -42,7 +42,7 @@
           />
         </div>
       </v-carousel-item>
-      <v-carousel-item dark>
+      <v-carousel-item>
         <!-- Step 4 -->
         <div class="step">
           <service-list
@@ -53,7 +53,7 @@
           />
         </div>
       </v-carousel-item>
-      <v-carousel-item dark>
+      <v-carousel-item>
         <!-- Step 5 -->
         <div class="step">
           <ul>
