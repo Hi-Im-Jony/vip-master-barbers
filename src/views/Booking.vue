@@ -190,13 +190,14 @@ export default {
 <style scoped>
 #booking-page {
   min-height: 100vh;
-  background-color: rgb(30, 30, 32);
   padding: 70px 0 0 0;
-  color: whitesmoke;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  background-image: url("../assets/backgrounds/white-marble.jpg");
+  background-size: contain;
+  background-repeat: repeat;
 }
 #page-title {
   width: 100%;
