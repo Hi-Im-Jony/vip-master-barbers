@@ -208,9 +208,11 @@ export default {
 #calendar {
   display: flex;
   flex-direction: column;
-  border: solid black;
-  height: 400px;
+  border: solid black 1px;
+  background-color: rgba(255, 255, 255, 0.678);
+  height: 100%;
   width: 90vw;
+  padding-bottom: 10px;
   max-width: 600px;
 }
 #month-row {
@@ -268,11 +270,11 @@ export default {
   height: 35px;
 }
 .selected {
-  border: solid rgb(35, 70, 185) !important;
-  color: rgb(35, 70, 185) !important;
+  border: solid #38c 2px !important ;
+  color: #38c !important;
 }
 .rostered {
-  border: solid rgb(35, 185, 68);
-  color: rgb(35, 185, 68);
+  border: solid rgb(24, 83, 37) 2px;
+  color: rgb(24, 83, 37);
 }
 </style>
