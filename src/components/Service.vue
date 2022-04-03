@@ -21,7 +21,7 @@ export default {
 <style scoped>
 .service {
   padding: 0 15px 0 15px;
-  border-bottom: solid #000 1px;
+  border-bottom: dashed white 1px;
   display: flex;
   justify-content: space-between;
   align-items: center;
