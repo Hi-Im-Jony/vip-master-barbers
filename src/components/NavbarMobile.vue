@@ -30,6 +30,16 @@ export default {
     drawer: false,
     navOpacity: 0,
   }),
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
+    },
+  },
+  watch: {
+    currentRouteName() {
+      this.onScroll();
+    },
+  },
   mounted() {
     window.addEventListener("scroll", this.onScroll);
   },
@@ -39,7 +49,13 @@ export default {
   methods: {
     onScroll() {
       let windowTop = window.top.scrollY;
-      this.navOpacity = windowTop / 400;
+      switch (this.currentRouteName) {
+        case "Home":
+          this.navOpacity = windowTop / 400;
+          break;
+        default:
+          this.navOpacity = 1;
+      }
     },
   },
 };
