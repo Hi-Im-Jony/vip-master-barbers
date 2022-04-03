@@ -341,8 +341,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  widows: 100%;
-  height: 600px;
+  width: 100%;
+  min-height: 200px;
+  height: 80vh;
+  max-height: 600px;
   background: rgb(34, 34, 34);
   color: whitesmoke;
   padding: 20px 0 0 0;
