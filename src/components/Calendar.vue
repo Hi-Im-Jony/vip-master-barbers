@@ -97,11 +97,6 @@ export default {
         this.year++;
         this.month = 0;
       }
-      this.$emit("input", {
-        selectedDays: this.selectedDates,
-        selectedYear: this.year,
-        selectedMonth: this.month,
-      });
     },
     prevMonth: function() {
       this.month--;
@@ -109,11 +104,6 @@ export default {
         this.year--;
         this.month = 11;
       }
-      this.$emit("input", {
-        selectedDays: this.selectedDates,
-        selectedYear: this.year,
-        selectedMonth: this.month,
-      });
     },
     selectDate: function(day) {
       let date =
