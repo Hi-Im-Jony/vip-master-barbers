@@ -1,10 +1,12 @@
 <template>
   <div id="admin-page">
-    <v-expansion-panels dark v-model="panel" multiple>
+    <v-expansion-panels flat v-model="panel" multiple>
       <!-- Panel 1 -->
-      <v-expansion-panel>
-        <v-expansion-panel-header>
-          <h1>Manage Barbers</h1>
+      <v-expansion-panel style="background: transparent !important;">
+        <v-expansion-panel-header
+          style="background: white !important; margin-bottom: 10px"
+        >
+          <h2>Manage Barbers</h2>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <!-- barber manager -->
@@ -13,9 +15,11 @@
       </v-expansion-panel>
 
       <!-- Panel 2 -->
-      <v-expansion-panel>
-        <v-expansion-panel-header>
-          <h1>Manage Services</h1>
+      <v-expansion-panel style="background: transparent !important;">
+        <v-expansion-panel-header
+          style="background: white !important; margin-bottom: 10px; "
+        >
+          <h2>Manage Services</h2>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <!-- services manager -->
@@ -49,7 +53,9 @@ export default {
 <style scoped>
 #admin-page {
   min-height: 100vh;
-  background-color: rgb(30, 30, 32);
+  background-image: url("../assets/backgrounds/white-marble.jpg");
+  background-size: contain;
+  background-repeat: repeat;
   padding: 70px 0 20px 0;
   color: whitesmoke;
   display: flex;

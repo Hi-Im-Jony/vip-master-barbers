@@ -61,7 +61,7 @@
         <div class="barber-container" v-for="barber in barbers" :key="barber">
           <div :class="getBarberClass(barber)" @click="selectBarber(barber)">
             <div v-if="forAdmin" class="handle">
-              <v-icon>
+              <v-icon color="white">
                 mdi-swap-vertical
               </v-icon>
             </div>
@@ -264,12 +264,12 @@ export default {
 }
 
 .selected {
-  background: rgba(53, 81, 156, 0.548);
+  background: rgba(134, 136, 123, 0.671);
 }
 .icon-container {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 #confirm-delete-btn {
@@ -291,7 +291,7 @@ export default {
 
 #edit-icon {
   padding: 1px 10px 1px 10px;
-  color: rgb(144, 176, 206);
+  color: rgb(57, 106, 151);
 }
 .icon {
   display: none;

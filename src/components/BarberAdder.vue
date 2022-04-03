@@ -1,6 +1,6 @@
 <template>
   <div id="barber-adder">
-    <v-btn @click="showForm = !showForm"> Add Barber</v-btn>
+    <v-btn dark @click="showForm = !showForm"> Add Barber</v-btn>
     <v-dialog v-model="showForm">
       <form>
         <h2>Add Barber Details</h2>

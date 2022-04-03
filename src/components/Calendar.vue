@@ -208,9 +208,10 @@ export default {
 #calendar {
   display: flex;
   flex-direction: column;
-  border: solid whitesmoke;
+  border: solid black;
   height: 400px;
-  width: 80vw;
+  width: 90vw;
+  max-width: 600px;
 }
 #month-row {
   display: flex;
@@ -225,8 +226,9 @@ export default {
   opacity: 0;
 }
 .icon {
-  color: aliceblue;
-  border: solid aliceblue;
+  color: black;
+  border: solid black;
+  border-width: 1px;
   border-radius: 10px;
   margin: 0 5px 0 5px;
 }
@@ -243,9 +245,10 @@ export default {
   justify-content: center;
 }
 .day-num {
-  border: solid rgba(228, 228, 228);
-  color: rgb(228, 228, 228);
+  border: solid black;
   border-radius: 20px;
+  border-width: 1px;
+  color: black;
   width: 35px;
   height: 35px;
   display: flex;
@@ -258,8 +261,9 @@ export default {
 }
 .empty-day {
   opacity: 0.5;
-  border: solid rgba(228, 228, 228);
+  border: solid black;
   border-radius: 20px;
+  border-width: 1px;
   width: 35px;
   height: 35px;
 }
