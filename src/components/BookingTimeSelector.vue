@@ -1,10 +1,10 @@
 <template>
   <div id="booking-time-selector">
-    <h2>Select Time</h2>
-    <v-list class="time-list" dark>
+    <h2>Select A Time</h2>
+    <v-list id="time-list">
       <v-list-item-group
         v-model="oldTimeSelected"
-        color="success"
+        color="blue"
         style="font-size:26px"
       >
         <v-list-item :class="getSlotClass(0)" @click="emitSelected(0)">
@@ -35,13 +35,15 @@
 </template>
 
 <script>
-import * as fb from "@/fb";
 export default {
   props: ["rosteredTimes", "bookedTimes", "visibility"],
   data() {
     return {
       oldTimeSelected: null,
     };
+  },
+  created: function() {
+    this.scroll();
   },
   watch: {
     visibility: function(visibile) {
@@ -64,6 +66,14 @@ export default {
         this.$emit("input", newTimeSelected);
       else this.$emit("input", null);
     },
+    // scroll to "09:00"
+    scroll: function() {
+      const scrollableElID = "time-list";
+      setTimeout(function() {
+        const scrollableEl = document.getElementById(scrollableElID);
+        if (scrollableEl) scrollableEl.scrollTo(0, 1150);
+      }, 100);
+    },
   },
 };
 </script>
@@ -75,16 +85,17 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 75vh;
-  color: whitesmoke;
+  height: 70vh;
 }
 
-.time-list {
+#time-list {
   text-align: center;
   height: 100%;
   width: 90%;
-  overflow: scroll;
+  overflow-y: scroll;
   position: relative;
+  background: rgba(0, 0, 0, 0.473);
+  color: white !important;
 }
 .time-slot {
   width: 100%;
@@ -92,9 +103,11 @@ export default {
   position: relative;
   border-bottom: solid whitesmoke 1px;
 }
-
+.time-slot p {
+  color: white;
+}
 .rostered {
-  background: rgb(29, 44, 56);
+  background: rgba(3, 3, 3, 0.712);
 }
 
 .unavailable {
