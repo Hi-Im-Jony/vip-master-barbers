@@ -224,8 +224,8 @@ export default {
   align-items: center;
   margin: 15px 0 15px 0;
   width: 100%;
-  border: solid black;
-  background: rgba(0, 0, 0, 0.753);
+  background: rgba(3, 3, 3, 0.849);
+
   color: white;
   border-width: 1px;
   position: relative;
