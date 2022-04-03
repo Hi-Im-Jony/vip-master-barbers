@@ -66,7 +66,7 @@ export default {
 
 #text-container {
   position: relative;
-  left: 5px;
+  margin: 10px 15px 0 5px;
 }
 #name {
   font-size: 25px;
