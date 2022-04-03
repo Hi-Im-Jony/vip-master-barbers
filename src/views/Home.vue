@@ -14,10 +14,12 @@
       </p>
       <p>
         Our fully equipped shop has the most recent barbering or haircut machine
-        that ensures your world-class experience for our customers. Our main aim
-        has always been in developing a great fusion of light, music,
-        uniqueness, and remarkable barbering services that surely offer and
-        customers a mind-blowing experience.
+        that ensures your world-class experience for our customers.
+      </p>
+      <p>
+        Our main aim has always been in developing a great fusion of light,
+        music, uniqueness, and remarkable barbering services that surely offer
+        and customers a mind-blowing experience.
       </p>
     </div>
     <the-team-section />
@@ -51,7 +53,9 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 0px 0 0 0;
-  background-color: white;
+  background-image: url("../assets/backgrounds/white-marble.jpg");
+  background-size: contain;
+  background-repeat: repeat;
 }
 #intro-title {
   text-decoration: underline;
@@ -62,6 +66,7 @@ export default {
 #intro-text {
   padding: 10px;
   text-align: center;
-  max-width: 300px;
+  width: 85vw;
+  max-width: 600px;
 }
 </style>
