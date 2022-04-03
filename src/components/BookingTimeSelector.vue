@@ -42,15 +42,14 @@ export default {
       oldTimeSelected: null,
     };
   },
-  created: function() {
-    this.scroll();
-  },
+
   watch: {
     visibility: function(visibile) {
       if (!visibile) {
         this.oldTimeSelected = null;
         this.$emit("input", null);
-        console.log("hi");
+      } else {
+        this.scroll();
       }
     },
   },
@@ -71,7 +70,7 @@ export default {
       const scrollableElID = "time-list";
       setTimeout(function() {
         const scrollableEl = document.getElementById(scrollableElID);
-        if (scrollableEl) scrollableEl.scrollTo(0, 1150);
+        if (scrollableEl) scrollableEl.scrollTo(0, 1200);
       }, 100);
     },
   },
