@@ -133,7 +133,11 @@ export default {
           selectedYear: null,
           selectedMonth: null,
         };
-        if (newVal.name != "") this.bookingStep++;
+        this.selectedDay = "";
+        if (newVal.name != "") {
+          console.log("Barber Selected");
+          this.bookingStep++;
+        }
       },
     },
     calendarInfo: {
@@ -154,12 +158,17 @@ export default {
             this.selectedBarberInfo.name,
             this.selectedDay
           );
+          console.log("Date Selected: ", newVal);
+
           this.bookingStep++;
         }
       },
     },
     selectedTime: function(newVal) {
-      if (newVal != null) this.bookingStep++;
+      if (newVal != null) {
+        console.log("Time Selected");
+        this.bookingStep++;
+      }
     },
   },
 
