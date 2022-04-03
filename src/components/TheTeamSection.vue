@@ -5,33 +5,8 @@
       name="Elvis"
       description="Professional Hairstylist"
       src="elvis.jpeg"
+      :forAdmin="false"
     />
-    <p>
-      With over 15 years of experience in servicing clients' hair and barber
-      needs, Elvis has seen and done it all. His expertise, though, lies in
-      men's haircuts and styling.
-    </p>
-    <p>
-      His attention to detail and intense passion in providing exceptional
-      barber experience has led him to provide clients with high-quality hair
-      services.
-    </p>
-    <barber-showcase
-      name="Gabrila"
-      description="Professional Hairstylist"
-      src="gab.jpeg"
-    />
-    <p>
-      Gabrila has been in the Salon Industry for over 15 years. She specializes
-      in a variety of men's haircuts. Gabrila is a perfectionist in everything
-      that she does. She always has a smile on her face and greets everyone
-      welcomely.
-    </p>
-    <p>
-      She treats everyone with the best hospitality she will always offer you a
-      glass of water or a cup of coffee to make you feel welcome as you wait for
-      your service.
-    </p>
   </section>
 </template>
 

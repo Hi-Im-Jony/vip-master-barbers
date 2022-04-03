@@ -46,7 +46,7 @@
                 mdi-swap-vertical
               </v-icon>
             </div>
-            <barber-showcase :name="barber" src="elvis.jpeg" />
+            <barber-showcase :name="barber" />
           </div>
           <div class="icon-container" v-if="forAdmin">
             <v-icon
@@ -182,12 +182,11 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 60vw;
-  max-width: 300px;
+  max-width: 600px;
 }
 .barber {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin: 15px 0 15px 0;
   width: 100%;
@@ -196,7 +195,7 @@ export default {
   position: relative;
 }
 .handle {
-  position: absolute;
+  position: relative;
   left: 10px;
 }
 #dialog {

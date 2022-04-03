@@ -1,16 +1,41 @@
 <template>
   <div id="barber-showcase">
-    <img :src="require('@/assets/' + src + '')" />
+    <img :id="'barber-img-' + name" src="" />
     <div id="text-container">
       <p id="name">{{ name }}</p>
-      <p id="description">{{ description }}</p>
+      <small id="subheading">{{ subheading }}</small>
+      <p v-if="forAdmin == false" id="description">{{ description }}</p>
     </div>
   </div>
 </template>
 
 <script>
+import * as fb from "@/fb";
 export default {
-  props: ["name", "description", "src"],
+  props: ["name", "forAdmin"],
+  data() {
+    return {
+      subheading: "",
+      description: "",
+      url: "",
+    };
+  },
+  created: function() {
+    this.getBarberDetails();
+  },
+  methods: {
+    getBarberDetails: async function() {
+      let name = this.name;
+      const barber = await fb.getBarber(name);
+      console.log(barber);
+      this.subheading = barber.subheading;
+      this.description = barber.description;
+      fb.getBarberImgUrl(name).then(function(url) {
+        let id = "barber-img-" + name;
+        document.getElementById(id).src = url;
+      });
+    },
+  },
 };
 </script>
 
@@ -33,6 +58,9 @@ img {
   border-radius: 50%;
   object-fit: cover;
   object-position: 100% 0;
+  align-self: flex-start;
+  position: relative;
+  top: 10px;
 }
 
 #text-container {
@@ -44,8 +72,11 @@ img {
   margin: 0 !important;
   padding: 0 !important;
 }
-#description {
+#subheading {
   font-style: italic;
   font-size: 13px;
+}
+#description {
+  white-space: pre-line;
 }
 </style>
